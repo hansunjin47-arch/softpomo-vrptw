@@ -1,0 +1,29 @@
+# ── Experiment outputs ────────────────────────────────────────────────────────
+result*/
+results/
+mlruns/
+mlflow.db
+
+# ── Logs & ad-hoc outputs ─────────────────────────────────────────────────────
+logs/
+*.log
+*.log.err
+*.out
+phase2_out.txt
+phase2_err.txt
+run_eval_abcdef.log
+wait_and_run_fewshot.ps1
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+
+# ── Misc ─────────────────────────────────────────────────────────────────────
+table_main_updated.tex
