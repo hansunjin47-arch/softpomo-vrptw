@@ -9,12 +9,11 @@ import subprocess, time, os
 
 PYTHON = r'C:\Users\hansu\PycharmProjects\PythonProject\.venv\Scripts\python.exe'
 SOFT   = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo'
-ORIG   = r'C:\Users\hansu\PycharmProjects\PythonProject\original_POMO'
 LOG    = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo\logs'
 
 QUEUE = [
     # (tag, script, extra_args)
-    ('purerl_rc1',   os.path.join(ORIG, 'train_vrptw_llm.py'),
+    ('purerl_rc1',   os.path.join(SOFT, 'train_vrptw_llm.py'),
         ['--benchmark', 'rc1', '--no-llm', '--epochs', '1000']),
     ('proposed_c1',  os.path.join(SOFT, 'train_soft_cluster.py'),
         ['--benchmark', 'c1',  '--epochs', '1000']),
@@ -22,9 +21,9 @@ QUEUE = [
         ['--benchmark', 'rc1', '--epochs', '1000']),
     ('proposed_r1',  os.path.join(SOFT, 'train_soft_cluster.py'),
         ['--benchmark', 'r1',  '--epochs', '1000']),
-    ('purerl_c1',    os.path.join(ORIG, 'train_vrptw_llm.py'),
+    ('purerl_c1',    os.path.join(SOFT, 'train_vrptw_llm.py'),
         ['--benchmark', 'c1',  '--no-llm', '--epochs', '1000']),
-    ('purerl_r1',    os.path.join(ORIG, 'train_vrptw_llm.py'),
+    ('purerl_r1',    os.path.join(SOFT, 'train_vrptw_llm.py'),
         ['--benchmark', 'r1',  '--no-llm', '--epochs', '1000']),
 ]
 

@@ -23,10 +23,8 @@ import argparse
 import random
 import torch
 
-# ── Shared components from original_POMO ─────────────────────────────────────
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ORIG = os.path.join(_HERE, '..', 'original_POMO')
-sys.path.insert(0, _ORIG)
+sys.path.insert(0, _HERE)
 
 from train_vrptw import (
     VRPTWTrainer,

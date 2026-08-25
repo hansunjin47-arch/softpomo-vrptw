@@ -63,10 +63,12 @@ RESULT_DIR = os.path.join(_HERE, "result_llm")
 # ── Hyperparameters ───────────────────────────────────────────────────────────
 # model_params, optimizer_params: imported from train_vrptw.py (fully shared)
 
-# env_params: pomo_size is LLM-specific (set to top_k at runtime); rest shared
+# env_params: pomo_size here only applies when LLM is off (--no-llm) or top_k_auto
+# is disabled -- when LLM top-k start selection is active, pomo_size_eff follows
+# top_k at runtime instead (see pomo_size_eff assignments below).
 env_params = dict(
     problem_size        = _base_config.env_params['problem_size'],
-    pomo_size           = 20,
+    pomo_size           = 100,
     late_count_penalty  = _base_config.env_params['late_count_penalty'],
     late_penalty        = _base_config.env_params['late_penalty'],
     vehicle_penalty     = _base_config.env_params['vehicle_penalty'],

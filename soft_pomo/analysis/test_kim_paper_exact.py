@@ -10,7 +10,7 @@ Usage:
 import sys, os, math, random, time
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'original_POMO'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from vrptw_env import load_solomon
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'Solomon')

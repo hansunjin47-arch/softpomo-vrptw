@@ -14,8 +14,10 @@ import os, sys, json, argparse, math, random
 import torch
 
 _HERE  = os.path.dirname(os.path.abspath(__file__))
-_ORIG  = os.path.join(_HERE, '..', 'original_POMO')
-sys.path.insert(0, _ORIG)
+sys.path.insert(0, _HERE)
+# Legacy checkpoints from the pre-consolidation original_POMO sweep (config A-K
+# pomo100 runs) still live under original_POMO/result/ -- not moved.
+_LEGACY_RESULT_DIR = os.path.join(_HERE, '..', 'original_POMO', 'result')
 
 from vrptw_env import VRPTWEnv, load_solomon, make_batch, _extract_routes
 from train_vrptw import VRPTWModel, model_params, env_params, _get_rain_event
@@ -39,11 +41,11 @@ LLM_CACHE_DIR = os.path.join(_HERE, 'result_soft', 'llm_cache')
 
 def _checkpoint_path(benchmark: str, config: str) -> str:
     tag   = BENCH_TAG[benchmark]
-    rdir  = os.path.join(_ORIG, 'result', f'config_{config}_{benchmark}_pomo100', tag)
+    rdir  = os.path.join(_LEGACY_RESULT_DIR, f'config_{config}_{benchmark}_pomo100', tag)
     ckpt  = os.path.join(rdir, 'checkpoint-last.pt')
     if not os.path.isfile(ckpt):
         # fallback: no benchmark suffix
-        rdir = os.path.join(_ORIG, 'result', f'config_{config}_pomo100', tag)
+        rdir = os.path.join(_LEGACY_RESULT_DIR, f'config_{config}_pomo100', tag)
         ckpt = os.path.join(rdir, 'checkpoint-last.pt')
     return ckpt
 
@@ -127,7 +129,7 @@ def main():
     env = VRPTWEnv(**ep)
     env.device = device
 
-    data_dir  = os.path.join(_ORIG, '..', 'data', 'Solomon')
+    data_dir  = os.path.join(_HERE, '..', 'data', 'Solomon')
     instances = BENCH_TRAIN[args.benchmark]
 
     for name in instances:

@@ -12,7 +12,7 @@ Usage:
   python compare_llm_vs_optimal.py --check-rl-routes   (RL 결과 분석)
 """
 import json, sys, os, argparse
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'original_POMO'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from vrptw_env import load_solomon
 
 CACHE_DIR  = os.path.join(os.path.dirname(__file__), '..', 'result_soft', 'llm_cache')

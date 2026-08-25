@@ -28,9 +28,7 @@ import argparse
 import torch
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ORIG = os.path.join(_HERE, '..', 'original_POMO')
 sys.path.insert(0, _HERE)
-sys.path.insert(0, _ORIG)
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 sys.stderr.reconfigure(encoding='utf-8', errors='replace')
@@ -83,6 +81,8 @@ def main():
     parser.add_argument('--mc',          type=int, default=1, metavar='N',
                         help='MC sampling runs per instance (1=greedy, N=stochastic × N)')
     parser.add_argument('--seed',        type=int, default=42)
+    parser.add_argument('--pomo',        type=int, required=True,
+                        help='POMO rollout count, forced identical for LLM-on and --no-llm.')
     args = parser.parse_args()
 
     _set_seed(args.seed)
@@ -109,6 +109,7 @@ def main():
     tp = dict(trainer_params)
     tp['train_instances'] = base_train          # needed for trainer init (pool build)
     tp['test_instances']  = _BENCHMARK_TEST[args.benchmark]
+    tp['pomo_size']       = args.pomo
     tp['model_load']      = dict(enable=False, path=None, epoch=None)
 
     # tp['result_dir'] = result_soft 고정 → trainer가 {result_dir}/llm_cache 로 캐시 접근

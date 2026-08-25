@@ -8,7 +8,7 @@ Runs: C1 → RC1 → R1  (1000 epochs each)
 import subprocess, time, os
 
 PYTHON = r'C:\Users\hansu\PycharmProjects\PythonProject\.venv\Scripts\python.exe'
-ORIG   = r'C:\Users\hansu\PycharmProjects\PythonProject\original_POMO'
+SOFT   = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo'
 LOG    = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo\logs'
 
 QUEUE = [
@@ -29,7 +29,7 @@ def log(msg):
 os.makedirs(LOG, exist_ok=True)
 log('=== purerl_f queue started ===')
 for tag, extra in QUEUE:
-    script = os.path.join(ORIG, 'train_vrptw_llm.py')
+    script = os.path.join(SOFT, 'train_vrptw_llm.py')
     cmd = [PYTHON, script] + extra
     log(f'Starting {tag}  cmd={" ".join(cmd)}')
     t0 = time.time()

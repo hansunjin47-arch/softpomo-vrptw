@@ -6,7 +6,7 @@ run_purerl_phase3_queue.py — Pure RL, Phase 3 setup (no LLM)
 import subprocess, time, os
 
 PYTHON = r'C:\Users\hansu\PycharmProjects\PythonProject\.venv\Scripts\python.exe'
-ORIG   = r'C:\Users\hansu\PycharmProjects\PythonProject\original_POMO'
+SOFT   = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo'
 LOG    = r'C:\Users\hansu\PycharmProjects\PythonProject\soft_pomo\logs\purerl_phase3'
 
 QUEUE = [
@@ -33,7 +33,7 @@ def log(msg):
 os.makedirs(LOG, exist_ok=True)
 log('=== Pure RL Phase3 queue started (parallel) ===')
 
-script = os.path.join(ORIG, 'train_vrptw_llm.py')
+script = os.path.join(SOFT, 'train_vrptw_llm.py')
 procs  = []
 t0     = time.time()
 for tag, extra in QUEUE:
@@ -43,7 +43,7 @@ for tag, extra in QUEUE:
     log(f'Starting {tag}')
     out_f = open(run_log, 'w', encoding='utf-8')
     err_f = open(err_log, 'w', encoding='utf-8')
-    p = subprocess.Popen(cmd, stdout=out_f, stderr=err_f, cwd=ORIG)
+    p = subprocess.Popen(cmd, stdout=out_f, stderr=err_f, cwd=SOFT)
     procs.append((tag, p, out_f, err_f, time.time()))
 
 for tag, p, out_f, err_f, t_start in procs:

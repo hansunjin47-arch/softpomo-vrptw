@@ -162,55 +162,101 @@ def _build_event_tt(data: dict, events: list[dict]) -> np.ndarray:
     return tt
 
 
-def simulate_late(data: dict, routes: list[list[int]], events: list[dict]) -> int:
-    """Simulate base routes with event TT; return number of late arrivals.
+def _event_multiplier(ev: dict) -> float:
+    """Resolve an event dict's effective multiplier regardless of storage format
+    (plain float, RAIN severity int/str, or ACCIDENT n-car description)."""
+    if "multiplier" in ev and isinstance(ev["multiplier"], (int, float)):
+        return float(ev["multiplier"])
+    sev = ev.get("severity")
+    if isinstance(sev, int):
+        return _SEVERITY_MULT.get(sev, 5.0)
+    if isinstance(sev, str):
+        try:
+            return _SEVERITY_MULT.get(int(sev), 5.0)
+        except ValueError:
+            return _SEVERITY_MULT_NAMED.get(sev, 5.0)
+    return 5.0
 
-    Applies event multipliers only when the event is active during edge traversal
-    (trigger_time ≤ departure_from_cur < trigger_time + duration).
-    Rain: both-endpoint rule — applied if both endpoints are in the rain zone.
+
+def _arc_in_zone(i: int, j: int, ev: dict, sec: np.ndarray | None) -> bool:
+    """Part B-1: either endpoint in the event's affected-node set counts as
+    'in zone' (an arc entering OR leaving a disrupted area is slowed -- the old
+    both-endpoints-inside rule left entering/leaving traffic at full speed,
+    which understates real impact and is not physically motivated)."""
+    nodes = ev.get("nodes")
+    if nodes is not None:
+        node_set = ev.get("_node_set")
+        if node_set is None:
+            node_set = ev["_node_set"] = set(nodes)
+        return i in node_set or j in node_set
+    return False   # legacy events without a resolved node list
+
+
+def travel_time(
+    data: dict, i: int, j: int, t_depart: float, events: list[dict],
+    mode: str = "live",
+) -> float:
+    """Part B-9: FIFO-consistent travel time via piecewise-constant speed
+    integration, replacing the old 'binary multiplier over the whole arc,
+    decided once at departure' rule (which lets a later departure arrive
+    earlier than an earlier one whenever the arc straddles an event boundary).
+
+    mode="live"      : events that start after t_depart but before arrival
+                        still apply once reached (standard TDVRPTW; Ichoua et
+                        al. 2003; Figliozzi 2012; Dabia et al. 2013).
+    mode="committed" : only events already active at t_depart apply for the
+                        whole hop ("once you commit to an arc you ride it out").
     """
-    tt_base = data["tt"]
-    tw_open = data["tw_open"]
-    tw_close= data["tw_close"]
-    service = data["service"]
-    late    = 0
+    remaining = float(data["tt"][i, j])
+    if remaining <= 1e-9 or not events:
+        return remaining
+
+    t = t_depart
+    if mode == "committed":
+        active = [e for e in events
+                  if float(e.get("trigger_time", 0)) <= t_depart
+                  < float(e.get("trigger_time", 0)) + float(e.get("duration", 0))]
+    boundaries = sorted({float(e.get("trigger_time", 0)) for e in events} |
+                        {float(e.get("trigger_time", 0)) + float(e.get("duration", 0))
+                         for e in events})
+
+    elapsed = 0.0
+    while remaining > 1e-9:
+        pool = active if mode == "committed" else events
+        mult = 1.0
+        for ev in pool:
+            trig = float(ev.get("trigger_time", 0))
+            end  = trig + float(ev.get("duration", 0))
+            if trig <= t < end and _arc_in_zone(i, j, ev, None):
+                mult = max(mult, _event_multiplier(ev))
+        speed  = 1.0 / mult
+        future = [b for b in boundaries if b > t]
+        t_next = future[0] if future else float("inf")
+        dt     = t_next - t
+        can    = speed * dt if dt != float("inf") else float("inf")
+        if can >= remaining:
+            elapsed += remaining / speed
+            return elapsed
+        elapsed   += dt
+        remaining -= can
+        t = t_next
+    return elapsed
+
+
+def simulate_late(data: dict, routes: list[list[int]], events: list[dict],
+                  mode: str = "live") -> int:
+    """Simulate base routes with FIFO-consistent event travel times (Part B-9);
+    return number of late arrivals."""
+    tw_open  = data["tw_open"]
+    tw_close = data["tw_close"]
+    service  = data["service"]
+    late     = 0
 
     for route in routes:
         cur, cur_time = 0, 0.0
         for cust in route:
-            base_dist = tt_base[cur, cust]
-            mult = 1.0
-            for ev in events:
-                trigger  = float(ev.get("trigger_time", 0))
-                end_time = trigger + float(ev.get("duration", 9999))
-                # Event active if vehicle departs during event window
-                if not (trigger <= cur_time < end_time):
-                    continue
-                if ev["type"] == "RAIN":
-                    nodes_set = set(ev["nodes"])
-                    if cur in nodes_set and cust in nodes_set:
-                        sev = ev.get("severity", "")
-                        try:
-                            m = float(sev)
-                        except (ValueError, TypeError):
-                            m = _SEVERITY_MULT.get(str(sev), float(ev.get("multiplier", 1.0)))
-                        mult = max(mult, m)
-                else:  # ACCIDENT
-                    a, b = ev["nodes"][0], ev["nodes"][1]
-                    if (cur == a and cust == b) or (cur == b and cust == a):
-                        sev = ev.get("severity")
-                        if isinstance(sev, int):
-                            m = _SEVERITY_MULT.get(sev, 5.0)
-                        elif isinstance(sev, str):
-                            try:
-                                m = _SEVERITY_MULT.get(int(sev), 5.0)
-                            except ValueError:
-                                m = _SEVERITY_MULT_NAMED.get(sev, float(ev.get("multiplier", 5.0)))
-                        else:
-                            m = float(ev.get("multiplier", 5.0))
-                        mult = max(mult, m)
-
-            arr       = cur_time + base_dist * mult
+            travel    = travel_time(data, cur, cust, cur_time, events, mode=mode)
+            arr       = cur_time + travel
             svc_start = max(arr, tw_open[cust])
             if arr > tw_close[cust] + 0.5:
                 late += 1
@@ -257,6 +303,317 @@ def sector_info(data: dict, n_sectors: int = 8) -> list[dict]:
     sectors.sort(key=lambda s: s["slack_mean"])  # tightest first
     return sectors
 
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Part B — sector-based, policy-independent event generation
+#
+# Replaces gen_rain_pair/gen_acc_pair (both baseline-route-conditioned) with an
+# extraction that only ever looks at instance data (coords, tw_open, tw_close,
+# service) -- never at any solver's routes. Targeting comes from a hard VRPTW
+# guarantee instead: a customer whose time window is fully contained in the
+# event's active interval MUST be visited during that interval by ANY feasible
+# policy (every customer is visited exactly once, inside its own window).
+# ═════════════════════════════════════════════════════════════════════════════
+
+def sector_of(data: dict, n_sectors: int = 8) -> np.ndarray:
+    """Return a 0-based int array of length N: sec[i] = sector index of customer i+1.
+
+    Sector 0 is centered on North (matches SECTOR_NAMES ordering) and sectors
+    are contiguous equal-angle wedges around the depot -- an instance-fixed
+    property, independent of any routing decision.
+    """
+    depot  = data["coords"][0]
+    coords = data["coords"][1:]
+    dx = coords[:, 0] - depot[0]
+    dy = coords[:, 1] - depot[1]
+    # atan2 gives 0=East, CCW positive; rotate by +pi/2 so 0=North, then wrap.
+    theta = np.arctan2(dy, dx)
+    step  = 2 * np.pi / n_sectors
+    idx   = np.floor(((theta + np.pi / 2 + step / 2) % (2 * np.pi)) / step)
+    return idx.astype(int) % n_sectors
+
+
+def avg_gap(data: dict) -> float:
+    """Mean inter-customer travel time + mean service time (Part B-7).
+
+    Used as the natural time unit for event duration: a duration expressed as
+    a multiple of avg_gap means roughly the same thing (in "how many stops does
+    this span") whether the instance's horizon T is 230 (R1) or 1236 (C1).
+    """
+    tt_cust = data["tt"][1:, 1:]
+    n = tt_cust.shape[0]
+    off_diag_mean = (tt_cust.sum() - np.trace(tt_cust)) / (n * (n - 1))
+    return float(off_diag_mean + data["service"][1:].mean())
+
+
+# Literature-based default severity levels (Part B-3a / Part E). Each level is a
+# dict {name, mu, text, weight, enabled}; draws are weighted by `weight` among
+# `enabled` levels. Fully overridable via GenConfig(rain_severity=[...], ...).
+DEFAULT_RAIN_SEVERITY = [
+    dict(name="light",    mu=1.05, text="약한 비",     weight=1, enabled=True),
+    dict(name="moderate", mu=1.11, text="비",          weight=1, enabled=True),
+    dict(name="heavy",    mu=1.19, text="호우주의보",  weight=1, enabled=True),
+]
+DEFAULT_ACC_SEVERITY = [
+    dict(name="minor",    mu=1.20, text="갓길 접촉사고",          weight=1, enabled=True),
+    dict(name="moderate", mu=2.04, text="1개 차로 통제",          weight=1, enabled=True),
+    dict(name="major",    mu=5.88, text="다중 추돌, 2개 차로 통제", weight=1, enabled=True),
+]
+
+
+def _draw_severity(levels: list[dict], rng: np.random.Generator) -> dict:
+    active = [lv for lv in levels if lv.get("enabled", True) and lv.get("weight", 1) > 0]
+    if not active:
+        raise ValueError("No enabled severity levels with weight > 0")
+    w = np.array([lv["weight"] for lv in active], dtype=float)
+    return active[int(rng.choice(len(active), p=w / w.sum()))]
+
+
+# Default parameters (Part E). Every field is overridable via GenConfig(...).
+class GenConfig:
+    def __init__(self, **overrides):
+        self.n_sectors_total = 8
+        self.rain_n_sectors  = (2, 3)
+        self.rain_severity   = DEFAULT_RAIN_SEVERITY
+        self.rain_delta_k    = (1.0, 2.0)     # x avg_gap
+        self.acc_n_sectors   = (1, 1)
+        self.acc_severity    = DEFAULT_ACC_SEVERITY
+        self.acc_delta_k     = (0.5, 1.5)     # x avg_gap
+        self.acc_n_events    = (2, 3)         # accidents per wave
+        self.acc_wave_frac   = 0.5            # x avg_gap
+        self.delta_min       = 5.0
+        self.delta_max_frac  = 0.30           # x T
+        self.max_retries     = 50             # only to avoid degenerate empty sectors
+        self.force_pre_clear = False
+        for k, v in overrides.items():
+            if not hasattr(self, k):
+                raise ValueError(f'Unknown GenConfig field: {k}')
+            setattr(self, k, v)
+
+
+def _label_event(data: dict, sec: np.ndarray, sector_set: set, sigma: float,
+                  delta: float) -> dict:
+    """Post-hoc label + descriptive stats (Part B-4, v2).
+
+    Label is purely a TIME-overlap relationship between the event window and
+    the affected zone's delivery activity -- it does NOT depend on whether any
+    customer happens to be fully covered. n_covered/n_touched are recorded as
+    separate descriptive statistics (used for filtering, not for labeling --
+    using them as the label would be circular: they are an outcome of the
+    event x instance relationship, not a property of the event itself).
+    """
+    tw_open, tw_close = data["tw_open"], data["tw_close"]
+    tt0 = data["tt"][0]
+    N = data["n_customers"]
+
+    inside = [i for i in range(1, N + 1) if int(sec[i - 1]) in sector_set]
+    if not inside:
+        return dict(label="empty", bound_set=[], n_covered=0, n_touched=0)
+
+    bound = {i for i in inside if tw_open[i] >= sigma and tw_close[i] <= sigma + delta}
+    touched = {i for i in inside
+              if not (tw_close[i] < sigma or tw_open[i] > sigma + delta)}  # interval overlap
+
+    first_arrival = min(max(tt0[i], tw_open[i]) for i in inside)
+    if sigma + delta < first_arrival:
+        label = "pre_clear"        # ends before any policy could possibly arrive
+    elif sigma > max(tw_close[i] for i in inside):
+        label = "post_service"     # starts after every customer's deadline has passed
+    else:
+        label = "overlap"
+
+    return dict(label=label, bound_set=sorted(bound),
+                n_covered=len(bound), n_touched=len(touched))
+
+
+def generate_sector_event(
+    data: dict, kind: str, cfg: GenConfig, rng: np.random.Generator,
+    sec: np.ndarray | None = None,
+) -> dict | None:
+    """Independent extraction (Part B-4, v2): draw (sectors, timing, severity)
+    from their own distributions, then attach a post-hoc label + descriptive
+    stats. Never looks at any solver's routes.
+
+    Generation is UNCONDITIONAL -- it always returns a labeled event (retrying
+    only cfg.max_retries times to skip a degenerate empty-sector draw, e.g. an
+    ACCIDENT sector with zero customers). Whether the event is *useful* for a
+    given experiment stage is a SEPARATE decision made by select_stage() below,
+    so one generation pass can serve every stage just by re-filtering.
+
+    kind: "RAIN" or "ACCIDENT".
+    """
+    if sec is None:
+        sec = sector_of(data, cfg.n_sectors_total)
+    T = data["T"]
+
+    is_rain    = (kind.upper() == "RAIN")
+    n_sec_rng  = cfg.rain_n_sectors if is_rain else cfg.acc_n_sectors
+    severity_lv= cfg.rain_severity  if is_rain else cfg.acc_severity
+    k_rng      = cfg.rain_delta_k   if is_rain else cfg.acc_delta_k
+    gap        = avg_gap(data)
+
+    for _attempt in range(cfg.max_retries):
+        n_sec = int(rng.integers(n_sec_rng[0], n_sec_rng[1] + 1))
+        s0    = int(rng.integers(0, cfg.n_sectors_total))
+        sector_set = {(s0 + j) % cfg.n_sectors_total for j in range(n_sec)}
+
+        inside = [i for i in range(1, data["n_customers"] + 1)
+                  if int(sec[i - 1]) in sector_set]
+        if not inside:
+            continue
+
+        k     = float(rng.uniform(*k_rng))
+        delta = k * gap
+        delta = min(max(delta, cfg.delta_min), cfg.delta_max_frac * T)
+
+        if cfg.force_pre_clear:
+            first_arrival = min(max(data["tt"][0, i], data["tw_open"][i]) for i in inside)
+            delta  = min(delta, max(first_arrival - 10.0, cfg.delta_min))
+            sigma  = 0.0
+        else:
+            sigma = float(rng.uniform(0, max(T - delta, 0.0)))
+
+        stats = _label_event(data, sec, sector_set, sigma, delta)
+        if cfg.force_pre_clear and stats["label"] != "pre_clear":
+            continue
+
+        sev = _draw_severity(severity_lv, rng)
+        mu  = float(sev["mu"])
+        nodes = sorted(inside)
+
+        event = dict(
+            type          = "RAIN" if is_rain else "ACCIDENT",
+            sectors       = sorted(sector_set),
+            sector_names  = [SECTOR_NAMES[s] for s in sorted(sector_set)],
+            trigger_time  = round(sigma, 1),
+            duration      = round(delta, 1),
+            multiplier    = mu,
+            severity_name = sev["name"],
+            severity_text = sev["text"],
+            nodes         = nodes,
+            reveal_time   = 0.0 if is_rain else round(sigma, 1),
+            **stats,   # label, bound_set, n_covered, n_touched
+        )
+        event["delay_mass"] = delay_mass(data, event, sec=sec)
+        if not is_rain:
+            event["description"] = sev["text"]
+        else:
+            event["rainfall_mm"] = round(mu * 10.0 + float(rng.uniform(-5, 10)), 0)
+        return event
+
+    return None
+
+
+def select_stage(events: list[dict], stage: int) -> list[dict]:
+    """Part B-5: filter ALREADY-GENERATED events by experiment stage. Kept as a
+    separate step from generation so one generation pass can serve any stage.
+
+    stage 1: overlap events with at least one fully-covered customer (the
+             policy-independent hit guarantee actually applies).
+    stage 2: keep the natural label mix (drop only truly empty-sector draws).
+    """
+    if stage == 1:
+        return [e for e in events if e.get("label") == "overlap" and e.get("n_covered", 0) >= 1]
+    if stage == 2:
+        return [e for e in events if e.get("label") != "empty"]
+    raise ValueError(f"Unknown stage: {stage}")
+
+
+def draw_until_stage(
+    data: dict, kind: str, cfg: GenConfig, rng: np.random.Generator, stage: int,
+    sec: np.ndarray | None = None, max_tries: int = 200,
+) -> dict | None:
+    """Convenience: repeatedly call generate_sector_event + select_stage until
+    one draw passes, without baking the stage filter into generation itself."""
+    for _ in range(max_tries):
+        ev = generate_sector_event(data, kind, cfg, rng, sec=sec)
+        if ev is not None and select_stage([ev], stage):
+            return ev
+    return None
+
+
+def generate_accident_wave(
+    data: dict, cfg: GenConfig, rng: np.random.Generator, sec: np.ndarray | None = None,
+) -> list[dict] | None:
+    """Part B-8: 2-3 accidents clustered within a short window w = wave_frac * avg_gap.
+
+    Because a vehicle only reacts at its next departure, accidents within one
+    inter-stop gap are indistinguishable in effect regardless of their exact
+    offsets -- w is estimated from instance statistics only (never a solved
+    route), so this does not reintroduce baseline conditioning.
+    """
+    if sec is None:
+        sec = sector_of(data, cfg.n_sectors_total)
+    n_events = int(rng.integers(cfg.acc_n_events[0], cfg.acc_n_events[1] + 1))
+    w = cfg.acc_wave_frac * avg_gap(data)
+
+    base = draw_until_stage(data, "ACCIDENT", cfg, rng, stage=1, sec=sec)
+    if base is None:
+        return None
+    wave = [base]
+    base_t = base["trigger_time"]
+    for _ in range(n_events - 1):
+        ev = generate_sector_event(data, "ACCIDENT", cfg, rng, sec=sec)
+        if ev is None:
+            continue
+        ev["trigger_time"] = round(base_t + float(rng.uniform(0, w)), 1)
+        # Re-label at the wave-adjusted trigger time -- the label/stats computed
+        # inside generate_sector_event used the ORIGINAL (pre-override) sigma.
+        ev.update(_label_event(data, sec, set(ev["sectors"]),
+                               ev["trigger_time"], ev["duration"]))
+        wave.append(ev)
+    return wave
+
+
+def delay_mass(data: dict, event: dict, sec: np.ndarray | None = None) -> float:
+    """Part D-3 #4: sum over affected arcs of base_travel_time * (mu - 1).
+
+    Used to calibrate RAIN (wide+weak) against ACCIDENT (narrow+strong) so their
+    total injected delay is comparable and any performance gap between the two
+    scenario types can be attributed to rho_e (information timing) rather than
+    to one simply being a "bigger" disruption than the other.
+    """
+    if sec is None:
+        sec = sector_of(data, 8)
+    sector_set = set(event["sectors"])
+    tt  = data["tt"]
+    N   = data["n_customers"]
+    mu  = float(event["multiplier"])
+    mass = 0.0
+    for i in range(N + 1):
+        for j in range(N + 1):
+            if i == j:
+                continue
+            i_in = (i != 0 and int(sec[i - 1]) in sector_set)
+            j_in = (j != 0 and int(sec[j - 1]) in sector_set)
+            if i_in or j_in:
+                mass += float(tt[i, j]) * (mu - 1.0)
+    return mass
+
+
+def random_invalidation_rate(
+    data: dict, baseline_routes: list[list[int]], n_trials: int = 100,
+    seed: int = 0,
+) -> float:
+    """Part D-3 #1: fraction of uniformly-random node-pair 'accidents' that have
+    ZERO effect on a fixed baseline solution -- quantifies why untargeted random
+    placement (gen_random_acc) is not a usable diagnostic/control by itself."""
+    rng = np.random.default_rng(seed)
+    N = data["n_customers"]
+    Lc0 = simulate_late(data, baseline_routes, [])
+    invalid = 0
+    for _ in range(n_trials):
+        a, b = rng.choice(range(1, N + 1), size=2, replace=False)
+        ev = dict(type="ACCIDENT", trigger_time=0, duration=data["T"] * 0.5,
+                  multiplier=8.0, nodes=[int(a), int(b)])
+        if simulate_late(data, baseline_routes, [ev]) <= Lc0:
+            invalid += 1
+    return invalid / n_trials
+
+
+# ── Legacy: baseline-conditioned generators (superseded by generate_sector_event
+#    above; kept only for reference / A-B regression comparison, not called by
+#    the default pipeline any more) ─────────────────────────────────────────────
 
 # ── Random event pair generators ───────────────────────────────────────────────
 
@@ -1052,9 +1409,15 @@ def write_scenario(data: dict, events: list[dict], scenario_name: str, out_path:
                 f"{ev['multiplier']} {ev['rainfall_mm']} {nodes_str}"
             )
         else:
+            # Write the raw multiplier (single token, no whitespace) rather than
+            # a natural-language description: the file format is whitespace-
+            # delimited and severity_text (e.g. "다중 추돌, 2개 차로 통제") would
+            # break column parsing. The existing loader already falls back to
+            # float(token) when the token isn't a known severity-name key, so
+            # this round-trips exactly without touching any downstream parser.
             lines.append(
                 f"ACCIDENT {ev['trigger_time']} {ev['duration']} "
-                f"{ev['description']} {nodes_str}"
+                f"{ev['multiplier']} {nodes_str}"
             )
         lines.append("")
 
@@ -1113,6 +1476,33 @@ def generate_for_instance(
           f"  ({RAIN_LATE_MIN_PCT:.0%}-{RAIN_LATE_MAX_PCT:.0%} / "
           f"{ACC_LATE_MIN_PCT:.0%}-{ACC_LATE_MAX_PCT:.0%} of N)")
 
+    sec = sector_of(data, 8)
+    cfg = GenConfig()
+
+    def _make_binding_invalid_pair(kind: str) -> tuple[list[dict], list[dict]]:
+        """A = policy-independently binding event (Part B-4/B-5 stage 1: label
+        "overlap" with n_covered >= 1). B = the SAME sectors/intensity,
+        time-shifted past every affected customer's TW_close (Part B, 'B
+        시나리오 설계 주의') -- invalid for any policy, since no bound customer
+        can still be pending at that time. Neither uses baseline_routes; only
+        instance data (coords/tw/service)."""
+        ev = draw_until_stage(data, kind, cfg, rng, stage=1, sec=sec)
+        if ev is None:
+            print(f"  [WARN] {kind}: no stage-1 (overlap, n_covered>=1) event found")
+            return [], []
+        ev_a = [ev] if kind == "RAIN" else (generate_accident_wave(data, cfg, rng, sec=sec) or [ev])
+
+        sector_set = set(ev["sectors"])
+        inside = [i for i in range(1, N + 1) if int(sec[i - 1]) in sector_set]
+        margin = 10.0
+        sigma_b = max((data["tw_close"][i] for i in inside), default=0.0) + margin
+        delta_b = ev["duration"]
+        if sigma_b + delta_b > T:
+            sigma_b, delta_b = 0.0, min(delta_b, max(data["tt"][0, inside].min() - margin, _MIN_DURATION))
+        ev_b = [dict(ev, trigger_time=round(sigma_b, 1), duration=round(delta_b, 1),
+                     label="invalidated_by_timeshift", bound_set=[])]
+        return ev_a, ev_b
+
     for i in range(count):
         sc_seed = (seed + i) if seed is not None else None
         rng     = np.random.default_rng(sc_seed)
@@ -1120,31 +1510,13 @@ def generate_for_instance(
         # count=1 → plain name (backward compat); count>1 → numbered
         suffix = f"_{i+1:03d}" if count > 1 else ""
 
-        # ── Generate rain_A with late-target validation ───────────────────────
-        for attempt in range(MAX_GEN_RETRIES):
-            rain_A, rain_B = gen_rain_pair(data, sectors, rng, baseline_routes=baseline_routes)
-            if dry_run or not baseline_routes:
-                break
-            late = simulate_late(data, baseline_routes, rain_A)
-            if rain_late_min <= late <= rain_late_max:
-                print(f"  [rain_A] attempt {attempt+1}: late={late}  OK")
-                break
-            print(f"  [rain_A] attempt {attempt+1}: late={late}  (target {rain_late_min}-{rain_late_max}), retry...")
-        else:
-            print(f"  [rain_A] WARNING: could not hit target after {MAX_GEN_RETRIES} attempts, using last result")
-
-        # ── Generate acc_A with late-target validation ────────────────────────
-        for attempt in range(MAX_GEN_RETRIES):
-            acc_A, acc_B = gen_acc_pair(data, sectors, rng, baseline_routes=baseline_routes)
-            if dry_run or not baseline_routes:
-                break
-            late = simulate_late(data, baseline_routes, acc_A)
-            if acc_late_min <= late <= acc_late_max:
-                print(f"  [acc_A]  attempt {attempt+1}: late={late}  OK")
-                break
-            print(f"  [acc_A]  attempt {attempt+1}: late={late}  (target {acc_late_min}-{acc_late_max}), retry...")
-        else:
-            print(f"  [acc_A]  WARNING: could not hit target after {MAX_GEN_RETRIES} attempts, using last result")
+        rain_A, rain_B = _make_binding_invalid_pair("RAIN")
+        acc_A,  acc_B  = _make_binding_invalid_pair("ACCIDENT")
+        for tag, evs in (("rain_A", rain_A), ("acc_A", acc_A)):
+            if evs:
+                b = evs[0].get("bound_set", [])
+                print(f"  [{tag}] sectors={evs[0]['sectors']} mu={evs[0].get('multiplier')} "
+                      f"bound={len(b)} customers  (label={evs[0].get('label')})")
 
         scenarios = [
             (f"{inst_name}_rain_A{suffix}", rain_A, "rain HIGH-IMPACT"),

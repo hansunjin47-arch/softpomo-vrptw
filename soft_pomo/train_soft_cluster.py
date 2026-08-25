@@ -61,10 +61,8 @@ def _dump_cluster_cache(clusters: list, flat_conf: dict) -> dict:
 import torch
 import torch.nn as nn
 
-# ── Shared components from original_POMO ─────────────────────────────────────
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ORIG = os.path.join(_HERE, '..', 'original_POMO')
-sys.path.insert(0, _ORIG)
+sys.path.insert(0, _HERE)
 
 from train_vrptw_llm import (
     VRPTWLLMTrainer,
@@ -104,7 +102,7 @@ try:
 except ImportError:
     _MLFLOW = False
 
-_ROOT     = os.path.dirname(_ORIG)
+_ROOT     = os.path.dirname(_HERE)
 DATA_DIR  = os.path.join(_ROOT, 'data', 'Solomon')
 RESULT_DIR = os.path.join(_HERE, 'result_soft')
 
@@ -433,13 +431,12 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
                 # Pre-generate post-accident cache only for training instances.
                 # Test instances call LLM in real-time at accident trigger (deployment behavior).
-                acc_cache_path = os.path.join(self._llm_cache_dir, f'{name}_cluster.json')
                 is_test = name.upper() in self._test_instance_names
-                if not is_test and not os.path.isfile(acc_cache_path) and lp.get('enabled', True):
+                if not is_test and lp.get('enabled', True):
                     flat_conf_b = {n: conf_tensor[k, n].item()
                                    for k, nodes in enumerate(clusters_b)
                                    for n in nodes if 1 <= n <= N}
-                    self._gen_acc_cache(inst, clusters_b, flat_conf_b, N, name, acc_cache_path)
+                    self._gen_acc_cache(inst, clusters_b, flat_conf_b, N, name)
 
                 base_conf = self._cluster_conf_cache[base_key]
                 self._cluster_assign_cache[name]  = clusters_b
@@ -610,14 +607,22 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 json.dump(_dump_cluster_cache(clusters, flat_conf), f)
             print(f'  [Cluster cache] retry saved {name}: {K_actual} clusters')
 
-    def _gen_acc_cache(self, inst, clusters, base_flat, N, name, cache_path):
-        """Pre-generate post-accident LLM scores at accident trigger time (init-time, warm LLM)."""
+    def _gen_acc_cache(self, inst, clusters, base_flat, N, name):
+        """Pre-generate post-accident LLM scores at accident trigger time (init-time, warm LLM).
+
+        Self-contained: computes the trigger time and cache path itself and skips if
+        that exact wave was already cached, so distinct accident waves (different
+        trigger times) never collide on (overwrite) each other's cache file.
+        """
         accident_list = _get_accidents(inst)
         if not accident_list:
             return
         lp    = self.llm_params
         K     = len(clusters)
         cur_t = min(fp['t_start'] for _, fp in accident_list)
+        cache_path = os.path.join(self._llm_cache_dir, f'{name}_acc_refresh_{cur_t:.1f}.json')
+        if os.path.isfile(cache_path):
+            return
         acc_set: set[int] = set()
         for acc_ev, _ in accident_list:
             acc_set.update([acc_ev.node_a, acc_ev.node_b] + list(acc_ev.affected_nodes))
@@ -790,31 +795,47 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
     # ------------------------------------------------------------------
 
     def _det_starts(self, inst: dict, pomo_size: int) -> torch.Tensor:
-        """Return (1, pomo_size): rollouts start at best-confidence node per cluster,
-        with cluster order shuffled across rollouts for POMO diversity."""
+        """Return (1, pomo_size): rollout p starts inside cluster (p % K), using the
+        (p // K)-th best-confidence node of that cluster.
+
+        This keeps the start node aligned with the per-step cyclic bias assignment
+        (cluster_idx = (veh_idx + p) % K_clusters, see _train_one_batch/_eval_test/
+        _best_solution) even when pomo_size > K: rollouts p, p+K, p+2K, ... all
+        target cluster (p % K) and are given that cluster's 1st, 2nd, 3rd, ...
+        best-confidence node respectively, rather than an unrelated random node.
+        """
         name     = inst['name']
         clusters = self._cluster_assign_cache.get(name, [])
         conf_t   = self._cluster_conf_cache.get(name)   # (K, N+1) or None
-
         K = len(clusters)
-        cluster_order = list(range(K))
-        random.shuffle(cluster_order)
+
+        if K == 0:
+            N   = inst['n_customers']
+            pad = list(range(1, N + 1))
+            random.shuffle(pad)
+            return torch.tensor(pad[:pomo_size], dtype=torch.long,
+                                device=self.device).unsqueeze(0)
+
+        ranked: list[list[int]] = []
+        for k, nodes in enumerate(clusters):
+            if conf_t is not None:
+                ranked.append(sorted(nodes, key=lambda n: -conf_t[k, n].item()))
+            else:
+                ranked.append(list(nodes))
 
         starts = []
         used   = set()
-        for i in range(min(pomo_size, K)):
-            k = cluster_order[i]
-            cluster_nodes = [n for n in clusters[k] if n not in used]
-            if not cluster_nodes:
-                continue
-            if conf_t is not None:
-                best = max(cluster_nodes, key=lambda n: conf_t[k, n].item())
-            else:
-                best = cluster_nodes[0]
-            starts.append(best)
-            used.add(best)
+        for p in range(pomo_size):
+            k, rank = p % K, p // K
+            pool = ranked[k]
+            pick = pool[rank] if rank < len(pool) and pool[rank] not in used else None
+            if pick is None:
+                pick = next((n for n in pool if n not in used), None)
+            if pick is not None:
+                starts.append(pick)
+                used.add(pick)
 
-        # Pad with random unassigned nodes if needed
+        # Pad with random unassigned nodes if still short (e.g. tiny clusters)
         if len(starts) < pomo_size:
             N   = inst['n_customers']
             pad = [n for n in range(1, N + 1) if n not in used]
@@ -851,9 +872,10 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         cur_t   = float(self.env.current_time[0, 0].item())
         updated = cluster_conf.clone()
 
-        # rl_cluster (pre-generated by gen_test_rl_cluster.py) takes priority over post-accident cache
-        _rl_cache = os.path.join(self._llm_cache_dir, f'{inst["name"]}_rl_cluster.json')
-        cache_path = _rl_cache if os.path.isfile(_rl_cache) else os.path.join(self._llm_cache_dir, f'{inst["name"]}_cluster.json')
+        # Filename includes the trigger time so distinct accident waves within the
+        # same instance never share (and thus never collide on) a refresh cache.
+        cache_path = os.path.join(
+            self._llm_cache_dir, f'{inst["name"]}_acc_refresh_{cur_t:.1f}.json')
 
         if os.path.isfile(cache_path):
             # Post-accident scores pre-cached — load and apply visited mask
@@ -950,14 +972,18 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         _t_rl = time.time()
         N = self.env.problem_size
 
-        # pomo_size = K = ceil(total_demand/capacity) = n_min_vehicles
-        K_auto = math.ceil(float(inst['node_demand'].sum().item()))
-        if llm_on:
-            clusters      = self._cluster_assign_cache.get(inst['name'], [])
-            pomo_size_eff = len(clusters) or K_auto
-        else:
-            pomo_size_eff = K_auto
+        # pomo_size is forced identical across ALL methods (--pomo, mandatory) so
+        # rollout-count never confounds the LLM-bias comparison. K_clusters (the
+        # modulus for cyclic vehicle->cluster assignment) is independent of it --
+        # when pomo_size > K_clusters, multiple rollouts share a cluster and are
+        # given different start nodes within it (see _det_starts).
+        pomo_size_eff = self.trainer_params['pomo_size']
         self.env.pomo_size = pomo_size_eff
+        if llm_on:
+            clusters   = self._cluster_assign_cache.get(inst['name'], [])
+            K_clusters = len(clusters) or 1
+        else:
+            K_clusters = pomo_size_eff
 
         batch = make_batch(inst, batch_size, self.device)
         self.env.load_problems(batch)
@@ -979,10 +1005,11 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
         # Cluster confidence tensor (K, N+1); None if LLM off
         cluster_conf  = self._cluster_conf_cache.get(inst['name']) if llm_on else None
-        K_clusters    = pomo_size_eff
         bias_strength = lp.get('bias_strength', 5.0)
-        # Cyclic roll: rollout i's vehicle j uses cluster (i+j) % K
-        # so rollout i starts at cluster i and follows that cyclic assignment.
+        # Cyclic roll: rollout i's vehicle j uses cluster (i+j) % K_clusters
+        # so rollout i starts at cluster (i % K_clusters) and follows that cyclic
+        # assignment. When pomo_size > K_clusters, multiple rollouts share a
+        # cluster (see _det_starts for how their start nodes are differentiated).
         roll_shifts = torch.arange(pomo_size_eff, device=self.device)   # (P,)
 
         max_steps        = self.trainer_params.get('max_steps', 600)
@@ -1060,9 +1087,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)      # (B, 1, N+1)
                 tw_open    = (arrival_j <= tw_close_j).float()              # (B, P, N+1)
 
-                raw_conf = cluster_conf[cluster_idx] * mask * tw_open       # (B, P, N+1)
-                step_max = raw_conf.max(dim=-1, keepdim=True).values.clamp(min=1e-6)
-                conf_now = raw_conf / step_max * bias_strength
+                conf_now = cluster_conf[cluster_idx] * mask * tw_open * bias_strength  # (B, P, N+1)
                 selected, prob = self.model(state, llm_bias=conf_now)
             else:
                 selected, prob = self.model(state)
@@ -1141,18 +1166,17 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         bs        = self.trainer_params.get('test_batch_size', 1)
 
         for inst in self.test_pool:
-            K_auto        = math.ceil(float(inst['node_demand'].sum().item()))
             accident_list = _get_accidents(inst) if llm_on else []
+            pomo_size_eff = self.trainer_params['pomo_size']
             if llm_on:
                 self._ensure_soft_cluster_cache(inst)
-                clusters      = self._cluster_assign_cache.get(inst['name'], [])
-                pomo_size_eff = len(clusters) or K_auto
-                cluster_conf  = self._cluster_conf_cache.get(inst['name'])
+                clusters     = self._cluster_assign_cache.get(inst['name'], [])
+                K_clusters   = len(clusters) or 1
+                cluster_conf = self._cluster_conf_cache.get(inst['name'])
             else:
-                pomo_size_eff = K_auto
-                cluster_conf  = None
+                K_clusters   = pomo_size_eff
+                cluster_conf = None
 
-            K_clusters    = pomo_size_eff
             bias_strength = lp.get('bias_strength', 5.0)
             roll_shifts   = torch.arange(pomo_size_eff, device=self.device)
             self.env.pomo_size = pomo_size_eff
@@ -1239,9 +1263,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                     tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                     tw_open    = (arrival_j <= tw_close_j).float()
-                    raw_conf    = cluster_conf[cluster_idx] * mask * tw_open
-                    step_max    = raw_conf.max(dim=-1, keepdim=True).values.clamp(min=1e-6)
-                    conf_now    = raw_conf / step_max * bias_strength
+                    conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
                     sel, _ = self.model(state, llm_bias=conf_now)
                 else:
                     sel, _ = self.model(state)
@@ -1272,17 +1294,16 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
         accident_list = _get_accidents(inst) if llm_on else []
 
-        K_auto = math.ceil(float(inst['node_demand'].sum().item()))
+        pomo_size_eff = self.trainer_params['pomo_size']
         if llm_on:
             self._ensure_soft_cluster_cache(inst)
-            clusters      = self._cluster_assign_cache.get(inst['name'], [])
-            pomo_size_eff = len(clusters) or K_auto
-            cluster_conf  = self._cluster_conf_cache.get(inst['name'])
+            clusters     = self._cluster_assign_cache.get(inst['name'], [])
+            K_clusters   = len(clusters) or 1
+            cluster_conf = self._cluster_conf_cache.get(inst['name'])
         else:
-            pomo_size_eff = K_auto
-            cluster_conf  = None
+            K_clusters   = pomo_size_eff
+            cluster_conf = None
 
-        K_clusters    = pomo_size_eff
         bias_strength = lp.get('bias_strength', 5.0)
         roll_shifts   = torch.arange(pomo_size_eff, device=self.device)
         self.env.pomo_size = pomo_size_eff
@@ -1365,9 +1386,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                 tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                 tw_open    = (arrival_j <= tw_close_j).float()
-                raw_conf    = cluster_conf[cluster_idx] * mask * tw_open
-                step_max    = raw_conf.max(dim=-1, keepdim=True).values.clamp(min=1e-6)
-                conf_now    = raw_conf / step_max * bias_strength
+                conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
                 sel, _ = self.model(state, llm_bias=conf_now)
             else:
                 sel, _ = self.model(state)
@@ -1477,6 +1496,10 @@ def main():
                         help='Use RL-derived cluster (r106_rl_cluster.json) as few-shot example instead of BKS')
     parser.add_argument('--free-starts',   action='store_true',
                         help='Skip deterministic Step 1; let model freely choose first node with LLM bias (cyclic vehicle assignment still applies)')
+    parser.add_argument('--pomo',           type=int, default=None, required=True,
+                        help='POMO rollout count, forced identical across LLM-on and '
+                             '--no-llm so rollout count never confounds the bias '
+                             'comparison (no default -- must be set explicitly).')
     args = parser.parse_args()
 
     if args.seed is not None:
@@ -1595,6 +1618,8 @@ def main():
         llm_params['no_init_llm'] = True
     if args.rl_fewshot:
         trainer_params['rl_fewshot'] = True
+    trainer_params['pomo_size'] = args.pomo
+    print(f'[pomo_size] {args.pomo}  (forced identical for LLM-on and --no-llm)')
 
     tag = ("Soft-Cluster+Ontology+LLM+RL" if llm_params['enabled'] and llm_params['use_ontology']
            else "Soft-Cluster+LLM+RL"       if llm_params['enabled']

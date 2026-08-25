@@ -16,8 +16,7 @@ import sys
 import os
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, _HERE)                                          # SoftClusterOntology
-sys.path.insert(0, os.path.join(_HERE, '..', 'original_POMO'))    # VRPTWLLMModule
+sys.path.insert(0, _HERE)
 
 from typing import Dict, List
 from VRPTWLLMModule import (

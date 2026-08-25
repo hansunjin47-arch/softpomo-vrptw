@@ -15,15 +15,13 @@ Usage:
 import os, sys, json, argparse, time
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ORIG = os.path.join(_HERE, '..', 'original_POMO')
 sys.path.insert(0, _HERE)
-sys.path.insert(0, _ORIG)
 
 from vrptw_env import load_solomon
 from SoftClusterLLMModule import get_all_clusters_confidence
 
 LLM_CACHE_DIR = os.path.join(_HERE, 'result_soft', 'llm_cache')
-DATA_DIR      = os.path.join(_ORIG, '..', 'data', 'Solomon')
+DATA_DIR      = os.path.join(_HERE, '..', 'data', 'Solomon')
 
 BENCH_TRAIN = {
     'c1':  [f'c{i:03d}' for i in range(102, 110)],

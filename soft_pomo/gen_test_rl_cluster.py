@@ -22,9 +22,7 @@ import argparse, copy, json, os, sys, time, torch
 _RL_FEWSHOT_INSTANCE = 'r106'  # R-type instance used as RL few-shot example
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ORIG = os.path.join(_HERE, '..', 'original_POMO')
 sys.path.insert(0, _HERE)
-sys.path.insert(0, _ORIG)
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 sys.stderr.reconfigure(encoding='utf-8', errors='replace')
@@ -103,6 +101,8 @@ def main():
                         help='Override instance list (searches test+train pool). e.g. --instances r104')
     parser.add_argument('--rl-fewshot', action='store_true',
                         help=f'Use {_RL_FEWSHOT_INSTANCE} RL cluster as few-shot example for LLM calls')
+    parser.add_argument('--pomo',       type=int, required=True,
+                        help='POMO rollout count, forced identical for LLM-on and --no-llm.')
     args = parser.parse_args()
 
     _set_seed(args.seed)
@@ -116,6 +116,7 @@ def main():
     tp['test_instances']  = _TEST_INSTANCES[args.benchmark]
     tp['model_load']      = dict(enable=False, path=None, epoch=None)
     tp['result_dir'] = os.path.join(_HERE, args.result_dir)
+    tp['pomo_size']  = args.pomo
 
     lp = dict(llm_params)
     lp['model'] = args.model
@@ -136,7 +137,7 @@ def main():
     cache_dir = trainer._llm_cache_dir
 
     # DATA_DIR: same resolution as train_soft_cluster.py
-    _data_dir = os.path.join(_HERE, '..', 'original_POMO', 'data', 'Solomon_Benchmark')
+    _data_dir = os.path.join(_HERE, '..', 'data', 'Solomon')
 
     # Build target pool
     if args.instances:

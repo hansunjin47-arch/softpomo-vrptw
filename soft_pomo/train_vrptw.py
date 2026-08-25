@@ -61,7 +61,7 @@ RESULT_DIR = os.path.join(_HERE, "result")
 
 # ── Hyperparameters ───────────────────────────────────────────────────────────
 N_CUSTOMERS = 100
-POMO_SIZE   = 25    # = Solomon vehicle limit (K << N for fair LLM comparison)
+POMO_SIZE   = 100   # POMO rollouts per instance (standard POMO setting)
 
 env_params = dict(
     problem_size        = N_CUSTOMERS,
@@ -1029,6 +1029,9 @@ def main():
                         help='Path to pre-generated .pt dataset for reproducible training')
     parser.add_argument('--test-instances', nargs='+', default=None,
                         help='Override test instances (e.g. c101 r101 rc101)')
+    parser.add_argument('--train-instances', nargs='+', default=None,
+                        help='Override train instances, replacing the benchmark pool '
+                             '(e.g. r102 r103 RH01 RH02). Applied after --benchmark.')
     parser.add_argument('--epochs',    type=int, default=trainer_params['epochs'])
     parser.add_argument('--n-mc',      type=int, default=trainer_params['n_mc_samples'],
                         help='MC sampling passes for best_solution (1=greedy, e.g. 128=sampling)')
@@ -1222,6 +1225,9 @@ def main():
     if args.test_instances:
         trainer_params['test_instances'] = args.test_instances
         print(f'[--test-instances] override: {args.test_instances}')
+    if args.train_instances:
+        trainer_params['train_instances'] = args.train_instances
+        print(f'[--train-instances] override: {len(args.train_instances)} instances')
     if args.test_in_sample:
         # evaluate on the same instances used for training (in-sample check)
         base_train = [n for n in trainer_params['train_instances']

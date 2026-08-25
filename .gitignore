@@ -35,6 +35,11 @@ __pycache__/
 
 # ── Large application bundles ─────────────────────────────────────────────────
 Protege-5.6.9-win/
+Protege-5.6.9-win.zip
+*.zip
+
+# ── Large generated datasets (regenerable via generate_vrptw.py / generate_events.py) ──
+original_POMO/data/
 
 # ── Claude agent session data ─────────────────────────────────────────────────
 .claude/

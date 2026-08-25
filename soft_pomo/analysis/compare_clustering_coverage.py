@@ -14,7 +14,7 @@ Usage:
 import sys, os, json, math, random, argparse
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'original_POMO'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from vrptw_env import load_solomon
 
 HERE     = os.path.dirname(__file__)
