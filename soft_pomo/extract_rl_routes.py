@@ -20,7 +20,7 @@ sys.path.insert(0, _HERE)
 _LEGACY_RESULT_DIR = os.path.join(_HERE, '..', 'original_POMO', 'result')
 
 from vrptw_env import VRPTWEnv, load_solomon, make_batch, _extract_routes
-from train_vrptw import VRPTWModel, model_params, env_params, _get_rain_event
+from train_vrptw import VRPTWModel, model_params, env_params, _get_rain_event, _load_model_flexible
 
 # ── benchmark → train instances ───────────────────────────────────────────────
 BENCH_TRAIN = {
@@ -55,12 +55,9 @@ def extract_routes(inst: dict, model, env: VRPTWEnv,
                    pomo_size: int, device, max_steps: int = 600):
     """Run greedy inference (pomo_size starts, no aug) → best route."""
     env.pomo_size = pomo_size
-    rain_nodes, rain_mult, rain_evs = _get_rain_event(inst)
 
     batch = make_batch(inst, 1, device)
     env.load_problems(batch)
-    if rain_nodes:
-        env.apply_rain(rain_nodes, rain_mult)
 
     reset_state, _, _ = env.reset()
     # minimal rain/acc tokens
@@ -122,7 +119,7 @@ def main():
     ep['pomo_size'] = args.pomo
 
     model = VRPTWModel(**model_params).to(device)
-    model.load_state_dict(ckpt['model_state_dict'])
+    _load_model_flexible(model, ckpt['model_state_dict'])
     model.eval()
     print(f'[Model] loaded (epoch={ckpt.get("epoch","?")})')
 

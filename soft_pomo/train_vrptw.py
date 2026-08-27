@@ -221,7 +221,7 @@ trainer_params = dict(
     train_instances  = TRAIN_INSTANCES,
     test_instances   = TEST_INSTANCES,
     result_dir       = RESULT_DIR,
-    epochs           = 2000,
+    epochs           = 1000,
     train_episodes   = 2500,
     train_batch_size = 64,
     test_batch_size  = 1,
@@ -322,8 +322,8 @@ class _Encoder(nn.Module):
         emb = mp['embedding_dim']
         self.embedding_depot = nn.Linear(2, emb)  # depot: (x, y)
         self.embedding_node  = nn.Linear(6, emb)  # node: (x,y,demand,tw_open,tw_close,service)
-        self.embedding_rain  = nn.Linear(4, emb)  # rain token: (node/N, mm/100, t_s/T, t_e/T)
-        self.embedding_acc   = nn.Linear(3, emb)  # acc  token: (node/N, t_s/T, t_e/T)
+        self.embedding_rain  = nn.Linear(4, emb)  # rain token: (node/N, mm/30, t_s/T, t_e/T)
+        self.embedding_acc   = nn.Linear(4, emb)  # acc  token: (node/N, vehicles/5, t_s/T, t_e/T)
         self.layers = nn.ModuleList([_EncoderLayer(**mp) for _ in range(mp['encoder_layer_num'])])
 
     def forward(self, depot_xy, node_features, rain_tokens=None, acc_tokens=None):
@@ -460,6 +460,7 @@ def _get_accident_events(inst: dict) -> list[dict]:
             node_a=nodes[0] if len(nodes) >= 1 else 0,
             node_b=nodes[1] if len(nodes) >= 2 else 0,
             multiplier=e['multiplier'],
+            vehicles_involved=e.get('vehicles_involved'),
             t_start=e['trigger_time'] / max(T, 1.0),
             t_end=(e['trigger_time'] + e['duration']) / max(T, 1.0),
         ))
@@ -469,11 +470,11 @@ def _get_accident_events(inst: dict) -> list[dict]:
 
 
 def _make_rain_tokens(inst: dict, rain_evs: list, batch_size: int, device) -> torch.Tensor:
-    """(batch, R, 4) — one token per (event, affected_stop): [node/N, mm/100, t_s/T, t_e/T]."""
+    """(batch, R, 4) — one token per (event, affected_stop): [node/N, mm/30, t_s/T, t_e/T]."""
     T, N = float(inst.get('T', 1.0)), inst['n_customers']
     rows = []
     for ev in rain_evs:
-        mm   = min(ev.get('rainfall_mm', 0.0) / 100.0, 1.0)
+        mm   = min(ev.get('rainfall_mm', 0.0) / 30.0, 1.0)
         t_s  = ev.get('trigger_time', 0.0) / max(T, 1.0)
         t_e  = (ev.get('trigger_time', 0.0) + ev.get('duration', 0.0)) / max(T, 1.0)
         for n in ev.get('nodes', []):
@@ -486,19 +487,36 @@ def _make_rain_tokens(inst: dict, rain_evs: list, batch_size: int, device) -> to
 
 
 def _make_acc_tokens(active_accs: list, N: int, batch_size: int, device) -> torch.Tensor:
-    """(batch, A_total, 3) — one token per (accident, node): [node/N, t_s/T, t_e/T]."""
+    """(batch, A_total, 4) — one token per (accident, node): [node/N, vehicles/5, t_s/T, t_e/T]."""
     if not active_accs:
-        return torch.zeros(batch_size, 0, 3, device=device)
+        return torch.zeros(batch_size, 0, 4, device=device)
     rows = []
     for a in active_accs:
         t_s, t_e = a['t_start'], a['t_end']
+        vehicles = (a.get('vehicles_involved') or 0) / 5.0
         for n in a['nodes']:
             if 1 <= n <= N:
-                rows.append([n / N, t_s, t_e])
+                rows.append([n / N, vehicles, t_s, t_e])
     if not rows:
-        return torch.zeros(batch_size, 0, 3, device=device)
+        return torch.zeros(batch_size, 0, 4, device=device)
     t = torch.tensor(rows, dtype=torch.float32, device=device)
     return t.unsqueeze(0).expand(batch_size, -1, -1)
+
+
+def _load_model_flexible(model: nn.Module, state_dict: dict) -> None:
+    """Load a checkpoint's weights, skipping keys whose shape no longer matches
+    (e.g. embedding_acc after adding a token feature) instead of crashing, so an
+    architecture-adjacent warm start re-initializes only the changed layer."""
+    own_state = model.state_dict()
+    filtered, skipped = {}, []
+    for k, v in state_dict.items():
+        if k in own_state and own_state[k].shape == v.shape:
+            filtered[k] = v
+        else:
+            skipped.append(k)
+    model.load_state_dict(filtered, strict=False)
+    if skipped:
+        print(f'[Resume] shape-mismatched keys re-initialized (not loaded): {skipped}')
 
 
 # ── Trainer ───────────────────────────────────────────────────────────────────
@@ -574,8 +592,11 @@ class VRPTWTrainer:
         if model_load.get('enable'):
             ckpt = torch.load(f'{model_load["path"]}/checkpoint-{model_load["epoch"]}.pt',
                               map_location=self.device)
-            self.model.load_state_dict(ckpt['model_state_dict'])
-            self.optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+            _load_model_flexible(self.model, ckpt['model_state_dict'])
+            try:
+                self.optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+            except (ValueError, RuntimeError) as ex:
+                print(f'[Resume] optimizer state incompatible, starting fresh: {ex}')
             ep = model_load['epoch']
             self.start_epoch = (ep + 1) if isinstance(ep, int) else 1
             print(f'[Resume] loaded epoch={ep}, start_epoch={self.start_epoch}')
@@ -779,7 +800,7 @@ class VRPTWTrainer:
         self.model.train()
         tp = self.trainer_params
 
-        rain_nodes, rain_mult, rain_evs = _get_rain_event(inst)
+        _, _, rain_evs = _get_rain_event(inst)
         acc_evs = _get_accident_events(inst)
 
         max_steps = tp.get('max_steps', 600)
@@ -790,9 +811,6 @@ class VRPTWTrainer:
 
         batch = make_batch(inst, batch_size, self.device)
         self.env.load_problems(batch)
-
-        if rain_nodes:
-            self.env.apply_rain(rain_nodes, rain_mult)
 
         reset_state, _, _ = self.env.reset()
         reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, batch_size, self.device)
@@ -819,12 +837,10 @@ class VRPTWTrainer:
             acc_changed = False
             for i, acc_ev in enumerate(acc_evs):
                 if not acc_applied[i] and cur_t >= acc_ev['t_start']:
-                    self.env.apply_accident(acc_ev['node_a'], acc_ev['node_b'], acc_ev['multiplier'])
                     active_accs.append(acc_ev)   # acc_ev already contains 'nodes'
                     acc_applied[i] = True
                     acc_changed = True
                 elif acc_applied[i] and not acc_restored[i] and cur_t >= acc_ev['t_end']:
-                    self.env.restore_accident(acc_ev['node_a'], acc_ev['node_b'])
                     active_accs = [a for a in active_accs if a is not acc_ev]
                     acc_restored[i] = True
                     acc_changed = True
@@ -889,7 +905,7 @@ class VRPTWTrainer:
         n_mc_samples = self.trainer_params.get('n_mc_samples', 1)
         use_aug      = self.trainer_params.get('use_augmentation', False)
 
-        rain_nodes, rain_mult, rain_evs = _get_rain_event(inst)
+        _, _, rain_evs = _get_rain_event(inst)
         N = inst['n_customers']
 
         # Fair comparison mode: K random starts instead of full pomo_size
@@ -933,8 +949,6 @@ class VRPTWTrainer:
         try:
             for _ in range(n_mc_samples):
                 self.env.load_problems(batch)
-                if rain_nodes:
-                    self.env.apply_rain(rain_nodes, rain_mult)
                 reset_state, _, _ = self.env.reset()
                 reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, aug_size, self.device)
                 reset_state.acc_tokens  = torch.zeros(aug_size, 0, 4, device=self.device)
@@ -956,12 +970,10 @@ class VRPTWTrainer:
                     acc_changed = False
                     for i, ae in enumerate(acc_evs):
                         if not acc_applied[i] and cur_t >= ae['t_start']:
-                            self.env.apply_accident(ae['node_a'], ae['node_b'], ae['multiplier'])
                             active_accs.append(ae)
                             acc_applied[i] = True
                             acc_changed = True
                         elif acc_applied[i] and not acc_restored[i] and cur_t >= ae['t_end']:
-                            self.env.restore_accident(ae['node_a'], ae['node_b'])
                             active_accs = [a for a in active_accs if a is not ae]
                             acc_restored[i] = True
                             acc_changed = True
@@ -1300,7 +1312,7 @@ def main():
             print(f'[Test] No checkpoint at {ckpt_path}')
             return
         ckpt = torch.load(ckpt_path, map_location=trainer.device)
-        trainer.model.load_state_dict(ckpt['model_state_dict'])
+        _load_model_flexible(trainer.model, ckpt['model_state_dict'])
         trainer.model.eval()
         plots_dir = os.path.join(trainer.result_dir, 'plots')
         os.makedirs(plots_dir, exist_ok=True)

@@ -92,27 +92,44 @@ def load_solomon(path: str) -> dict:
                 continue
             trigger  = float(toks[1])
             duration = float(toks[2])
+            vehicles_involved = None
             if kw == "RAIN":
                 multiplier  = float(toks[3])
                 rainfall_mm = float(toks[4])
                 nodes       = [int(x) for x in toks[5:]]
                 severity    = None
             else:
-                raw        = toks[3]
-                severity   = raw.lower()
-                multiplier = _ACCIDENT_SEVERITY.get(severity)
-                if multiplier is None:
-                    # Float multiplier (old format) — convert to nearest label
-                    try:
-                        multiplier = float(raw)
-                    except ValueError:
-                        multiplier = 5.0
-                    severity   = None
-                nodes       = [int(x) for x in toks[4:]]
+                raw = toks[3]
+                try:
+                    multiplier = float(raw)
+                    # Current format: ACCIDENT trigger duration mult vehicles nodes...
+                    # vehicles_involved is recorded at generation time (mirrors
+                    # rainfall_mm) -- never reverse-mapped from multiplier, so a
+                    # future re-tuning of mu/severity_weights can't silently
+                    # desync this observation value from what was actually drawn.
+                    vehicles_involved = int(toks[4])
+                    nodes = [int(x) for x in toks[5:]]
+                except ValueError:
+                    # Legacy NAMED-severity format only (no vehicles field):
+                    # ACCIDENT trigger duration <low|medium|high|...> nodes...
+                    # NOTE: legacy files with a BARE-FLOAT multiplier and no
+                    # vehicles field (e.g. old *_acc_A/_B, *_rand_acc_* files)
+                    # are NOT distinguishable from the current format here --
+                    # toks[4] would be misread as vehicles_involved, dropping
+                    # the true first node. Those files are not referenced by
+                    # this project's actual generation/training pipeline
+                    # (generate_pool_events / trainer scripts only load the
+                    # migrated *_acc.txt files), so this is accepted dead-path
+                    # breakage rather than a live bug.
+                    severity_key = raw.lower()
+                    multiplier = _ACCIDENT_SEVERITY.get(severity_key, 5.0)
+                    nodes = [int(x) for x in toks[4:]]
+                severity    = None
                 rainfall_mm = 0.0
             preset_events.append(dict(
                 type=kw, trigger_time=trigger, duration=duration,
                 multiplier=multiplier, rainfall_mm=rainfall_mm,
+                vehicles_involved=vehicles_involved,
                 severity=severity,   # str for accident, None for rain
                 nodes=nodes,
             ))
@@ -158,6 +175,8 @@ def make_batch(inst: dict, batch_size: int, device: torch.device) -> dict:
         out[k] = t.unsqueeze(0).expand(batch_size, -1).contiguous()
     out['tt'] = inst['tt'].to(device).unsqueeze(0).expand(batch_size, -1, -1).contiguous()
     out['vehicle_limit'] = inst.get('vehicle_limit', None)  # scalar int or None
+    out['events'] = inst.get('preset_events', [])  # raw dicts; env normalizes by T internally
+    out['T']      = inst.get('T', None)            # raw Solomon T, for normalizing event timing
     return out
 
 
@@ -240,6 +259,10 @@ class VRPTWEnv:
         self.depot_node_tw_close = None
         self.depot_node_service  = None
         self.tt                  = None
+        self._ev_trigger_t       = None   # (E,) normalized trigger time, or None if no events
+        self._ev_end_t           = None   # (E,) normalized trigger+duration
+        self._ev_mult_t          = None   # (E,) multiplier
+        self._ev_zone_t          = None   # (E, N+1) bool, node in event zone
 
         self.selected_count     = None
         self.current_node       = None
@@ -283,6 +306,7 @@ class VRPTWEnv:
         self.depot_node_tw_close = torch.cat((depot_tw_close, node_tw_close), dim=1)
         self.depot_node_service  = torch.cat((depot_service,  node_service),  dim=1)
         self.tt = batch_dict['tt'].contiguous()
+        self._setup_events(batch_dict.get('events', []), batch_dict.get('T', None))
 
         # [VL] vehicle_limit: scalar int from Solomon instance (None = unlimited)
         self.vehicle_limit = batch_dict.get('vehicle_limit', None)
@@ -329,7 +353,6 @@ class VRPTWEnv:
         self.n_late_stops      = torch.zeros((self.batch_size, self.pomo_size), device=dev)
         self.depot_visit_count = torch.zeros((self.batch_size, self.pomo_size), device=dev)
         self._unserved_count   = torch.zeros((self.batch_size, self.pomo_size), device=dev)  # [VL]
-        self._acc_stack        = []   # list of dicts: {node_a, node_b, orig_ab, orig_ba}
 
         return self.reset_state, None, False
 
@@ -362,7 +385,8 @@ class VRPTWEnv:
         if previous_node is None:
             travel_time = torch.zeros(self.batch_size, self.pomo_size, device=dev)
         else:
-            travel_time = self.tt[self.BATCH_IDX, previous_node, selected]
+            base_tt     = self.tt[self.BATCH_IDX, previous_node, selected]
+            travel_time = self._event_multiplier_arc(previous_node, selected, self.current_time) * base_tt
 
         arrival      = self.current_time + travel_time
         tw_open_sel  = self.depot_node_tw_open [self.BATCH_IDX, selected]
@@ -393,6 +417,7 @@ class VRPTWEnv:
             # current_node may be None only on the very first call (pre_step), but
             # step() is never called with current_node=None, so this is safe.
             travel = self.tt[self.BATCH_IDX, self.current_node]  # (B, P, N+1)
+            travel = self._event_multiplier_row(self.current_node, self.current_time) * travel
             future_arrival = self.current_time[:, :, None] + travel  # (B, P, N+1)
             tw_violated = future_arrival > self.depot_node_tw_close[:, None, :]  # (B, P, N+1)
             tw_violated[:, :, 0] = False  # depot (index 0) always reachable
@@ -433,48 +458,71 @@ class VRPTWEnv:
             reward = None
         return self.step_state, reward, done
 
-    # ── Event TT modification ─────────────────────────────────────────────────
+    # ── Event physics (internal) ──────────────────────────────────────────────
+    # The environment owns event simulation: preset_events (RAIN/ACCIDENT, with
+    # trigger_time/duration/multiplier/nodes) are ingested once at load_problems()
+    # and applied per-step as a function of each rollout's own current_time and
+    # the arc's endpoints — never by external mutation of self.tt. self.tt stays
+    # the static base matrix for the whole episode.
 
-    def apply_rain(self, rain_nodes: list, multiplier: float):
-        if not rain_nodes or multiplier <= 1.0:
-            return
+    def _setup_events(self, events: list, T_raw: float | None):
         dev = self.tt.device
-        idx = torch.tensor(rain_nodes, device=dev, dtype=torch.long)
-        idx = idx[(idx >= 0) & (idx <= self.problem_size)]
-        if idx.numel() < 2:
-            return
-        r    = idx.unsqueeze(1).expand(-1, idx.numel())
-        c    = idx.unsqueeze(0).expand(idx.numel(), -1)
-        mask = (r != c)
-        self.tt[:, r[mask], c[mask]] *= multiplier
+        N1  = self.problem_size + 1
+        T   = T_raw if T_raw else 1.0
 
-    def apply_accident(self, node_a: int, node_b: int, multiplier: float):
-        """Slow the accident edge (bidirectional). Node feature updates done by caller."""
-        if multiplier <= 1.0:
-            return
-        orig_ab = self.tt[:, node_a, node_b].clone()
-        orig_ba = self.tt[:, node_b, node_a].clone()
-        self.tt[:, node_a, node_b] = orig_ab * multiplier
-        self.tt[:, node_b, node_a] = orig_ba * multiplier
-        self._acc_stack.append(
-            dict(node_a=node_a, node_b=node_b, orig_ab=orig_ab, orig_ba=orig_ba)
-        )
+        triggers, ends, mults, zones = [], [], [], []
+        for e in events:
+            mult = e.get('multiplier')
+            nodes = e.get('nodes') or []
+            dur   = e.get('duration', 0.0)
+            if not nodes or mult is None or mult <= 1.0 or dur <= 0:
+                continue
+            zone = torch.zeros(N1, dtype=torch.bool, device=dev)
+            idx = [n for n in nodes if 0 <= n <= self.problem_size]
+            if not idx:
+                continue
+            zone[idx] = True
+            triggers.append(e['trigger_time'] / T)
+            ends.append((e['trigger_time'] + dur) / T)
+            mults.append(float(mult))
+            zones.append(zone)
 
-    def restore_accident(self, node_a: int | None = None, node_b: int | None = None):
-        """Restore specific accident (by node_a/node_b) or the most recent one."""
-        if not self._acc_stack:
-            return
-        if node_a is not None:
-            idx = next((i for i, e in enumerate(self._acc_stack)
-                        if e['node_a'] == node_a and e['node_b'] == node_b), -1)
-            if idx == -1:
-                return
-            entry = self._acc_stack.pop(idx)
+        if triggers:
+            self._ev_trigger_t = torch.tensor(triggers, device=dev)          # (E,)
+            self._ev_end_t     = torch.tensor(ends,     device=dev)          # (E,)
+            self._ev_mult_t    = torch.tensor(mults,    device=dev)          # (E,)
+            self._ev_zone_t    = torch.stack(zones, dim=0)                   # (E, N1)
         else:
-            entry = self._acc_stack.pop()
-        a, b = entry['node_a'], entry['node_b']
-        self.tt[:, a, b] = entry['orig_ab']
-        self.tt[:, b, a] = entry['orig_ba']
+            self._ev_trigger_t = self._ev_end_t = self._ev_mult_t = self._ev_zone_t = None
+
+    def _event_multiplier_arc(self, node_a: torch.Tensor, node_b: torch.Tensor,
+                               at_time: torch.Tensor) -> torch.Tensor:
+        """node_a/node_b/at_time: (batch, pomo). Returns (batch, pomo) combined multiplier
+        (max across simultaneously-active events) for the arc node_a->node_b at at_time."""
+        if self._ev_trigger_t is None:
+            return torch.ones_like(at_time)
+        active  = (at_time[None] >= self._ev_trigger_t[:, None, None]) & \
+                  (at_time[None] <  self._ev_end_t[:, None, None])              # (E,B,P)
+        in_zone = self._ev_zone_t[:, node_a] | self._ev_zone_t[:, node_b]       # (E,B,P)
+        hit     = active & in_zone
+        mult    = torch.where(hit, self._ev_mult_t[:, None, None],
+                               torch.ones((), device=at_time.device, dtype=self._ev_mult_t.dtype))
+        return mult.max(dim=0).values
+
+    def _event_multiplier_row(self, node_a: torch.Tensor, at_time: torch.Tensor) -> torch.Tensor:
+        """node_a/at_time: (batch, pomo). Returns (batch, pomo, N+1) combined multiplier
+        for travel from node_a to every destination, at at_time."""
+        if self._ev_trigger_t is None:
+            return torch.ones(*at_time.shape, self.problem_size + 1, device=at_time.device)
+        active   = (at_time[None] >= self._ev_trigger_t[:, None, None]) & \
+                   (at_time[None] <  self._ev_end_t[:, None, None])             # (E,B,P)
+        zone_a   = self._ev_zone_t[:, node_a]                                   # (E,B,P)
+        zone_all = self._ev_zone_t                                              # (E,N1)
+        in_zone  = zone_a[..., None] | zone_all[:, None, None, :]               # (E,B,P,N1)
+        hit      = active[..., None] & in_zone                                  # (E,B,P,N1)
+        mult     = torch.where(hit, self._ev_mult_t[:, None, None, None],
+                                torch.ones((), device=at_time.device, dtype=self._ev_mult_t.dtype))
+        return mult.max(dim=0).values
 
     def total_late_violations(self) -> int:
         return int((self.total_late > 0).sum().item())

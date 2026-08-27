@@ -34,6 +34,7 @@ from train_vrptw import (
     trainer_params  as _base_trainer_params,
     _REWARD_CONFIGS,
     _set_seed,
+    _load_model_flexible,
 )
 from vrptw_env import _load_sol, plot_routes, _print_solution, _save_solution, AverageMeter
 
@@ -232,7 +233,7 @@ def main():
             print(f'[Test] No checkpoint at {ckpt_path}')
             return
         ckpt = torch.load(ckpt_path, map_location=trainer.device)
-        trainer.model.load_state_dict(ckpt['model_state_dict'])
+        _load_model_flexible(trainer.model, ckpt['model_state_dict'])
         trainer.model.eval()
         plots_dir = os.path.join(trainer.result_dir, 'plots')
         os.makedirs(plots_dir, exist_ok=True)
