@@ -63,10 +63,10 @@ class WeatherEvent:
 @dataclass
 class AccidentEvent:
     """Road accident occurring during routing (shared across all rollouts)."""
-    node_a:         int                  # affected segment (bidirectional)
-    node_b:         int
-    severity:       str  = "medium"      # low / medium / high (multiplier stays in env)
-    affected_nodes: List[int] = field(default_factory=list)  # nodes in accident zone
+    node_a:            int                  # affected segment (bidirectional)
+    node_b:            int
+    vehicles_involved: int | None = None    # LLM-visible observable (multiplier stays in env)
+    affected_nodes:    List[int] = field(default_factory=list)  # nodes in accident zone
 
 
 # ── Ollama query ──────────────────────────────────────────────────────────────
@@ -155,37 +155,15 @@ def parse_priority(response: str, unvisited: List[int], top_k: int) -> Optional[
 
 # ── Prompt builders ───────────────────────────────────────────────────────────
 
-# N-car collision descriptions shown to LLM (multiplier hidden).
-_NCAR_DISPLAY: dict[str, str] = {
-    "3-car-collision": "3-car collision",
-    "4-car-pile-up":   "4-car pile-up",
-    "5-car-pile-up":   "5-car pile-up",
-    # legacy fallbacks
-    "low":    "minor traffic disruption",
-    "medium": "moderate traffic disruption",
-    "high":   "major traffic disruption",
-}
-
-_NCAR_MULT: dict[str, float] = {
-    "3-car-collision": 5.0,
-    "4-car-pile-up":   8.5,
-    "5-car-pile-up":  13.0,
-    "low": 1.5, "medium": 2.0, "high": 3.0,
-}
+# vehicles_involved -> English news-bulletin phrase. Recorded at generation time
+# in the scenario file (never reverse-mapped from the multiplier).
+_VEHICLES_TEXT: dict[int, str] = {2: "2-car collision", 3: "3-car pile-up", 5: "5-car chain collision"}
 
 
-def _sev_to_mult(sev) -> float:
-    """Internal multiplier — NOT shown to LLM."""
-    if sev is None:
-        return 5.0
-    return _NCAR_MULT.get(str(sev).lower(), 5.0)
-
-
-def _sev_display(sev) -> str:
-    """Human-readable accident description shown to LLM."""
-    if sev is None:
+def _vehicles_display(vehicles) -> str:
+    if vehicles is None:
         return "traffic accident"
-    return _NCAR_DISPLAY.get(str(sev).lower(), str(sev))
+    return _VEHICLES_TEXT.get(int(vehicles), f"{int(vehicles)}-car collision")
 
 
 def _customer_table(
@@ -209,7 +187,7 @@ def _customer_table(
         affected = ev.get('affected_nodes', [])
         if len(affected) < 2:
             continue
-        mult = _sev_to_mult(ev.get('severity'))
+        mult = float(ev['multiplier'])
         for c, partner in [(affected[0], affected[1]), (affected[1], affected[0])]:
             if c in customer_set and c not in acc_slack_override:
                 t_via = float(ont.tt[0, partner]) + float(ont.tt[partner, c]) * mult
@@ -251,7 +229,7 @@ def _customer_table(
                     ev_tags.append(f"Rain_{i}({ev['rainfall_mm']:.0f}mm,t={ev['t_start']:.0f}-{ev['t_end']:.0f})")
             for i, ev in enumerate(acc_evs):
                 if c in stops_by_acc.get(i, []):
-                    ev_tags.append(f"Acc_{i}({_sev_display(ev.get('severity','?'))},t={ev['t_start']:.0f}-{ev['t_end']:.0f})")
+                    ev_tags.append(f"Acc_{i}({_vehicles_display(ev.get('vehicles_involved'))},t={ev['t_start']:.0f}-{ev['t_end']:.0f})")
             row += f"  {concept_str:<22}  {', '.join(ev_tags) if ev_tags else '-'}"
         rows.append(row)
     return "\n".join(rows)
@@ -472,16 +450,14 @@ def build_accident_prompt(
     acc_detail = ""
     for i, ev in enumerate(acc_evs_list):
         stops = [c for c in stops_by_acc.get(i, []) if c in set(unvisited)]
-        sev = ev.get('severity', 'high')
         acc_detail += (
-            f"  Acc_{i}: {_sev_display(sev)}  "
+            f"  [Traffic Alert] {_vehicles_display(ev.get('vehicles_involved'))} reported  "
             f"t={ev['t_start']:.0f}–{ev['t_end']:.0f}  stops={stops}\n"
         )
 
     guidance = (
         "Active accident events:\n" + acc_detail +
-        "\nAccidents increase travel time on segments between affected nodes. "
-        "Stops listed under each accident share affected road segments.\n"
+        "\nAccidents increase travel time on road segments near the listed stops.\n"
         + (f"[Ontology] EventAtRisk (OverdueStop AND accident-affected): {overdue_and_acc}\n"
            if (use_ontology and overdue_and_acc) else "")
     )

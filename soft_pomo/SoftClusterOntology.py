@@ -259,10 +259,11 @@ class SoftClusterOntology:
                 ))
             elif ev['type'] == 'ACCIDENT':
                 self.accident_events.append(dict(
-                    severity       = ev.get('severity', 'medium'),
-                    t_start        = float(ev['trigger_time']),
-                    t_end          = float(ev['trigger_time']) + float(ev['duration']),
-                    affected_nodes = list(ev['nodes']),
+                    vehicles_involved = ev.get('vehicles_involved'),
+                    multiplier        = float(ev['multiplier']),
+                    t_start           = float(ev['trigger_time']),
+                    t_end             = float(ev['trigger_time']) + float(ev['duration']),
+                    affected_nodes    = list(ev['nodes']),
                 ))
 
         # ABox: SoftCluster instances (set via set_clusters)

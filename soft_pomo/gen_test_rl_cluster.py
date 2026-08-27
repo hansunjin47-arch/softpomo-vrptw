@@ -30,7 +30,7 @@ sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 from train_soft_cluster import (
     SoftClusterTrainer, env_params, model_params,
     optimizer_params, trainer_params, llm_params,
-    _set_seed, _dump_cluster_cache,
+    _set_seed, _dump_cluster_cache, _load_model_flexible,
 )
 from SoftClusterLLMModule import get_all_clusters_confidence, build_rl_fewshot_block
 from train_vrptw_llm import _get_rain_nodes_mult_evs, _get_accidents
@@ -128,9 +128,7 @@ def main():
         else os.path.join(_HERE, args.resume)
     ckpt = torch.load(ckpt_path, map_location=trainer.device)
     state_dict = ckpt.get('model_state_dict', ckpt)
-    own_keys = set(trainer.model.state_dict().keys())
-    filtered = {k: v for k, v in state_dict.items() if k in own_keys}
-    trainer.model.load_state_dict(filtered, strict=False)
+    _load_model_flexible(trainer.model, state_dict)
     trainer.model.eval()
     print(f'[Loaded] {ckpt_path}  (epoch={ckpt.get("epoch","?")})')
 

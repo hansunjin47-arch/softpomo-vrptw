@@ -195,8 +195,8 @@ class _Encoder(nn.Module):
         emb = mp['embedding_dim']
         self.embedding_depot = nn.Linear(2, emb)   # depot: (x, y)
         self.embedding_node  = nn.Linear(6, emb)   # node: (x,y,demand,tw_open,tw_close,service)
-        self.embedding_rain  = nn.Linear(4, emb)   # rain token: (node/N, mm/100, t_s/T, t_e/T)
-        self.embedding_acc   = nn.Linear(3, emb)   # acc  token: (node/N, t_s/T, t_e/T)
+        self.embedding_rain  = nn.Linear(4, emb)   # rain token: (node/N, mm/30, t_s/T, t_e/T)
+        self.embedding_acc   = nn.Linear(4, emb)   # acc  token: (node/N, vehicles/5, t_s/T, t_e/T)
         self.layers = nn.ModuleList([_EncoderLayer(**mp) for _ in range(mp['encoder_layer_num'])])
 
     def forward(self, depot_xy, node_features, rain_tokens=None, acc_tokens=None):
@@ -325,11 +325,11 @@ def _get_weather(inst: dict) -> WeatherEvent | None:
 
 
 def _make_rain_tokens(inst: dict, rain_evs: list, batch_size: int, device) -> torch.Tensor:
-    """(batch, R, 4) — one token per (event, stop): [node/N, mm/100, t_s/T, t_e/T]."""
+    """(batch, R, 4) — one token per (event, stop): [node/N, mm/30, t_s/T, t_e/T]."""
     T, N = float(inst['T']), inst['n_customers']
     rows = []
     for ev in rain_evs:
-        mm  = min(ev.get('rainfall_mm', 0.0) / 100.0, 1.0)
+        mm  = min(ev.get('rainfall_mm', 0.0) / 30.0, 1.0)
         t_s = ev.get('trigger_time', 0.0) / max(T, 1.0)
         t_e = (ev.get('trigger_time', 0.0) + ev.get('duration', 0.0)) / max(T, 1.0)
         for n in ev.get('nodes', []):
@@ -342,17 +342,18 @@ def _make_rain_tokens(inst: dict, rain_evs: list, batch_size: int, device) -> to
 
 
 def _make_acc_tokens(active_accs: list, N: int, batch_size: int, device) -> torch.Tensor:
-    """(batch, A_total, 3) — one token per (accident, node): [node/N, t_s/T, t_e/T]."""
+    """(batch, A_total, 4) — one token per (accident, node): [node/N, vehicles/5, t_s/T, t_e/T]."""
     if not active_accs:
-        return torch.zeros(batch_size, 0, 3, device=device)
+        return torch.zeros(batch_size, 0, 4, device=device)
     rows = []
     for a in active_accs:
         t_s, t_e = a['t_start'], a['t_end']
+        vehicles = (a.get('vehicles_involved') or 0) / 5.0
         for n in a['nodes']:
             if 1 <= n <= N:
-                rows.append([n / N, t_s, t_e])
+                rows.append([n / N, vehicles, t_s, t_e])
     if not rows:
-        return torch.zeros(batch_size, 0, 3, device=device)
+        return torch.zeros(batch_size, 0, 4, device=device)
     t = torch.tensor(rows, dtype=torch.float32, device=device)
     return t.unsqueeze(0).expand(batch_size, -1, -1)
 
@@ -379,7 +380,8 @@ def _get_rain_nodes_mult_evs(inst: dict) -> tuple[list, float, list]:
 def _get_accidents(inst: dict) -> list[tuple[AccidentEvent, dict]]:
     """Returns list of (AccidentEvent for LLM, feat_params dict for env only).
     multiplier is kept in feat_params and NEVER passed to AccidentEvent / LLM.
-    description (e.g. '4-car-pile-up') is stored in AccidentEvent and shown to LLM.
+    vehicles_involved (recorded at generation time) is the LLM-visible observable;
+    it also flows into feat_params for the RL acc_tokens.
     """
     acc_evs = [e for e in inst.get('preset_events', []) if e['type'] == 'ACCIDENT']
     T = float(inst['T'])
@@ -387,22 +389,38 @@ def _get_accidents(inst: dict) -> list[tuple[AccidentEvent, dict]]:
     for e in acc_evs:
         nodes   = e['nodes']
         mult    = e['multiplier']
-        desc    = e.get('severity', 'high')   # new: n-car description (or legacy label)
         t_start = e['trigger_time'] / max(T, 1.0)
         t_end   = (e['trigger_time'] + e['duration']) / max(T, 1.0)
         accident = AccidentEvent(
             node_a=nodes[0] if len(nodes) >= 1 else 0,
             node_b=nodes[1] if len(nodes) >= 2 else 0,
-            severity=desc,                                 # LLM-visible description
+            vehicles_involved=e.get('vehicles_involved'),  # LLM-visible observable
             affected_nodes=nodes,
         )
         feat_params = dict(
             multiplier=mult,                               # env-internal only
+            vehicles_involved=e.get('vehicles_involved'),  # RL token feature
             t_start=t_start,
             t_end=t_end,
         )
         result.append((accident, feat_params))
     return result
+
+
+def _load_model_flexible(model: nn.Module, state_dict: dict) -> None:
+    """Load a checkpoint's weights, skipping keys whose shape no longer matches
+    (e.g. embedding_acc after adding a token feature) instead of crashing, so an
+    architecture-adjacent warm start re-initializes only the changed layer."""
+    own_state = model.state_dict()
+    filtered, skipped = {}, []
+    for k, v in state_dict.items():
+        if k in own_state and own_state[k].shape == v.shape:
+            filtered[k] = v
+        else:
+            skipped.append(k)
+    model.load_state_dict(filtered, strict=False)
+    if skipped:
+        print(f'[Resume] shape-mismatched keys re-initialized (not loaded): {skipped}')
 
 
 # ── Trainer ───────────────────────────────────────────────────────────────────
@@ -480,8 +498,11 @@ class VRPTWLLMTrainer:
         if model_load.get('enable'):
             ckpt = torch.load(f'{model_load["path"]}/checkpoint-{model_load["epoch"]}.pt',
                               map_location=self.device)
-            self.model.load_state_dict(ckpt['model_state_dict'])
-            self.optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+            _load_model_flexible(self.model, ckpt['model_state_dict'])
+            try:
+                self.optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+            except (ValueError, RuntimeError) as ex:
+                print(f'[Resume] optimizer state incompatible, starting fresh: {ex}')
             loaded_epoch = ckpt.get('epoch', model_load['epoch'])
             self.start_epoch = (int(loaded_epoch) if str(loaded_epoch).isdigit() else loaded_epoch) + 1
             print(f'[Resume] epoch {self.start_epoch}')
@@ -642,7 +663,7 @@ class VRPTWLLMTrainer:
         llm_on = lp['enabled']
 
         # ── Event setup ───────────────────────────────────────────────────
-        rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
+        _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
         if llm_on:
             self._ensure_llm_cache(inst)
         accident_list = _get_accidents(inst) if llm_on else []
@@ -658,8 +679,6 @@ class VRPTWLLMTrainer:
 
         batch = make_batch(inst, batch_size, self.device)
         self.env.load_problems(batch)
-        if rain_nodes:
-            self.env.apply_rain(rain_nodes, rain_mult)
 
         reset_state, _, _ = self.env.reset()
         reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, batch_size, self.device)
@@ -707,18 +726,16 @@ class VRPTWLLMTrainer:
             acc_just_started = []
             for i, (accident, fp) in enumerate(accident_list):
                 if not acc_tt_applied[i] and cur_t >= fp['t_start']:
-                    self.env.apply_accident(accident.node_a, accident.node_b, fp['multiplier'])
                     active_accs.append(dict(
-                        nodes=[accident.node_a, accident.node_b],
+                        idx=i, nodes=accident.affected_nodes,
                         t_start=fp['t_start'], t_end=fp['t_end'],
+                        vehicles_involved=fp.get('vehicles_involved'),
                     ))
                     acc_tt_applied[i]  = True
                     acc_changed        = True
                     acc_just_started.append(accident)
                 elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
-                    self.env.restore_accident(accident.node_a, accident.node_b)
-                    active_accs = [a for a in active_accs
-                                   if a['nodes'] != [accident.node_a, accident.node_b]]
+                    active_accs = [a for a in active_accs if a['idx'] != i]
                     acc_tt_restored[i] = True
                     acc_changed        = True
 
@@ -1034,7 +1051,7 @@ class VRPTWLLMTrainer:
         llm_on = lp['enabled']
 
         # ── Event data ────────────────────────────────────────────────────
-        rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
+        _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
         accident_list = _get_accidents(inst) if llm_on else []
         N             = self.env.problem_size
 
@@ -1053,8 +1070,6 @@ class VRPTWLLMTrainer:
         self.env.pomo_size = pomo_size_eff
         batch = make_batch(inst, 1, self.device)
         self.env.load_problems(batch)
-        if rain_nodes:
-            self.env.apply_rain(rain_nodes, rain_mult)
 
         reset_state, _, _ = self.env.reset()
         reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, 1, self.device)
@@ -1088,18 +1103,16 @@ class VRPTWLLMTrainer:
             acc_just_started = []
             for i, (accident, fp) in enumerate(accident_list):
                 if not acc_tt_applied[i] and cur_t >= fp['t_start']:
-                    self.env.apply_accident(accident.node_a, accident.node_b, fp['multiplier'])
                     active_accs.append(dict(
-                        nodes=[accident.node_a, accident.node_b],
+                        idx=i, nodes=accident.affected_nodes,
                         t_start=fp['t_start'], t_end=fp['t_end'],
+                        vehicles_involved=fp.get('vehicles_involved'),
                     ))
                     acc_tt_applied[i]  = True
                     acc_changed        = True
                     acc_just_started.append(accident)
                 elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
-                    self.env.restore_accident(accident.node_a, accident.node_b)
-                    active_accs = [a for a in active_accs
-                                   if a['nodes'] != [accident.node_a, accident.node_b]]
+                    active_accs = [a for a in active_accs if a['idx'] != i]
                     acc_tt_restored[i] = True
                     acc_changed        = True
 
@@ -1298,7 +1311,7 @@ def main():
             print(f'[Test] No checkpoint at {ckpt_path}')
             return
         ckpt = torch.load(ckpt_path, map_location=trainer.device)
-        trainer.model.load_state_dict(ckpt['model_state_dict'])
+        _load_model_flexible(trainer.model, ckpt['model_state_dict'])
         trainer.model.eval()
         plots_dir = os.path.join(trainer.result_dir, 'plots')
         os.makedirs(plots_dir, exist_ok=True)

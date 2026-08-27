@@ -129,18 +129,22 @@ def main():
 
     trainer = SoftClusterTrainer(env_params, model_params, optimizer_params, tp, llm_p)
 
-    # Load checkpoint
+    # Load checkpoint (skip keys whose shape no longer matches, e.g. embedding_acc
+    # after adding a token feature, instead of crashing on a strict load)
     ckpt = torch.load(args.resume, map_location=trainer.device)
     state_dict = ckpt.get('model_state_dict', ckpt)
-    own_keys   = set(trainer.model.state_dict().keys())
-    filtered   = {k: v for k, v in state_dict.items() if k in own_keys}
-    missing    = own_keys - set(filtered)
+    own_state  = trainer.model.state_dict()
+    own_keys   = set(own_state.keys())
+    filtered   = {k: v for k, v in state_dict.items()
+                  if k in own_keys and own_state[k].shape == v.shape}
+    reinit     = {k for k in state_dict if k in own_keys} - set(filtered)
+    missing    = (own_keys - set(filtered)) | reinit
     extra      = set(state_dict) - own_keys
     trainer.model.load_state_dict(filtered, strict=False)
     trainer.model.eval()
 
     if missing:
-        print(f'  [warn] missing keys (random init): {sorted(missing)}')
+        print(f'  [warn] missing/shape-mismatched keys (re-initialized): {sorted(missing)}')
     if extra:
         print(f'  [info] extra keys skipped: {sorted(extra)}')
     print(f'  [OK] Loaded {len(filtered)}/{len(state_dict)} keys from checkpoint.')

@@ -54,37 +54,16 @@ def _objective_str(reward_config: str | None) -> str:
 
 # ── Severity helpers ──────────────────────────────────────────────────────────
 
-# N-car collision descriptions shown to LLM (multiplier hidden).
-_NCAR_DISPLAY: dict[str, str] = {
-    "3-car-collision": "3-car collision",
-    "4-car-pile-up":   "4-car pile-up",
-    "5-car-pile-up":   "5-car pile-up",
-    # legacy fallbacks
-    "low":    "minor traffic disruption",
-    "medium": "moderate traffic disruption",
-    "high":   "major traffic disruption",
-}
-
-_NCAR_MULT: dict[str, float] = {
-    "3-car-collision": 5.0,
-    "4-car-pile-up":   8.5,
-    "5-car-pile-up":  13.0,
-    "low": 1.5, "medium": 2.0, "high": 3.0,
-}
+# vehicles_involved -> English news-bulletin phrase. Recorded at generation time
+# in the scenario file (never reverse-mapped from the multiplier), so this can't
+# silently desync if the multiplier tiers are retuned later.
+_VEHICLES_TEXT: dict[int, str] = {2: "2-car collision", 3: "3-car pile-up", 5: "5-car chain collision"}
 
 
-def _sev_to_mult(sev) -> float:
-    """Internal multiplier — NOT shown to LLM."""
-    if sev is None:
-        return 5.0
-    return _NCAR_MULT.get(str(sev).lower(), 5.0)
-
-
-def _sev_display(sev) -> str:
-    """Human-readable accident description shown to LLM."""
-    if sev is None:
+def _vehicles_display(vehicles) -> str:
+    if vehicles is None:
         return "traffic accident"
-    return _NCAR_DISPLAY.get(str(sev).lower(), str(sev))
+    return _VEHICLES_TEXT.get(int(vehicles), f"{int(vehicles)}-car collision")
 
 
 # ── BKS few-shot examples ─────────────────────────────────────────────────────
@@ -306,20 +285,19 @@ def build_cluster_confidence_prompt(
             t_e = t_s + ev.get('duration', 0)
             mm  = ev.get('rainfall_mm', 10)
             rain_lines.append(
-                f"  Rain_{i}: {mm:.0f}mm/h  t={t_s:.0f}-{t_e:.0f}  "
-                f"cluster stops affected={in_cluster}"
+                f"  [Weather Advisory] Rainfall {mm:.0f}mm/h expected t={t_s:.0f}-{t_e:.0f}, "
+                f"affecting cluster stops {in_cluster}"
             )
 
     acc_lines = []
     for i, ev in enumerate(acc_events):
         in_cluster = [c for c in stops_by_acc.get(i, []) if c in cluster_set]
         if in_cluster:
-            sev  = ev.get('severity', 'high')
             t_s  = ev.get('t_start', 0)
             t_e  = ev.get('t_end',   0)
             acc_lines.append(
-                f"  Acc_{i}: {_sev_display(sev)}  "
-                f"t={t_s:.0f}-{t_e:.0f}  cluster stops on accident edge={in_cluster}"
+                f"  [Traffic Alert] {_vehicles_display(ev.get('vehicles_involved'))} reported "
+                f"t={t_s:.0f}-{t_e:.0f}, affecting cluster stops {in_cluster}"
             )
 
     disruption_section = ""
@@ -333,11 +311,11 @@ def build_cluster_confidence_prompt(
     if acc_lines:
         parts.append(
             "### Accident\n" + "\n".join(acc_lines) +
-            "\nTravel time between the two accident-edge nodes is multiplied during the event window. "
+            "\nTravel time on road segments near the listed stops is multiplied during the event window. "
             "Note: TW_slack shown is based on normal (pre-event) travel times — "
-            "actual slack for stops adjacent to the accident edge may be smaller. "
-            "Strategy: visit both accident-edge nodes before the accident starts, "
-            "or after it ends, or separate them so only one falls inside the event window."
+            "actual slack for stops near the accident may be smaller. "
+            "Strategy: visit affected stops before the accident starts or after it ends if TW allows, "
+            "otherwise expect longer travel time when passing through during the window."
         )
     if parts:
         disruption_section = "\n## Disruption Events (affecting this vehicle's cluster)\n" + "\n\n".join(parts) + "\n"
@@ -557,7 +535,7 @@ def _customer_table_clustered(
         affected = ev.get('affected_nodes', [])
         if len(affected) < 2:
             continue
-        mult = _sev_to_mult(ev.get('severity'))
+        mult = float(ev['multiplier'])
         for c, partner in [(affected[0], affected[1]), (affected[1], affected[0])]:
             if c in all_node_set and c not in acc_slack_override:
                 t_via = float(ont.tt[0, partner]) + float(ont.tt[partner, c]) * mult
@@ -593,7 +571,7 @@ def _customer_table_clustered(
                                        f"t={ev.get('t_start',0):.0f}-{ev.get('t_end',0):.0f})")
                 for i, ev in enumerate(acc_evs):
                     if c in stops_by_acc_all.get(i, set()):
-                        ev_tags.append(f"Acc_{i}({ev.get('severity','')},t="
+                        ev_tags.append(f"Acc_{i}({_vehicles_display(ev.get('vehicles_involved'))},t="
                                        f"{ev.get('t_start',0):.0f}-{ev.get('t_end',0):.0f})")
                 row += f"  {concept_str:<22}  {', '.join(ev_tags) if ev_tags else '-'}"
             rows.append(row)
@@ -741,19 +719,18 @@ def build_all_clusters_prompt(
             t_s = ev.get('trigger_time', 0)
             t_e = t_s + ev.get('duration', 0)
             rain_lines.append(
-                f"  Rain_{i}: {ev.get('rainfall_mm', 10):.0f}mm/h  "
-                f"t={t_s:.0f}-{t_e:.0f}  affected stops={affected}")
+                f"  [Weather Advisory] Rainfall {ev.get('rainfall_mm', 10):.0f}mm/h expected "
+                f"t={t_s:.0f}-{t_e:.0f}, affecting stops {affected}")
 
     acc_lines = []
     for i, ev in enumerate(acc_events_global):
         affected = sorted(stops_by_acc_all.get(i, set()))
         if affected:
-            sev  = ev.get('severity', 'high')
             t_s  = ev.get('t_start', 0)
             t_e  = ev.get('t_end',   0)
             acc_lines.append(
-                f"  Acc_{i}: {_sev_display(sev)}  "
-                f"t={t_s:.0f}-{t_e:.0f}  stops on accident edge={affected}")
+                f"  [Traffic Alert] {_vehicles_display(ev.get('vehicles_involved'))} reported "
+                f"t={t_s:.0f}-{t_e:.0f}, affecting stops {affected}")
 
     disruption_section = ""
     d_parts = []
@@ -766,11 +743,11 @@ def build_all_clusters_prompt(
     if acc_lines:
         d_parts.append(
             "### Accident\n" + "\n".join(acc_lines) +
-            "\nTravel time between the two accident-edge nodes is multiplied during the event window. "
+            "\nTravel time on road segments near the listed stops is multiplied during the event window. "
             "Note: TW_slack shown is based on normal (pre-event) travel times -- "
-            "actual slack for stops adjacent to the accident edge may be smaller. "
-            "Strategy: visit both accident-edge nodes before the accident starts, "
-            "or after it ends, or separate them so only one falls inside the event window."
+            "actual slack for stops near the accident may be smaller. "
+            "Strategy: visit affected stops before the accident starts or after it ends if TW allows, "
+            "otherwise expect longer travel time when passing through during the window."
         )
     if d_parts:
         disruption_section = "\n## Disruption Events\n" + "\n\n".join(d_parts) + "\n"

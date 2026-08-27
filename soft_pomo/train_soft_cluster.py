@@ -76,6 +76,7 @@ from train_vrptw_llm import (
     _get_accidents,
     _make_rain_tokens,
     _make_acc_tokens,
+    _load_model_flexible,
     _inst_tag,
     _set_seed,
 )
@@ -964,7 +965,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         lp     = self.llm_params
         llm_on = lp['enabled']
 
-        rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
+        _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
         no_init_llm = lp.get('no_init_llm', False)
         if llm_on and not no_init_llm:
             self._ensure_soft_cluster_cache(inst)
@@ -987,8 +988,6 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
         batch = make_batch(inst, batch_size, self.device)
         self.env.load_problems(batch)
-        if rain_nodes:
-            self.env.apply_rain(rain_nodes, rain_mult)
 
         reset_state, _, _ = self.env.reset()
         reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, batch_size, self.device)
@@ -1016,7 +1015,6 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         acc_tt_applied   = [False] * len(accident_list)
         acc_tt_restored  = [False] * len(accident_list)
         active_accs      = []
-        pending_accs     = []   # accidents deferred to next step for batched LLM call
 
         # Step 1: deterministic cluster starts (LLM mode) — skipped when free_starts=True or no clusters yet
         free_starts = self.trainer_params.get('free_starts', False)
@@ -1032,30 +1030,24 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         while not done and step < max_steps:
             cur_t = state.current_time.mean().item()
 
-            # ── Deferred LLM refresh: batch all pending accidents from previous step ──
-            if llm_on and pending_accs and cluster_conf is not None:
-                cluster_conf = self._refresh_clusters_accident(
-                    inst, cluster_conf, pending_accs, N
-                )
-                pending_accs = []
+            # NOTE: training instances treat accidents as known from episode start
+            # (same as rain) -- cluster_conf already reflects the accident via the
+            # pre-generated RL-cluster cache, so no mid-episode live LLM refresh here.
+            # (Test-instance evaluation still does the real-time reveal; see _eval_test.)
 
             # ── Accident TT modification + encoder re-encode ──────────────
-            acc_changed      = False
-            acc_just_started = []
+            acc_changed = False
             for i, (accident, fp) in enumerate(accident_list):
                 if not acc_tt_applied[i] and cur_t >= fp['t_start']:
-                    self.env.apply_accident(accident.node_a, accident.node_b, fp['multiplier'])
                     active_accs.append(dict(
-                        nodes=[accident.node_a, accident.node_b],
+                        idx=i, nodes=accident.affected_nodes,
                         t_start=fp['t_start'], t_end=fp['t_end'],
+                        vehicles_involved=fp.get('vehicles_involved'),
                     ))
                     acc_tt_applied[i]  = True
                     acc_changed        = True
-                    acc_just_started.append(accident)
                 elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
-                    self.env.restore_accident(accident.node_a, accident.node_b)
-                    active_accs = [a for a in active_accs
-                                   if a['nodes'] != [accident.node_a, accident.node_b]]
+                    active_accs = [a for a in active_accs if a['idx'] != i]
                     acc_tt_restored[i] = True
                     acc_changed        = True
 
@@ -1064,10 +1056,6 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     active_accs, N, batch_size, self.device
                 )
                 self.model.pre_forward(self.env.reset_state)
-
-            # ── Accumulate new accidents for next-step LLM call ──────────
-            if llm_on and acc_just_started:
-                pending_accs.extend(acc_just_started)
 
             # ── Per-vehicle per-step cluster confidence bias ──────────────
             # rollout i, vehicle j → cluster (i+j) % K
@@ -1181,13 +1169,11 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
             roll_shifts   = torch.arange(pomo_size_eff, device=self.device)
             self.env.pomo_size = pomo_size_eff
 
-            rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
+            _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
             N = self.env.problem_size
 
             batch = make_batch(inst, bs, self.device)
             self.env.load_problems(batch)
-            if rain_nodes:
-                self.env.apply_rain(rain_nodes, rain_mult)
 
             reset_state, _, _ = self.env.reset()
             reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, bs, self.device)
@@ -1226,18 +1212,16 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 acc_just_started = []
                 for i, (accident, fp) in enumerate(accident_list):
                     if not acc_tt_applied[i] and cur_t >= fp['t_start']:
-                        self.env.apply_accident(accident.node_a, accident.node_b, fp['multiplier'])
                         active_accs.append(dict(
-                            nodes=[accident.node_a, accident.node_b],
+                            idx=i, nodes=accident.affected_nodes,
                             t_start=fp['t_start'], t_end=fp['t_end'],
+                            vehicles_involved=fp.get('vehicles_involved'),
                         ))
                         acc_tt_applied[i] = True
                         acc_changed       = True
                         acc_just_started.append(accident)
                     elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
-                        self.env.restore_accident(accident.node_a, accident.node_b)
-                        active_accs = [a for a in active_accs
-                                       if a['nodes'] != [accident.node_a, accident.node_b]]
+                        active_accs = [a for a in active_accs if a['idx'] != i]
                         acc_tt_restored[i] = True
                         acc_changed        = True
 
@@ -1260,6 +1244,8 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     b_idx      = torch.arange(B_sz, device=dev)[:, None].expand(B_sz, P_sz)
                     tt_to_j    = self.env.tt[b_idx.reshape(-1), self.env.current_node.reshape(-1)] \
                                      .reshape(B_sz, P_sz, N1)
+                    tt_to_j    = tt_to_j * self.env._event_multiplier_row(
+                        self.env.current_node, self.env.current_time)
                     arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                     tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                     tw_open    = (arrival_j <= tw_close_j).float()
@@ -1291,7 +1277,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         llm_on = lp['enabled']
         N      = self.env.problem_size
 
-        rain_nodes, rain_mult, rain_evs = _get_rain_nodes_mult_evs(inst)
+        _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
         accident_list = _get_accidents(inst) if llm_on else []
 
         pomo_size_eff = self.trainer_params['pomo_size']
@@ -1310,8 +1296,6 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
         batch = make_batch(inst, 1, self.device)
         self.env.load_problems(batch)
-        if rain_nodes:
-            self.env.apply_rain(rain_nodes, rain_mult)
 
         reset_state, _, _ = self.env.reset()
         reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, 1, self.device)
@@ -1351,18 +1335,16 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
             acc_just_started = []
             for i, (accident, fp) in enumerate(accident_list):
                 if not acc_tt_applied[i] and cur_t >= fp['t_start']:
-                    self.env.apply_accident(accident.node_a, accident.node_b, fp['multiplier'])
                     active_accs.append(dict(
-                        nodes=[accident.node_a, accident.node_b],
+                        idx=i, nodes=accident.affected_nodes,
                         t_start=fp['t_start'], t_end=fp['t_end'],
+                        vehicles_involved=fp.get('vehicles_involved'),
                     ))
                     acc_tt_applied[i]  = True
                     acc_changed        = True
                     acc_just_started.append(accident)
                 elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
-                    self.env.restore_accident(accident.node_a, accident.node_b)
-                    active_accs = [a for a in active_accs
-                                   if a['nodes'] != [accident.node_a, accident.node_b]]
+                    active_accs = [a for a in active_accs if a['idx'] != i]
                     acc_tt_restored[i] = True
                     acc_changed        = True
 
@@ -1383,6 +1365,8 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 b_idx      = torch.arange(B_sz, device=dev)[:, None].expand(B_sz, P_sz)
                 tt_to_j    = self.env.tt[b_idx.reshape(-1), self.env.current_node.reshape(-1)] \
                                  .reshape(B_sz, P_sz, N1)
+                tt_to_j    = tt_to_j * self.env._event_multiplier_row(
+                    self.env.current_node, self.env.current_time)
                 arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                 tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                 tw_open    = (arrival_j <= tw_close_j).float()
@@ -1641,7 +1625,7 @@ def main():
             print(f'[Test] No checkpoint at {ckpt_path}')
             return
         ckpt = torch.load(ckpt_path, map_location=trainer.device)
-        trainer.model.load_state_dict(ckpt['model_state_dict'])
+        _load_model_flexible(trainer.model, ckpt['model_state_dict'])
         trainer.model.eval()
         plots_dir = os.path.join(trainer.result_dir, 'plots')
         os.makedirs(plots_dir, exist_ok=True)
