@@ -350,14 +350,20 @@ def avg_gap(data: dict) -> float:
 # dict {name, mu, text, weight, enabled}; draws are weighted by `weight` among
 # `enabled` levels. Fully overridable via GenConfig(rain_severity=[...], ...).
 DEFAULT_RAIN_SEVERITY = [
-    dict(name="light",    mu=1.05, text="약한 비",     weight=1, enabled=True),
-    dict(name="moderate", mu=1.11, text="비",          weight=1, enabled=True),
-    dict(name="heavy",    mu=1.19, text="호우주의보",  weight=1, enabled=True),
+    dict(name="light",    mu=1.05, mm_per_h=(0.25, 6.4),
+         text="약한 비",    weight=1, enabled=True),
+    dict(name="moderate", mu=1.11, mm_per_h=(6.4, 15.0),
+         text="비",         weight=1, enabled=True),
+    dict(name="heavy",    mu=1.19, mm_per_h=(15.0, 30.0),
+         text="호우주의보", weight=1, enabled=True),
 ]
 DEFAULT_ACC_SEVERITY = [
-    dict(name="minor",    mu=1.20, text="갓길 접촉사고",          weight=1, enabled=True),
-    dict(name="moderate", mu=2.04, text="1개 차로 통제",          weight=1, enabled=True),
-    dict(name="major",    mu=5.88, text="다중 추돌, 2개 차로 통제", weight=1, enabled=True),
+    dict(name="minor",    mu=1.20, vehicles=2, residual_cap=0.83,
+         text="2중 추돌",      weight=1, enabled=True),
+    dict(name="moderate", mu=2.04, vehicles=3, residual_cap=0.49,
+         text="3중 추돌",      weight=1, enabled=True),
+    dict(name="major",    mu=5.88, vehicles=5, residual_cap=0.17,
+         text="5중 연쇄 추돌", weight=1, enabled=True),
 ]
 
 
@@ -471,11 +477,25 @@ def generate_sector_event(
             delta  = min(delta, max(first_arrival - 10.0, cfg.delta_min))
             sigma  = 0.0
         else:
-            sigma = float(rng.uniform(0, max(T - delta, 0.0)))
+            # The event is global information, independent of the delivery
+            # horizon -- it may start before dispatch or begin after every
+            # customer's deadline has passed, not just somewhere strictly
+            # inside [0, T]. Drawing sigma from U(0, T-delta) made pre_clear
+            # and post_service structurally near-impossible (the event was
+            # always fully contained in the horizon), so the natural-mix
+            # (stage 2) label distribution collapsed to ~100% overlap.
+            sigma = float(rng.uniform(-delta, T))
 
+        # sigma/delta (raw, possibly extending outside [0,T]) drive the label;
+        # the simulator only ever sees the clamped-to-horizon window.
         stats = _label_event(data, sec, sector_set, sigma, delta)
         if cfg.force_pre_clear and stats["label"] != "pre_clear":
             continue
+
+        sigma_eff = max(sigma, 0.0)
+        end_eff   = min(sigma + delta, T)
+        if end_eff - sigma_eff < cfg.delta_min:
+            continue   # negligible overlap with the horizon -- redraw
 
         sev = _draw_severity(severity_lv, rng)
         mu  = float(sev["mu"])
@@ -485,20 +505,34 @@ def generate_sector_event(
             type          = "RAIN" if is_rain else "ACCIDENT",
             sectors       = sorted(sector_set),
             sector_names  = [SECTOR_NAMES[s] for s in sorted(sector_set)],
-            trigger_time  = round(sigma, 1),
-            duration      = round(delta, 1),
+            trigger_time  = round(sigma_eff, 1),          # simulator-facing
+            duration      = round(end_eff - sigma_eff, 1),# simulator-facing
+            announce_time = round(sigma, 1),               # info-layer-facing
+            nominal_duration = round(delta, 1),            # info-layer-facing
             multiplier    = mu,
             severity_name = sev["name"],
             severity_text = sev["text"],
             nodes         = nodes,
-            reveal_time   = 0.0 if is_rain else round(sigma, 1),
+            # Accident news breaks at the moment it happens; if that's before
+            # dispatch (sigma < 0) it's simply known from the start (clamp to 0).
+            reveal_time   = 0.0 if is_rain else round(max(sigma, 0.0), 1),
             **stats,   # label, bound_set, n_covered, n_touched
         )
         event["delay_mass"] = delay_mass(data, event, sec=sec)
         if not is_rain:
             event["description"] = sev["text"]
+            # Recorded at generation time (like rainfall_mm for RAIN) so the
+            # observation value never depends on reverse-mapping the multiplier
+            # back to a severity tier at load time -- that mapping would silently
+            # break if mu/severity_weights are ever retuned.
+            event["vehicles_involved"] = sev.get("vehicles")
         else:
-            event["rainfall_mm"] = round(mu * 10.0 + float(rng.uniform(-5, 10)), 0)
+            # Draw from the severity level's own mm/h band -- NOT derived from mu
+            # with added noise (the old `mu*10 + U(-5,10)` scheme had noise wider
+            # than the gap between levels' mu values, so a "light rain" forecast
+            # could read 20mm/h while "heavy rain" read 7mm/h -- self-contradictory).
+            lo, hi = sev.get("mm_per_h", (mu * 10.0, mu * 10.0))
+            event["rainfall_mm"] = round(float(rng.uniform(lo, hi)), 1)
         return event
 
     return None
@@ -1399,7 +1433,7 @@ def _print_lkh_table(
 def write_scenario(data: dict, events: list[dict], scenario_name: str, out_path: str):
     lines      = list(data["base_lines"])
     lines[0]   = scenario_name.upper()
-    lines     += ["", "EVENTS", "# TYPE  TRIGGER_TIME  DURATION  MULTIPLIER/SEVERITY  NODES..."]
+    lines     += ["", "EVENTS", "# TYPE  TRIGGER_TIME  DURATION  MULTIPLIER  OBS(mm|vehicles)  NODES..."]
 
     for ev in events:
         nodes_str = " ".join(str(n) for n in ev["nodes"])
@@ -1409,15 +1443,15 @@ def write_scenario(data: dict, events: list[dict], scenario_name: str, out_path:
                 f"{ev['multiplier']} {ev['rainfall_mm']} {nodes_str}"
             )
         else:
-            # Write the raw multiplier (single token, no whitespace) rather than
-            # a natural-language description: the file format is whitespace-
-            # delimited and severity_text (e.g. "다중 추돌, 2개 차로 통제") would
-            # break column parsing. The existing loader already falls back to
-            # float(token) when the token isn't a known severity-name key, so
-            # this round-trips exactly without touching any downstream parser.
+            # vehicles_involved recorded at generation time (mirrors rainfall_mm
+            # for RAIN) -- observation value never depends on reverse-mapping the
+            # multiplier back to a severity tier at load time, which would break
+            # silently if mu/severity_weights are ever retuned. Multiplier itself
+            # is still written as a single bare token (whitespace-delimited file;
+            # severity_text like "5중 연쇄 추돌" would break column parsing).
             lines.append(
                 f"ACCIDENT {ev['trigger_time']} {ev['duration']} "
-                f"{ev['multiplier']} {nodes_str}"
+                f"{ev['multiplier']} {ev['vehicles_involved']} {nodes_str}"
             )
         lines.append("")
 
@@ -1435,6 +1469,7 @@ def generate_for_instance(
     count: int,
     seed: int | None,
     dry_run: bool,
+    skip_lkh_diag: bool = False,
 ):
     src_path = os.path.join(data_dir, inst_name + ".txt")
     if not os.path.isfile(src_path):
@@ -1446,23 +1481,24 @@ def generate_for_instance(
     T       = data["T"]
     N       = data["n_customers"]
 
-    # Baseline routes: fresh LKH-3 solve (matches no-info eval) → OR-Tools → greedy.
-    # Using the no-info eval's own routes ensures A-type events are placed on
-    # edges/timing that the no-info evaluation actually traverses (otherwise A
-    # silently degenerates into a zero-impact B-type event).
+    # Baseline routes are NO LONGER used for event placement (Part B: placement
+    # is policy-independent, drawn from instance data only -- see
+    # _make_binding_invalid_pair below). They're kept only for the OPTIONAL
+    # post-generation diagnostic print/table (simulate_late preview, LKH
+    # no-info/known table), which costs one or more LKH-3 solves per instance.
+    # Skip entirely for batch generation where only the event FILES are needed.
     baseline_routes = None
-    if not dry_run:
+    if not dry_run and not skip_lkh_diag:
         baseline_routes = _lkh_fresh_routes(src_path)
         if baseline_routes:
-            print(f"  [LKH-3 fresh] {len(baseline_routes)} routes for event placement"
-                  f" (= no-info eval baseline)")
+            print(f"  [LKH-3 fresh] {len(baseline_routes)} routes for diagnostic preview")
         else:
             baseline_routes = _ortools_routes(src_path)
             if baseline_routes:
-                print(f"  [OR-Tools]  {len(baseline_routes)} routes for event placement")
-    if not baseline_routes:
-        baseline_routes = _greedy_routes(data)
-        print(f"  [Greedy]    {len(baseline_routes)} routes for event placement (LKH/OR-Tools skipped)")
+                print(f"  [OR-Tools]  {len(baseline_routes)} routes for diagnostic preview")
+        if not baseline_routes:
+            baseline_routes = _greedy_routes(data)
+            print(f"  [Greedy]    {len(baseline_routes)} routes for diagnostic preview")
 
     # Per-instance late targets scaled by N
     rain_late_min = max(1, int(N * RAIN_LATE_MIN_PCT))
@@ -1550,8 +1586,102 @@ def generate_for_instance(
                 written_paths[sc_name] = out_path
 
         # ── LKH-3 evaluation ─────────────────────────────────────────────────
-        if not dry_run and written_paths:
+        if not dry_run and not skip_lkh_diag and written_paths:
             _print_lkh_table(inst_name, src_path, written_paths, out_dir)
+
+
+# ── 1:1 base/rain/acc pool generation (event-scale spec, superseding A/B) ─────
+
+def generate_pool_events(
+    instance_names: list[str],
+    data_dir: str,
+    out_dir: str,
+    seed: int,
+    dry_run: bool = False,
+) -> dict:
+    """Exactly one RAIN and one ACCIDENT event per base instance (no A/B pair):
+    base_i's own time windows are left untouched; only an EVENTS block is
+    appended, so {inst}_rain / {inst}_acc differ from {inst} ONLY in the event.
+    All draws are stage-1 filtered (label=="overlap" and n_covered>=1).
+
+    Returns a diagnostics dict (severity/n_covered/delay_mass/sector/retry
+    distributions) for the generation-scale report.
+    """
+    cfg = GenConfig()
+    diag: dict = {k: [] for k in (
+        'rain_severity', 'acc_severity', 'rain_n_covered', 'acc_n_covered',
+        'rain_delay_mass', 'acc_delay_mass', 'rain_sectors', 'acc_sectors',
+        'rain_retries', 'acc_retries', 'failures',
+    )}
+
+    for idx, inst_name in enumerate(instance_names):
+        src_path = os.path.join(data_dir, inst_name + '.txt')
+        if not os.path.isfile(src_path):
+            print(f'  [SKIP] {src_path} not found')
+            continue
+        data = load_raw(src_path)
+        sec  = sector_of(data, cfg.n_sectors_total)
+        # idx (not hash()) keeps this reproducible across separate process runs.
+        rng  = np.random.default_rng(seed * 1000 + idx)
+
+        for kind, sev_k, ncov_k, dm_k, sec_k, retry_k, suffix, wave_fn in (
+            ('RAIN',      'rain_severity', 'rain_n_covered', 'rain_delay_mass',
+             'rain_sectors', 'rain_retries', 'rain', None),
+            ('ACCIDENT',  'acc_severity',  'acc_n_covered',  'acc_delay_mass',
+             'acc_sectors',  'acc_retries',  'acc',  generate_accident_wave),
+        ):
+            ev, tries = None, 0
+            for tries in range(1, 201):
+                cand = generate_sector_event(data, kind, cfg, rng, sec=sec)
+                if cand is not None and select_stage([cand], 1):
+                    ev = cand
+                    break
+            if ev is None:
+                print(f'  [WARN] {inst_name}: no stage-1 {kind} event found after {tries} tries')
+                diag['failures'].append((inst_name, kind))
+                continue
+
+            events = [ev] if wave_fn is None else (wave_fn(data, cfg, rng, sec=sec) or [ev])
+            diag[sev_k].append(ev['severity_name'])
+            diag[ncov_k].append(ev['n_covered'])
+            diag[dm_k].append(ev['delay_mass'])
+            diag[sec_k].extend(ev['sectors'])
+            diag[retry_k].append(tries)
+
+            name = f'{inst_name}_{suffix}'
+            print(f'  [{name}] sectors={ev["sectors"]} sev={ev["severity_name"]} '
+                  f'mu={ev["multiplier"]} n_covered={ev["n_covered"]} '
+                  f'delay_mass={ev["delay_mass"]:.0f}  (tries={tries})')
+            if not dry_run:
+                write_scenario(data, events, name, os.path.join(out_dir, name + '.txt'))
+
+    return diag
+
+
+def print_pool_diagnostics(diag: dict, family_label: str) -> None:
+    """Part §7 Step 3: label/severity/n_covered/delay_mass/sector/retry report."""
+    print(f'\n{"=" * 60}\n  Diagnostics [{family_label}]\n{"=" * 60}')
+    for kind, sev_k, ncov_k, dm_k, sec_k, retry_k in (
+        ('RAIN', 'rain_severity', 'rain_n_covered', 'rain_delay_mass', 'rain_sectors', 'rain_retries'),
+        ('ACCIDENT', 'acc_severity', 'acc_n_covered', 'acc_delay_mass', 'acc_sectors', 'acc_retries'),
+    ):
+        sevs = diag[sev_k]
+        if not sevs:
+            print(f'  {kind}: no successful draws')
+            continue
+        counts = {s: sevs.count(s) for s in sorted(set(sevs))}
+        ncov = diag[ncov_k]
+        dm   = diag[dm_k]
+        sect = diag[sec_k]
+        sect_counts = {s: sect.count(s) for s in range(8)}
+        print(f'  {kind}  (n={len(sevs)})')
+        print(f'    severity     : {counts}')
+        print(f'    n_covered    : min={min(ncov)}  median={sorted(ncov)[len(ncov)//2]}  max={max(ncov)}')
+        print(f'    delay_mass   : min={min(dm):.0f}  median={sorted(dm)[len(dm)//2]:.0f}  max={max(dm):.0f}')
+        print(f'    sector hits  : {sect_counts}')
+        print(f'    avg retries  : {sum(diag[retry_k]) / len(diag[retry_k]):.1f}')
+    if diag['failures']:
+        print(f'  [WARN] failures: {diag["failures"]}')
 
 
 # ── M_base / M_true_hist LKH-3 baseline evaluation ────────────────────────────
@@ -1572,15 +1702,20 @@ def _compute_time_avg_tt(base_tt: np.ndarray, events_raw: list, T: float) -> np.
         if t_e <= t_s:
             continue
         if len(nodes) == 2:
+            # Legacy single-edge accident format (exactly 2 endpoint nodes).
             a, b = int(nodes[0]), int(nodes[1])
             if a < n and b < n:
                 factor[a, b] = max(factor[a, b], float(mult))
                 factor[b, a] = max(factor[b, a], float(mult))
         else:
+            # Sector/zone format (Part B): OR-rule -- an arc is affected if
+            # EITHER endpoint is in the zone (matches _arc_in_zone/travel_time;
+            # the old AND-rule here, requiring BOTH endpoints in the zone,
+            # silently left every arc entering/leaving the zone at full speed).
             ns = set(int(x) for x in nodes if int(x) < n)
-            for i in ns:
-                for j in ns:
-                    if i != j:
+            for i in range(n):
+                for j in range(n):
+                    if i != j and (i in ns or j in ns):
                         factor[i, j] = max(factor[i, j], float(mult))
     return base_tt * factor
 
@@ -1739,6 +1874,10 @@ def main():
     parser.add_argument("--random", action="store_true",
                         help="Generate random (non-route-targeted) rain+acc scenarios instead of A/B pairs. "
                              "Produces {inst}_rand_rain.txt and {inst}_rand_acc.txt per scenario.")
+    parser.add_argument("--skip-lkh-diag", action="store_true",
+                        help="Skip the per-instance LKH-3 diagnostic preview/table (baseline_routes "
+                             "is no longer used for placement, only for this optional report) -- "
+                             "makes batch generation across many instances fast (no LKH calls).")
     args = parser.parse_args()
 
     # R1xx override: use R-type defaults if --r1 and no explicit instances given
@@ -1766,6 +1905,7 @@ def main():
             generate_for_instance(
                 inst, args.data_dir, args.out_dir,
                 args.count, args.seed, args.list,
+                skip_lkh_diag=args.skip_lkh_diag,
             )
 
     if args.benchmark and not args.list:
