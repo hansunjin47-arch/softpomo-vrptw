@@ -992,6 +992,10 @@ class VRPTWLLMTrainer:
         bs        = self.trainer_params.get('test_batch_size', 1)
 
         for inst in self.test_pool:
+            _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
+            accident_list  = _get_accidents(inst) if llm_on else []
+            N              = self.env.problem_size
+
             if llm_on:
                 self._ensure_llm_cache(inst)
                 bias_t = self._build_bias_tensor(inst)
@@ -1008,6 +1012,8 @@ class VRPTWLLMTrainer:
             batch = make_batch(inst, bs, self.device)
             self.env.load_problems(batch)
             reset_state, _, _ = self.env.reset()
+            reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, bs, self.device)
+            reset_state.acc_tokens  = _make_acc_tokens([], N, bs, self.device)
             self.model.pre_forward(reset_state)
             state, reward, done = self.env.pre_step()
 
@@ -1024,7 +1030,29 @@ class VRPTWLLMTrainer:
             else:
                 step = 1
 
+            acc_tt_applied  = [False] * len(accident_list)
+            acc_tt_restored = [False] * len(accident_list)
+            active_accs     = []
             while not done and step < max_steps:
+                cur_t = state.current_time.mean().item()
+                acc_changed = False
+                for i, (accident, fp) in enumerate(accident_list):
+                    if not acc_tt_applied[i] and cur_t >= fp['t_start']:
+                        active_accs.append(dict(
+                            idx=i, nodes=accident.affected_nodes,
+                            t_start=fp['t_start'], t_end=fp['t_end'],
+                            vehicles_involved=fp.get('vehicles_involved'),
+                        ))
+                        acc_tt_applied[i] = True
+                        acc_changed       = True
+                    elif acc_tt_applied[i] and not acc_tt_restored[i] and cur_t >= fp['t_end']:
+                        active_accs = [a for a in active_accs if a['idx'] != i]
+                        acc_tt_restored[i] = True
+                        acc_changed        = True
+                if acc_changed:
+                    reset_state.acc_tokens = _make_acc_tokens(active_accs, N, bs, self.device)
+                    self.model.pre_forward(reset_state)
+
                 if llm_on and bias_t is not None:
                     at_depot = (state.current_node == 0).float().unsqueeze(-1)
                     sel, _ = self.model(state, llm_bias=bias_t * at_depot)

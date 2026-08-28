@@ -880,12 +880,39 @@ class VRPTWTrainer:
             if self.trainer_params.get('pomo_auto', False):
                 self.env.pomo_size = math.ceil(float(inst['node_demand'].sum().item()))
             batch = make_batch(inst, self.trainer_params.get('test_batch_size', 1), self.device)
+            batch_size = self.trainer_params.get('test_batch_size', 1)
+            N = inst['n_customers']
+
+            _, _, rain_evs = _get_rain_event(inst)
+            acc_evs = _get_accident_events(inst)
+
             self.env.load_problems(batch)
             reset_state, _, _ = self.env.reset()
+            reset_state.rain_tokens = _make_rain_tokens(inst, rain_evs, batch_size, self.device)
+            reset_state.acc_tokens  = _make_acc_tokens([], N, batch_size, self.device)
             self.model.pre_forward(reset_state)
             state, reward, done = self.env.pre_step()
+
+            acc_applied  = [False] * len(acc_evs)
+            acc_restored = [False] * len(acc_evs)
+            active_accs  = []
             step = 0
             while not done and step < self.trainer_params.get('max_steps', 600):
+                cur_t = state.current_time.mean().item()
+                acc_changed = False
+                for i, ae in enumerate(acc_evs):
+                    if not acc_applied[i] and cur_t >= ae['t_start']:
+                        active_accs.append(ae)
+                        acc_applied[i] = True
+                        acc_changed = True
+                    elif acc_applied[i] and not acc_restored[i] and cur_t >= ae['t_end']:
+                        active_accs = [a for a in active_accs if a is not ae]
+                        acc_restored[i] = True
+                        acc_changed = True
+                if acc_changed:
+                    reset_state.acc_tokens = _make_acc_tokens(active_accs, N, batch_size, self.device)
+                    self.model.pre_forward(reset_state)
+
                 sel, _ = self.model(state)
                 state, reward, done = self.env.step(sel)
                 step += 1
