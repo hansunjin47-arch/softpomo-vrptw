@@ -154,7 +154,14 @@ def parse_rain_events(path: str) -> List[Tuple[float, float, float, List[int]]]:
                 nodes    = [int(x) for x in parts[5:]]   # parts[4]=radius, nodes from parts[5]
                 events.append((trigger, duration, mult, nodes))
             elif upper.startswith("ACCIDENT"):
-                # ACCIDENT trigger duration <desc|mult> node1 node2
+                # Current format: ACCIDENT trigger duration mult vehicles_involved node1 node2 ...
+                # (vehicles_involved recorded at generation time, mirrors rainfall_mm for RAIN).
+                # Legacy named-severity format (no vehicles field): ACCIDENT trigger duration
+                # <low|medium|high|...> node1 node2 ... -- NOT distinguishable from the current
+                # format by position alone (node IDs are integers too), so as in
+                # vrptw_env.py's loader, bare-float-multiplier-without-vehicles legacy files
+                # (old *_acc_A/_B, *_rand_acc_*) are accepted dead-path breakage: they are not
+                # referenced by this project's current generation/training pipeline.
                 trigger  = float(parts[1])
                 duration = float(parts[2])
                 _ACC_MULT = {
@@ -163,10 +170,11 @@ def parse_rain_events(path: str) -> List[Tuple[float, float, float, List[int]]]:
                 }
                 raw = parts[3]
                 try:
-                    mult = float(raw)
+                    mult  = float(raw)
+                    nodes = [int(x) for x in parts[5:]]   # parts[4] = vehicles_involved
                 except ValueError:
-                    mult = _ACC_MULT.get(raw.lower(), 5.0)
-                nodes    = [int(x) for x in parts[4:]]
+                    mult  = _ACC_MULT.get(raw.lower(), 5.0)
+                    nodes = [int(x) for x in parts[4:]]
                 events.append((trigger, duration, mult, nodes))
     return events
 
@@ -478,7 +486,8 @@ def evaluate_routes_with_rain(
         mult = 1.0
         for trigger, duration, m, nodes in rain_events:
             if cur_time >= trigger and cur_time < trigger + duration:
-                if src in set(nodes) and dst in set(nodes):
+                ns = set(nodes)
+                if src in ns or dst in ns:
                     mult = max(mult, m)
         return base * mult
 
