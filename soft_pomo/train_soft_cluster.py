@@ -111,6 +111,10 @@ RESULT_DIR = os.path.join(_HERE, 'result_soft')
 env_params     = dict(_base_env_params)
 trainer_params = dict(_base_trainer_params)
 trainer_params['result_dir'] = RESULT_DIR
+# 'rl' (current research direction): clusters from RL-derived routes, missing
+# cache is a hard error. 'kim2006': original geographic-clustering pipeline,
+# live clustering + LLM call. Set explicitly per script -- never mixed silently.
+trainer_params['cluster_mode'] = 'rl'
 llm_params     = dict(_base_llm_params)
 llm_params['soft_clustering'] = True   # flag for this architecture
 
@@ -384,7 +388,21 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         self._ensure_soft_cluster_cache(inst, force_refresh)
 
     def _ensure_soft_cluster_cache(self, inst: dict, force_refresh: bool = False):
-        """Cluster customers, call LLM per cluster, cache (K, N+1) confidence tensor."""
+        """Cluster customers, call LLM per cluster, cache (K, N+1) confidence tensor.
+
+        cluster_mode (trainer_params, default 'rl') selects between two
+        deliberate, mutually exclusive pipelines -- never a silent runtime
+        fallback between them:
+          'rl'      : clusters come from RL-derived routes. If the cache for an
+                      instance doesn't exist, that's a real gap (generate it
+                      first) -- raises rather than silently substituting a
+                      different clustering method.
+          'kim2006' : clusters come from live Kim(2006) geographic clustering
+                      + an LLM call, the original first-implemented pipeline.
+        Mixing the two silently (e.g. falling back to kim2006 because an RL
+        cache happened to be missing) is exactly what let a contaminated RL
+        cluster cache go undetected in the past -- see git history.
+        """
         name   = inst['name']
         is_acc = 'ACC' in name.upper()
 
@@ -393,15 +411,110 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
         lp = self.llm_params
         N  = inst['n_customers']
+        cluster_mode = self.trainer_params.get('cluster_mode', 'rl')
+        if cluster_mode not in ('rl', 'kim2006'):
+            raise ValueError(f"cluster_mode must be 'rl' or 'kim2006', got {cluster_mode!r}")
 
         # ACC instances: reuse base clusters + confidence at episode start.
         # Post-accident scores are pre-generated here (like BASE/RAIN) and cached to disk.
         # _refresh_clusters_accident loads the cache and applies visited mask per episode.
         if is_acc:
-            # ACC-specific rl_cluster takes highest priority
-            _rl_acc_path = os.path.join(self._llm_cache_dir, f'{name}_rl_cluster.json')
-            if os.path.isfile(_rl_acc_path) and not force_refresh:
-                with open(_rl_acc_path, encoding='utf-8') as f:
+            base_key = name.split('_')[0]
+
+            if cluster_mode == 'rl':
+                _rl_acc_path = os.path.join(self._llm_cache_dir, f'{name}_rl_cluster.json')
+                if os.path.isfile(_rl_acc_path) and not force_refresh:
+                    with open(_rl_acc_path, encoding='utf-8') as f:
+                        cached = json.load(f)
+                    clusters, flat_conf = _parse_cluster_cache(cached)
+                    K_actual = len(clusters)
+                    built = self._build_cluster_conf_tensor(clusters, flat_conf, K_actual, N)
+                    self._cluster_assign_cache[name]  = clusters
+                    self._cluster_conf_cache[name]    = built
+                    self._original_cluster_conf[name] = built.clone()
+                    print(f'  [Cluster cache] loaded {name} (rl_acc): {K_actual} clusters')
+                    return
+
+                if base_key not in self._cluster_assign_cache:
+                    _rl_base = os.path.join(self._llm_cache_dir, f'{base_key}_rl_cluster.json')
+                    if os.path.isfile(_rl_base):
+                        with open(_rl_base, encoding='utf-8') as f:
+                            bd = json.load(f)
+                        clusters_b, flat_conf_b = _parse_cluster_cache(bd)
+                        K_b = len(clusters_b)
+                        built_b = self._build_cluster_conf_tensor(clusters_b, flat_conf_b, K_b, N)
+                        self._cluster_assign_cache[base_key]  = clusters_b
+                        self._cluster_conf_cache[base_key]    = built_b
+                        self._original_cluster_conf[base_key] = built_b.clone()
+                if base_key not in self._cluster_assign_cache:
+                    raise RuntimeError(
+                        f'ACC {name}: no RL cluster cache found for base {base_key} '
+                        f'(cluster_mode=rl). Generate it first.'
+                    )
+            else:  # cluster_mode == 'kim2006'
+                _acc_path = os.path.join(self._llm_cache_dir, f'{name}_cluster.json')
+                if os.path.isfile(_acc_path) and not force_refresh:
+                    with open(_acc_path, encoding='utf-8') as f:
+                        cached = json.load(f)
+                    clusters, flat_conf = _parse_cluster_cache(cached)
+                    K_actual = len(clusters)
+                    built = self._build_cluster_conf_tensor(clusters, flat_conf, K_actual, N)
+                    self._cluster_assign_cache[name]  = clusters
+                    self._cluster_conf_cache[name]    = built
+                    self._original_cluster_conf[name] = built.clone()
+                    print(f'  [Cluster cache] loaded {name} (kim2006_acc): {K_actual} clusters')
+                    return
+
+                if base_key not in self._cluster_assign_cache:
+                    base_disk = os.path.join(self._llm_cache_dir, f'{base_key}_cluster.json')
+                    if os.path.isfile(base_disk):
+                        with open(base_disk, encoding='utf-8') as f:
+                            bd = json.load(f)
+                        clusters_b, flat_conf_b = _parse_cluster_cache(bd)
+                        K_b = len(clusters_b)
+                        built_b = self._build_cluster_conf_tensor(clusters_b, flat_conf_b, K_b, N)
+                        self._cluster_assign_cache[base_key]  = clusters_b
+                        self._cluster_conf_cache[base_key]    = built_b
+                        self._original_cluster_conf[base_key] = built_b.clone()
+                if base_key not in self._cluster_assign_cache:
+                    raise RuntimeError(
+                        f'ACC {name}: no Kim(2006) cluster cache found for base {base_key} '
+                        f'(cluster_mode=kim2006). It should have been built when the base '
+                        f'instance was first processed.'
+                    )
+
+            clusters_b  = self._cluster_assign_cache[base_key]
+            conf_tensor = self._cluster_conf_cache[base_key]
+
+            # Pre-generate post-accident cache only for training instances.
+            # Test instances call LLM in real-time at accident trigger (deployment behavior).
+            is_test = name.upper() in self._test_instance_names
+            if not is_test and lp.get('enabled', True):
+                flat_conf_b = {n: conf_tensor[k, n].item()
+                               for k, nodes in enumerate(clusters_b)
+                               for n in nodes if 1 <= n <= N}
+                self._gen_acc_cache(inst, clusters_b, flat_conf_b, N, name)
+
+            base_conf = self._cluster_conf_cache[base_key]
+            self._cluster_assign_cache[name]  = clusters_b
+            self._cluster_conf_cache[name]    = base_conf.clone()
+            self._original_cluster_conf[name] = base_conf.clone()
+            print(f'  [Cache] {name}: reusing {base_key} clusters+confidence (acc pre-generated)')
+            return
+
+        # Number of clusters = theoretical minimum vehicles
+        K = math.ceil(float(inst['node_demand'].sum().item()))
+        K = max(1, K)
+
+        if cluster_mode == 'rl':
+            # RL cluster cache (instance-specific first, then base key). No
+            # fallback to a different clustering method if missing -- raise.
+            _base_key_for_rl = name.split('_')[0]
+            _rl_path_inst = os.path.join(self._llm_cache_dir, f'{name}_rl_cluster.json')
+            _rl_path_base = os.path.join(self._llm_cache_dir, f'{_base_key_for_rl}_rl_cluster.json')
+            _rl_path = _rl_path_inst if os.path.isfile(_rl_path_inst) else _rl_path_base
+            if os.path.isfile(_rl_path) and not force_refresh:
+                with open(_rl_path, encoding='utf-8') as f:
                     cached = json.load(f)
                 clusters, flat_conf = _parse_cluster_cache(cached)
                 K_actual = len(clusters)
@@ -409,66 +522,16 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 self._cluster_assign_cache[name]  = clusters
                 self._cluster_conf_cache[name]    = built
                 self._original_cluster_conf[name] = built.clone()
-                print(f'  [Cluster cache] loaded {name} (rl_acc): {K_actual} clusters')
+                src = 'rl_instance' if os.path.isfile(_rl_path_inst) else 'rl_base'
+                print(f'  [Cluster cache] loaded {name} ({src}): {K_actual} clusters')
                 return
+            raise RuntimeError(
+                f'{name}: no RL cluster cache found at {_rl_path_inst} or {_rl_path_base} '
+                f'(cluster_mode=rl). Generate it first.'
+            )
 
-            base_key = name.split('_')[0]
-            if base_key not in self._cluster_assign_cache:
-                # Base not yet in memory — load its disk cache first (RL cache takes priority)
-                _rl_base = os.path.join(self._llm_cache_dir, f'{base_key}_rl_cluster.json')
-                base_cache = _rl_base if os.path.isfile(_rl_base) else os.path.join(self._llm_cache_dir, f'{base_key}_cluster.json')
-                if os.path.isfile(base_cache):
-                    with open(base_cache, encoding='utf-8') as f:
-                        bd = json.load(f)
-                    clusters_b, flat_conf_b = _parse_cluster_cache(bd)
-                    K_b = len(clusters_b)
-                    built_b = self._build_cluster_conf_tensor(clusters_b, flat_conf_b, K_b, N)
-                    self._cluster_assign_cache[base_key]  = clusters_b
-                    self._cluster_conf_cache[base_key]    = built_b
-                    self._original_cluster_conf[base_key] = built_b.clone()
-            if base_key in self._cluster_assign_cache:
-                clusters_b  = self._cluster_assign_cache[base_key]
-                conf_tensor = self._cluster_conf_cache[base_key]
-
-                # Pre-generate post-accident cache only for training instances.
-                # Test instances call LLM in real-time at accident trigger (deployment behavior).
-                is_test = name.upper() in self._test_instance_names
-                if not is_test and lp.get('enabled', True):
-                    flat_conf_b = {n: conf_tensor[k, n].item()
-                                   for k, nodes in enumerate(clusters_b)
-                                   for n in nodes if 1 <= n <= N}
-                    self._gen_acc_cache(inst, clusters_b, flat_conf_b, N, name)
-
-                base_conf = self._cluster_conf_cache[base_key]
-                self._cluster_assign_cache[name]  = clusters_b
-                self._cluster_conf_cache[name]    = base_conf.clone()
-                self._original_cluster_conf[name] = base_conf.clone()
-                print(f'  [Cache] {name}: reusing {base_key} clusters+confidence (acc pre-generated)')
-                return
-            raise RuntimeError(f'ACC {name}: base {base_key} cache not found')
-
-        # Number of clusters = theoretical minimum vehicles
-        K = math.ceil(float(inst['node_demand'].sum().item()))
-        K = max(1, K)
-
-        # RL cluster cache takes highest priority (instance-specific first, then base key)
-        _base_key_for_rl = name.split('_')[0]
-        _rl_path_inst = os.path.join(self._llm_cache_dir, f'{name}_rl_cluster.json')
-        _rl_path_base = os.path.join(self._llm_cache_dir, f'{_base_key_for_rl}_rl_cluster.json')
-        _rl_path = _rl_path_inst if os.path.isfile(_rl_path_inst) else _rl_path_base
-        if os.path.isfile(_rl_path) and not force_refresh:
-            with open(_rl_path, encoding='utf-8') as f:
-                cached = json.load(f)
-            clusters, flat_conf = _parse_cluster_cache(cached)
-            K_actual = len(clusters)
-            built = self._build_cluster_conf_tensor(clusters, flat_conf, K_actual, N)
-            self._cluster_assign_cache[name]  = clusters
-            self._cluster_conf_cache[name]    = built
-            self._original_cluster_conf[name] = built.clone()
-            src = 'rl_instance' if os.path.isfile(_rl_path_inst) else 'rl_base'
-            print(f'  [Cluster cache] loaded {name} ({src}): {K_actual} clusters')
-            return
-
+        # cluster_mode == 'kim2006': disk cache (fewshot or plain), else a fresh
+        # Kim(2006) clustering + LLM call -- both intentional parts of this mode.
         fewshot_path = os.path.join(self._llm_cache_dir, f'{name}_fewshot_cluster.json')
         cache_path   = os.path.join(self._llm_cache_dir, f'{name}_cluster.json')
         use_fewshot  = lp.get('use_fewshot_cache', False)
