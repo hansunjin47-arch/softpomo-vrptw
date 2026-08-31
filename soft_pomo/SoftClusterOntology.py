@@ -28,8 +28,11 @@ ABox additions
 """
 from __future__ import annotations
 
+import os
+import json
 import numpy as np
 from collections import defaultdict, deque
+from dataclasses import dataclass, asdict
 from typing import Dict, List, Optional, Set
 
 
@@ -205,6 +208,80 @@ class EpisodeStatsTracker:
 
 
 episode_tracker = EpisodeStatsTracker()
+
+
+# ── Ontology-upgrade Phase 1 diagnostic logging (design doc Part I) ──────────
+
+def base_of(name: str) -> str:
+    """'CH01_RAIN' -> 'CH01'. CH01/CH01_ACC/CH01_RAIN share coords+TW, differ
+    only in event -- diagnostics (§8.4 leave-one-out) must exclude by base,
+    not by exact instance name."""
+    return name.split('_')[0]
+
+
+@dataclass
+class EpisodeLog:
+    instance: str
+    epoch:    int
+    rollout:  int                    # POMO rollout index p
+
+    routes:   list                   # list[list[int]]
+
+    arrival:  dict                   # {node: arrival_time}
+    wait:     dict                   # {node: max(0, tw_open - arrival)}
+    late_by:  dict                   # {node: max(0, service_start - tw_close)}
+    served:   dict                   # {node: bool}
+
+    reward: float
+    K: int
+    D: float
+    Lc: int
+    Lt: float
+
+
+class PhaseOneEpisodeLogger:
+    """Collects EpisodeLog records for the diagnostics in design doc Part II.
+
+    Two capture modes, both gated to epoch in [start_epoch, end_epoch]
+    (design doc §2: only the tail of Phase 1 training, not the whole run --
+    the early epochs mix "policy still learning" with "structural limit"):
+
+      - sampled: ONE representative (best-reward) rollout per instance,
+        every `sample_every` epochs. Cheap; enough for §6/§7/§8 (chain
+        length, chain-start attribution, concept-signature discrimination),
+        which aggregate over many episodes rather than needing simultaneous
+        rollouts.
+      - full: ALL pomo rollouts per instance, for the last `full_epochs`
+        epochs only. Needed for §5 cluster-consensus (co-assignment across
+        rollouts within one epoch) and its §5.3 stability check across the
+        last 5 epochs.
+
+    Writes append-only JSONL, one file per instance, so a crash mid-run
+    loses at most the in-flight record (no large in-memory buffer to lose).
+    """
+
+    def __init__(self, out_dir: str, start_epoch: int, end_epoch: int,
+                 sample_every: int = 10, full_epochs: int = 5):
+        self.out_dir      = out_dir
+        self.start_epoch  = start_epoch
+        self.end_epoch    = end_epoch
+        self.sample_every = sample_every
+        self.full_epochs  = full_epochs
+        os.makedirs(out_dir, exist_ok=True)
+
+    def active(self, epoch: int) -> bool:
+        return self.start_epoch <= epoch <= self.end_epoch
+
+    def wants_full(self, epoch: int) -> bool:
+        return epoch > self.end_epoch - self.full_epochs
+
+    def wants_sampled(self, epoch: int) -> bool:
+        return (epoch - self.start_epoch) % self.sample_every == 0
+
+    def log(self, record: EpisodeLog) -> None:
+        path = os.path.join(self.out_dir, f'{record.instance}.jsonl')
+        with open(path, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(asdict(record)) + '\n')
 
 
 # ── SoftClusterOntology ───────────────────────────────────────────────────────
