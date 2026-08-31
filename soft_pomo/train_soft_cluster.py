@@ -95,7 +95,7 @@ import train_vrptw as _base_config
 from SoftClusterLLMModule import (get_cluster_confidence, refresh_cluster_confidence,
                                   get_all_clusters_confidence, build_bks_fewshot_block,
                                   build_rl_fewshot_block)
-from SoftClusterOntology import episode_tracker
+from SoftClusterOntology import episode_tracker, base_of, EpisodeLog, PhaseOneEpisodeLogger
 
 try:
     import mlflow
@@ -115,6 +115,18 @@ trainer_params['result_dir'] = RESULT_DIR
 # cache is a hard error. 'kim2006': original geographic-clustering pipeline,
 # live clustering + LLM call. Set explicitly per script -- never mixed silently.
 trainer_params['cluster_mode'] = 'rl'
+# 'cluster' (original): deterministic per-cluster starts (_det_starts) + cyclic
+# vehicle->cluster assignment that varies by rollout index (roll_shifts) -- this
+# couples POMO's rollout-diversity axis to bias difficulty, confounding the mean
+# -of-rollouts baseline used for advantage (some rollouts get structurally easier
+# /harder cluster-visit schedules than others, for reasons unrelated to policy
+# quality). 'node': free/diverse starts identical to pure RL (no _det_starts, no
+# cluster/vehicle bookkeeping) + a single flat per-node confidence bias applied
+# uniformly to every rollout and every vehicle -- removes the confound entirely,
+# at the cost of no longer structurally enforcing "vehicle k serves cluster k"
+# during rollout (confidence becomes a pure per-node priority hint). Set
+# explicitly per script -- never mixed silently.
+trainer_params['bias_mode'] = 'cluster'
 llm_params     = dict(_base_llm_params)
 llm_params['soft_clustering'] = True   # flag for this architecture
 
@@ -140,6 +152,25 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         self._cluster_conf_cache:    dict[str, torch.Tensor]    = {}
         self._original_cluster_conf: dict[str, torch.Tensor]    = {}
         self._timing = {'llm_init': 0.0, 'llm_refresh': 0.0, 'rl_train': 0.0}
+        # Ontology-upgrade Phase 1 diagnostic logging (design doc Part I) -- off
+        # by default; enabled via trainer_p['episode_log_enabled'].
+        self._current_epoch  = 0
+        self._phase1_logger  = None
+        if trainer_p.get('episode_log_enabled', False):
+            _epochs   = trainer_p.get('epochs', 500)
+            _out_dir  = trainer_p.get('episode_log_dir') or os.path.join(
+                trainer_p.get('result_dir', 'result_soft'), 'episode_log')
+            self._phase1_logger = PhaseOneEpisodeLogger(
+                out_dir=_out_dir,
+                start_epoch=trainer_p.get('episode_log_start_epoch', max(1, _epochs - 100 + 1)),
+                end_epoch=trainer_p.get('episode_log_end_epoch', _epochs),
+                sample_every=trainer_p.get('episode_log_sample_every', 10),
+                full_epochs=trainer_p.get('episode_log_full_epochs', 5),
+            )
+            print(f"[Phase1Log] enabled: epochs [{self._phase1_logger.start_epoch}, "
+                  f"{self._phase1_logger.end_epoch}], sampled every "
+                  f"{self._phase1_logger.sample_every}, full rollouts for last "
+                  f"{self._phase1_logger.full_epochs} epochs -> {_out_dir}")
         # Test instances use real-time LLM on accident — no pre-generation
         self._test_instance_names = {n.upper() for n in trainer_p.get('test_instances', [])}
         self._acc_prompt_counter: dict[str, int] = {}
@@ -378,6 +409,56 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
 
         unserved = [n for n in range(1, N + 1) if n not in visited]
         return unserved, list(late), late_times, K, total_dist
+
+    @staticmethod
+    def _compute_episode_detail(inst: dict, routes: list) -> dict:
+        """Superset of _compute_late_unserved: also returns per-node arrival/wait,
+        needed for the ontology-upgrade diagnostics (design doc §1, §6, §7) --
+        late-chain analysis needs both to tell whether waiting absorbed a delay."""
+        import numpy as np
+        T        = float(inst['T'])
+        tt       = inst['tt'].cpu().numpy() * T
+        tw_open  = np.concatenate([inst['depot_tw_open'].numpy() * T,
+                                   inst['node_tw_open'].numpy()  * T])
+        tw_close = np.concatenate([inst['depot_tw_close'].numpy() * T,
+                                   inst['node_tw_close'].numpy()  * T])
+        service  = np.concatenate([inst['depot_service'].numpy() * T,
+                                   inst['node_service'].numpy()  * T])
+        N = inst['n_customers']
+
+        arrival: dict = {}
+        wait:    dict = {}
+        late_by: dict = {}
+        visited: set  = set()
+        total_dist = 0.0
+        K = 0
+
+        for route in routes:
+            if not route:
+                continue
+            K += 1
+            cur, cur_time = 0, float(tw_open[0])
+            for node in route:
+                if node == 0:
+                    continue
+                visited.add(node)
+                total_dist += float(tt[cur, node])
+                arr       = cur_time + float(tt[cur, node])
+                w         = max(0.0, float(tw_open[node]) - arr)
+                svc_start = arr + w
+                lateness  = max(0.0, svc_start - float(tw_close[node]))
+                arrival[node] = round(arr, 4)
+                wait[node]    = round(w, 4)
+                late_by[node] = round(lateness, 4)
+                cur_time = svc_start + float(service[node])
+                cur      = node
+            total_dist += float(tt[cur, 0])
+
+        served = {n: (n in visited) for n in range(1, N + 1)}
+        Lc = sum(1 for v in late_by.values() if v > 1e-6)
+        Lt = sum(v for v in late_by.values() if v > 1e-6)
+        return dict(arrival=arrival, wait=wait, late_by=late_by, served=served,
+                    K=K, D=round(total_dist, 4), Lc=Lc, Lt=round(Lt, 2))
 
     # ------------------------------------------------------------------
     # LLM cluster confidence cache (replaces _ensure_llm_cache)
@@ -1079,9 +1160,24 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         acc_tt_restored  = [False] * len(accident_list)
         active_accs      = []
 
-        # Step 1: deterministic cluster starts (LLM mode) — skipped when free_starts=True or no clusters yet
+        # bias_mode='cluster' (default): deterministic per-cluster starts + cyclic
+        #   vehicle->cluster assignment that varies by rollout index (roll_shifts) --
+        #   this is what created the POMO-baseline confound (see design discussion:
+        #   different rollouts get structurally different, unequal-difficulty bias
+        #   schedules, so their reward differences aren't purely policy-attributable).
+        # bias_mode='node' : free/diverse starts exactly like pure RL (no _det_starts,
+        #   no cluster/vehicle bookkeeping at all) + a FLAT per-node confidence bias
+        #   (same value for every rollout, every vehicle, every step) built once from
+        #   cluster_conf by collapsing the (K, N+1) tensor to (N+1,) -- each node
+        #   belongs to exactly one cluster so this is a lossless flatten. Removes the
+        #   confound entirely; confidence becomes a pure per-node priority hint.
+        bias_mode = self.trainer_params.get('bias_mode', 'cluster')
+        node_conf = cluster_conf.sum(dim=0) if (bias_mode == 'node' and cluster_conf is not None) else None
+
+        # Step 1: deterministic cluster starts (LLM mode, bias_mode='cluster' only) —
+        # skipped when free_starts=True, bias_mode='node', or no clusters yet
         free_starts = self.trainer_params.get('free_starts', False)
-        if llm_on and not free_starts and cluster_conf is not None:
+        if llm_on and not free_starts and cluster_conf is not None and bias_mode == 'cluster':
             selected = self._det_starts(inst, pomo_size_eff).expand(batch_size, -1)
             prob     = torch.ones(batch_size, pomo_size_eff, device=self.device)
             state, reward, done = self.env.step(selected)
@@ -1120,17 +1216,11 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 )
                 self.model.pre_forward(self.env.reset_state)
 
-            # ── Per-vehicle per-step cluster confidence bias ──────────────
-            # rollout i, vehicle j → cluster (i+j) % K
+            # ── Confidence bias ────────────────────────────────────────────
             if llm_on and cluster_conf is not None:
-                veh_idx     = self.env.depot_visit_count.long()          # (B, P)
-                cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters  # (B, P)
-                mask        = (veh_idx < K_clusters).float().unsqueeze(-1)   # (B, P, 1)
-
-                # TW-aware suppression: zero confidence for nodes whose TW is already closed
-                B_sz, P_sz = cluster_idx.shape
+                B_sz, P_sz = self.env.current_node.shape
                 N1         = self.env.problem_size + 1
-                dev        = cluster_idx.device
+                dev        = self.env.current_node.device
                 b_idx      = torch.arange(B_sz, device=dev)[:, None].expand(B_sz, P_sz)
                 tt_to_j    = self.env.tt[b_idx.reshape(-1), self.env.current_node.reshape(-1)] \
                                  .reshape(B_sz, P_sz, N1)                    # (B, P, N+1)
@@ -1138,7 +1228,14 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)      # (B, 1, N+1)
                 tw_open    = (arrival_j <= tw_close_j).float()              # (B, P, N+1)
 
-                conf_now = cluster_conf[cluster_idx] * mask * tw_open * bias_strength  # (B, P, N+1)
+                if bias_mode == 'node':
+                    conf_now = node_conf[None, None, :] * tw_open * bias_strength  # (B, P, N+1)
+                else:
+                    # rollout i, vehicle j → cluster (i+j) % K
+                    veh_idx     = self.env.depot_visit_count.long()          # (B, P)
+                    cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters  # (B, P)
+                    mask        = (veh_idx < K_clusters).float().unsqueeze(-1)   # (B, P, 1)
+                    conf_now = cluster_conf[cluster_idx] * mask * tw_open * bias_strength  # (B, P, N+1)
                 selected, prob = self.model(state, llm_bias=conf_now)
             else:
                 selected, prob = self.model(state)
@@ -1160,6 +1257,34 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                                late_times=late_times, K=K, D=total_dist, reward=best_reward,
                                routes=routes)
 
+        # ── Ontology-upgrade Phase 1 diagnostic logging (design doc Part I) ──
+        phase1_logger = self._phase1_logger
+        if phase1_logger is not None and phase1_logger.active(self._current_epoch):
+            _epoch = self._current_epoch
+            if phase1_logger.wants_full(_epoch):
+                # all P rollouts -- needed for §5 cluster-consensus co-assignment
+                for p in range(pomo_size_eff):
+                    nl_p     = self.env.selected_node_list[0, p].cpu().tolist()
+                    routes_p = _extract_routes(nl_p)
+                    detail_p = self._compute_episode_detail(inst, routes_p)
+                    phase1_logger.log(EpisodeLog(
+                        instance=inst['name'], epoch=_epoch, rollout=p,
+                        routes=routes_p, arrival=detail_p['arrival'], wait=detail_p['wait'],
+                        late_by=detail_p['late_by'], served=detail_p['served'],
+                        reward=float(reward[0, p].item()),
+                        K=detail_p['K'], D=detail_p['D'], Lc=detail_p['Lc'], Lt=detail_p['Lt'],
+                    ))
+            elif phase1_logger.wants_sampled(_epoch):
+                # single representative (best-reward) rollout -- enough for §6/§7/§8
+                detail = self._compute_episode_detail(inst, routes)
+                phase1_logger.log(EpisodeLog(
+                    instance=inst['name'], epoch=_epoch, rollout=best_idx,
+                    routes=routes, arrival=detail['arrival'], wait=detail['wait'],
+                    late_by=detail['late_by'], served=detail['served'],
+                    reward=best_reward, K=detail['K'], D=detail['D'],
+                    Lc=detail['Lc'], Lt=detail['Lt'],
+                ))
+
         advantage = reward - reward.float().mean(dim=1, keepdim=True)
         advantage = advantage / (advantage.std(dim=1, keepdim=True).clamp(min=1e-6))
         log_prob  = prob_list.log().sum(dim=2)
@@ -1179,6 +1304,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
     # ------------------------------------------------------------------
 
     def _train_one_epoch(self, epoch: int):
+        self._current_epoch = epoch
         lp = self.llm_params
         if (lp.get('enabled') and not self._experience_refreshed
                 and epoch == self._experience_refresh_epoch):
@@ -1231,6 +1357,8 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
             bias_strength = lp.get('bias_strength', 5.0)
             roll_shifts   = torch.arange(pomo_size_eff, device=self.device)
             self.env.pomo_size = pomo_size_eff
+            bias_mode = self.trainer_params.get('bias_mode', 'cluster')
+            node_conf = cluster_conf.sum(dim=0) if (bias_mode == 'node' and cluster_conf is not None) else None
 
             _, _, rain_evs = _get_rain_nodes_mult_evs(inst)
             N = self.env.problem_size
@@ -1249,7 +1377,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
             state, reward, done = self.env.step(sel)
 
             free_starts = self.trainer_params.get('free_starts', False)
-            if llm_on and not free_starts:
+            if llm_on and not free_starts and bias_mode == 'cluster':
                 sel   = self._det_starts(inst, pomo_size_eff).expand(bs, -1)
                 state, reward, done = self.env.step(sel)
                 step = 2
@@ -1298,12 +1426,9 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     pending_accs.extend(acc_just_started)
 
                 if llm_on and cluster_conf is not None:
-                    veh_idx     = self.env.depot_visit_count.long()
-                    cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters
-                    mask        = (veh_idx < K_clusters).float().unsqueeze(-1)
-                    B_sz, P_sz = cluster_idx.shape
+                    B_sz, P_sz = self.env.current_node.shape
                     N1         = self.env.problem_size + 1
-                    dev        = cluster_idx.device
+                    dev        = self.env.current_node.device
                     b_idx      = torch.arange(B_sz, device=dev)[:, None].expand(B_sz, P_sz)
                     tt_to_j    = self.env.tt[b_idx.reshape(-1), self.env.current_node.reshape(-1)] \
                                      .reshape(B_sz, P_sz, N1)
@@ -1312,7 +1437,17 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                     tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                     tw_open    = (arrival_j <= tw_close_j).float()
-                    conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
+
+                    if bias_mode == 'node':
+                        # cluster_conf may have been mid-episode refreshed (accident) --
+                        # re-flatten each step so node_conf never goes stale.
+                        node_conf = cluster_conf.sum(dim=0)
+                        conf_now  = node_conf[None, None, :] * tw_open * bias_strength
+                    else:
+                        veh_idx     = self.env.depot_visit_count.long()
+                        cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters
+                        mask        = (veh_idx < K_clusters).float().unsqueeze(-1)
+                        conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
                     sel, _ = self.model(state, llm_bias=conf_now)
                 else:
                     sel, _ = self.model(state)
@@ -1356,6 +1491,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         bias_strength = lp.get('bias_strength', 5.0)
         roll_shifts   = torch.arange(pomo_size_eff, device=self.device)
         self.env.pomo_size = pomo_size_eff
+        bias_mode = self.trainer_params.get('bias_mode', 'cluster')
 
         batch = make_batch(inst, 1, self.device)
         self.env.load_problems(batch)
@@ -1377,7 +1513,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         pending_accs     = []   # deferred for next-step batched LLM call
 
         free_starts = self.trainer_params.get('free_starts', False)
-        if llm_on and not free_starts:
+        if llm_on and not free_starts and bias_mode == 'cluster':
             sel  = self._det_starts(inst, pomo_size_eff).expand(1, -1)
             state, reward, done = self.env.step(sel)
             step = 2
@@ -1419,12 +1555,9 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 pending_accs.extend(acc_just_started)
 
             if llm_on and cluster_conf is not None:
-                veh_idx     = self.env.depot_visit_count.long()
-                cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters
-                mask        = (veh_idx < K_clusters).float().unsqueeze(-1)
-                B_sz, P_sz = cluster_idx.shape
+                B_sz, P_sz = self.env.current_node.shape
                 N1         = self.env.problem_size + 1
-                dev        = cluster_idx.device
+                dev        = self.env.current_node.device
                 b_idx      = torch.arange(B_sz, device=dev)[:, None].expand(B_sz, P_sz)
                 tt_to_j    = self.env.tt[b_idx.reshape(-1), self.env.current_node.reshape(-1)] \
                                  .reshape(B_sz, P_sz, N1)
@@ -1433,7 +1566,15 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                 arrival_j  = self.env.current_time.unsqueeze(-1) + tt_to_j
                 tw_close_j = self.env.depot_node_tw_close.unsqueeze(1)
                 tw_open    = (arrival_j <= tw_close_j).float()
-                conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
+
+                if bias_mode == 'node':
+                    node_conf = cluster_conf.sum(dim=0)  # re-flatten in case of mid-episode refresh
+                    conf_now  = node_conf[None, None, :] * tw_open * bias_strength
+                else:
+                    veh_idx     = self.env.depot_visit_count.long()
+                    cluster_idx = (veh_idx + roll_shifts[None, :]) % K_clusters
+                    mask        = (veh_idx < K_clusters).float().unsqueeze(-1)
+                    conf_now    = cluster_conf[cluster_idx] * mask * tw_open * bias_strength
                 sel, _ = self.model(state, llm_bias=conf_now)
             else:
                 sel, _ = self.model(state)
