@@ -5,6 +5,18 @@ Kim + Confidence, and Pure RL500 + Phase2. Run commands from the repository root
 The release includes train80/test80, confidence caches, and the matched Pure500
 checkpoint. It does not include the later ontology/prompt/scale ablations.
 
+## For Coding Assistants
+
+Read [AGENTS.md](AGENTS.md) before executing experiments. It specifies the
+preflight checks, supported entry points, run naming, resume rules, and what
+must not be changed automatically. [CLAUDE.md](CLAUDE.md) points to the same
+instructions so the two guides do not drift.
+
+This is a runnable source release, not a bundled Python/CUDA installation.
+A fresh PC still needs Python, dependencies, and a compatible NVIDIA driver/GPU
+for full RL runs. A new LKH solve additionally needs a separately installed LKH-3
+executable; replaying the supplied plan does not.
+
 ## Layout
 
 ```text
@@ -71,6 +83,11 @@ virtual environment's interpreter. Full RL training/evaluation requires CUDA;
 parent repository is needed. API calls are blocked; missing caches are errors.
 
 ## Train and Evaluate
+
+Choose **one** method below, not all methods unless requested. Training and
+evaluation are separate steps. A training process can exit successfully after its
+time budget with `status: needs_resume`; check `status.json` before evaluation.
+Do not run evaluation automatically just because the training exit code is zero.
 
 ```sh
 python run.py --method pure --batch-size 128 --epochs 1000 --out runs/pure128
@@ -189,3 +206,51 @@ Kim/Phase2 training still consumes existing caches. Moving the actual Kim groupi
 implementation into `proposed_model/kim/clustering.py` does not enable paid cache
 generation. Shared attention, decoding, and training code lives directly in `proposed_model/`
 to prevent the two methods from drifting through duplicated implementations.
+
+## Preflight, Resume, and Troubleshooting
+
+After installation, use an explicit interpreter instead of relying on shell activation.
+Windows PowerShell, from the repository root:
+
+```powershell
+$py = (Resolve-Path .venv\Scripts\python.exe).Path
+& $py -c "import sys,torch; print(sys.executable); print(torch.__version__); print('CUDA:',torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'No CUDA GPU')"
+& $py -m unittest discover -s tools
+& $py run.py --method kim --smoke --cpu --out runs/kim_preflight_001
+```
+
+Check each command's exit code (`$LASTEXITCODE`) before proceeding. Use a new
+preflight directory on each attempt. CPU smoke tests check code/data/cache and
+checkpoint handling, not GPU driver compatibility. Before a long GPU run, perform
+the selected method's smoke test **without** `--cpu`, using another fresh output
+directory. A batch-1 smoke pass does not establish that batch 128 fits GPU memory;
+use `--smoke-batch-size 128` to check that requested batch when GPU resources permit.
+
+Example training, status inspection, and resume commands (execute as needed):
+
+```powershell
+& $py run.py --method kim --batch-size 128 --seed 42 --epochs 1000 --out runs/kim_b128_s42_001
+Get-Content runs/kim_b128_s42_001/status.json
+# Run this only when status is needs_resume and no process still owns the run:
+& $py run.py --method kim --batch-size 128 --seed 42 --epochs 1000 --out runs/kim_b128_s42_001 --resume
+# Run evaluation only after completion and checkpoint-1000.pt exists:
+& $py evaluate.py --run runs/kim_b128_s42_001
+```
+
+Linux/WSL equivalents use `.venv/bin/python` and `cat` for status inspection.
+Status is the last recorded state, so also inspect the process/log before deciding
+that a run is active, interrupted, or complete.
+
+| Symptom | Action |
+| --- | --- |
+| CUDA unavailable or unsupported GPU | Check the selected interpreter, driver, and PyTorch build; CPU checks are not full training |
+| CUDA out of memory | Check competing processes; do not silently lower the requested batch size |
+| Nonempty output directory | Use a new directory, or `--resume` for the same interrupted training run |
+| Missing cache or manifest mismatch | Verify the checkout/files; do not invoke an API or regenerate hashes to suppress the error |
+| Resume contract mismatch | Use the matching code/settings version; do not patch the checkpoint contract |
+| Missing epoch-1000 checkpoint | Inspect training status; finish/resume training or explicitly evaluate an available checkpoint |
+| Incomplete service from smoke weights | Untrained smoke weights are not a trained model; do not report them as results |
+| LKH not found | Provide the installed executable path, or explicitly choose reference replay |
+
+Evaluation has no `--resume` option. If interrupted, retain partial outputs and
+rerun with a new `--out` directory. Never label partial results as test80 evaluation.
