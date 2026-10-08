@@ -121,7 +121,7 @@ llm_params = dict(
 # Decoder context: last_node_emb || load || time  (emb+2)
 
 class VRPTWModel(nn.Module):
-    # guided 정책의 공통 backbone이다. llm_bias는 출력 logit에 더해지는 선호도이다.
+    # Shared guided-policy backbone; llm_bias is an additive preference on output logits.
     def __init__(self, **mp):
         super().__init__()
         self.mp            = mp
@@ -300,7 +300,7 @@ class _Decoder(nn.Module):
         self.single_head_key = encoded_nodes.transpose(1, 2)
 
     def forward(self, encoded_last, load, current_time, ninf_mask, llm_bias=None, slack_feat=None):
-        # 기본 logit의 clipping 후 confidence bias를 더한다. bias 자체를 다시 clip하지 않는다.
+        # Add confidence bias after clipping base logits; do not clip the bias again.
         ctx = torch.cat([
             encoded_last,
             load         [:, :, None],
@@ -503,7 +503,7 @@ def _inst_tag(instances: list) -> str:
 
 
 class VRPTWLLMTrainer:
-    # SoftClusterTrainer의 부모 클래스이므로 별도 LLM 실험을 안 해도 이 파일은 필요하다.
+    # Required as the parent of SoftClusterTrainer, even without standalone LLM experiments.
     def __init__(self, env_p, model_p, opt_p, trainer_p, llm_p):
         self.env_params       = env_p
         self.model_params     = model_p

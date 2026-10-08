@@ -60,7 +60,7 @@ def validate_cache(path, n=100):
 
 
 def verify_bundle(root):
-    # 코드뿐 아니라 데이터·캐시·초기 모델도 검사하여 다른 실험 파일의 혼입을 막는다.
+    # Verify code, data, caches, and initial weights to prevent mixing experiment versions.
     manifest = read(root / 'bundle_manifest.json')
     for name, digest in manifest['sha256'].items():
         path = (root / name).resolve()
@@ -70,7 +70,7 @@ def verify_bundle(root):
 
 
 def block_network():
-    # 이 배포본은 저장된 confidence만 사용한다. 캐시 누락 시 유료 API로 대체하지 않는다.
+    # Use cached confidence only; a missing cache must not trigger a paid API fallback.
     def denied(*args, **kwargs):
         raise RuntimeError('Server runner is offline: network/API calls are disabled')
     socket.create_connection = denied
@@ -83,7 +83,7 @@ def block_network():
 
 
 def build_trainer(config, root, out, cpu=False):
-    # 공통 초기화 지점: JSON 설정을 복사하고 새 PC의 경로/장치로만 치환한다.
+    # Shared initialization: copy JSON settings and resolve paths/devices for the current PC.
     denied = block_network()
     import torch
     import train_vrptw as pure
@@ -98,7 +98,7 @@ def build_trainer(config, root, out, cpu=False):
     guided.build_bks_fewshot_block = lambda *a, **k: ''
 
     class CachedTrainer(guided.SoftClusterTrainer):
-        # Kim은 기존 캐시 로더를 재사용하고, Phase2는 RL 기준 경로 캐시를 읽는다.
+        # Kim reuses its cache loader; Phase2 reads RL reference-route caches.
         def _ensure_soft_cluster_cache(self, inst, force_refresh=False):
             if force_refresh:
                 raise RuntimeError('Cache refresh is not allowed on the server')
@@ -114,7 +114,7 @@ def build_trainer(config, root, out, cpu=False):
             self._cluster_assign_cache[name] = clusters
             accidents = [e for e in inst['preset_events'] if e['type'] == 'ACCIDENT']
             if accidents:
-                # 사전 생성된 사고 캐시라도 해당 차량의 시간이 공개 시점에 도달해야 적용한다.
+                # Even precomputed accident guidance is gated by each vehicle's disclosure time.
                 if len(accidents) != 1:
                     raise ValueError('This runner supports one event per scenario')
                 self._acc_stage_events[name] = [dict(
@@ -140,7 +140,7 @@ def build_trainer(config, root, out, cpu=False):
 
 
 def save_checkpoint(trainer, epoch, path, contract):
-    # 이어서 학습할 때 모델/optimizer뿐 아니라 난수 상태와 advantage 상태도 복원해야 한다.
+    # Resuming requires RNG and advantage state as well as model and optimizer state.
     import numpy as np
     import torch
     state = dict(epoch=epoch, model_state_dict=trainer.model.state_dict(),
@@ -160,7 +160,7 @@ def save_checkpoint(trainer, epoch, path, contract):
 
 
 def restore(trainer, path, contract=None):
-    # contract가 없으면 Phase1 초기화, 있으면 동일 실험의 중단 후 재개이다.
+    # No contract means initialization from Phase1; a contract enforces an exact run resume.
     import numpy as np
     import torch
     # Only load our own trusted checkpoints, never untrusted downloaded pickle files.
@@ -187,7 +187,7 @@ def restore(trainer, path, contract=None):
 
 
 def validate_resume(previous, current):
-    # 재개 시 목표 epoch 증가만 허용한다. 배치/seed/캐시 변경은 새 실험으로 실행해야 한다.
+    # Only the epoch target may increase on resume; batch/seed/cache changes require a new run.
     before, after = copy.deepcopy(previous), copy.deepcopy(current)
     old_target = before['config']['trainer'].pop('epochs')
     new_target = after['config']['trainer'].pop('epochs')
@@ -196,7 +196,7 @@ def validate_resume(previous, current):
 
 
 def main():
-    # 실행 순서: 무결성 검사 -> 설정 -> trainer -> 초기화/복원 -> 학습 -> 저장.
+    # Execution order: integrity check -> configuration -> trainer -> restore -> train -> save.
     ap = argparse.ArgumentParser()
     ap.add_argument('--method', choices=['pure', 'kim', 'phase2'], required=True)
     ap.add_argument('--out', type=Path)

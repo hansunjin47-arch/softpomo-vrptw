@@ -30,7 +30,7 @@ def _out_device(x):
 
 
 class RunningStd:
-    # 보상 정규화의 누적 상태. 현재 선택된 advantage 설정에 따라 사용되며 재개 시 저장/복원한다.
+    # Running normalization state, used by the selected advantage mode and preserved across resumes.
     """EMA-tracked scale estimate, shared across training batches.
 
     hybrid_advantage's own warning applies here: normalizing by a SINGLE

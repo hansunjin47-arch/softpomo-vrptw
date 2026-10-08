@@ -28,8 +28,8 @@ ABox additions
 """
 from __future__ import annotations
 
-# 그룹/에피소드 관련 공통 객체를 제공한다. 파일 이름만으로 최신 ontology 실험 ON을 뜻하지 않는다.
-# 이 배포본은 기존 Kim/Phase2 캐시를 소비하며 최신 프롬프트를 다시 생성하지 않는다.
+# Shared group/episode objects; this module's presence does not enable the latest ontology experiments.
+# The release consumes existing Kim/Phase2 caches rather than regenerating revised prompts.
 
 import os
 import json

@@ -25,7 +25,7 @@ ABox (instances per episode)
 """
 from __future__ import annotations
 
-# LLM 공통 모듈이 참조하는 도메인 표현이다. 새 PC에서도 import를 위해 이 파일을 유지해야 한다.
+# Domain representation imported by shared LLM modules; retain this dependency on a fresh PC.
 import numpy as np
 from collections import defaultdict
 

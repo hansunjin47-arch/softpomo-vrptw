@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 class ReleaseTests(unittest.TestCase):
-    # 입력/재개 계약만 검사하는 빠른 테스트이다. 학습 성능이나 LKH 신규 최적화를 검증하지 않는다.
+    # Fast input/resume contract tests, not validation of training performance or a new LKH solve.
     def test_integrity(self):
         verify_bundle(ROOT)
 

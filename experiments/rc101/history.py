@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 def planning_matrix(split):
-    # test 사건은 계획 행렬에 넣지 않는다. Full History는 지속시간 가중 평균이 아니다.
+    # Exclude test events from planning. Full History does not weight events by duration.
     raw = load_raw(str(ROOT / 'data' / (split['train'][0]['name'] + '.txt')))
     xy = np.asarray(raw['coords'])
     base = np.linalg.norm(xy[:, None, :] - xy[None, :, :], axis=-1)
@@ -27,7 +27,7 @@ def planning_matrix(split):
             factor = np.maximum(factor, np.where(mask[:, None] | mask[None, :], event['multiplier'], 1))
         matrices.append(base * factor)
     mean = np.mean(matrices, axis=0)
-    # 정수 반올림은 사건별이 아니라 평균 후 한 번만 적용한다.
+    # Round once after averaging, not separately for each event.
     return raw, mean, np.rint(mean).astype(int)
 
 
@@ -51,7 +51,7 @@ def main():
         raise ValueError('Historical matrix disagrees with the reference protocol')
     write(out / 'matrix.json', dict(unrounded=mean.tolist(), matrix=matrix.tolist()))
     if args.replay_reference:
-        # 기존 계획의 재평가일 뿐, 여기서 LKH를 새로 최적화한 것은 아니다.
+        # Replay an existing plan; this branch does not run a new LKH optimization.
         routes = read(ROOT / 'reference/history/routes.json')
     else:
         _write_vrp_file(raw, matrix.tolist(), str(out / 'problem.vrp'), raw['vehicle_limit'],
@@ -68,7 +68,7 @@ def main():
     write(out / 'routes.json', routes)
     rows = []
     for entry in split['test']:
-        # 계획은 고정하되 실제 이동시간은 각 test 사건과 해당 구간 출발시각에 따라 달라진다.
+        # Keep the plan fixed; realized travel depends on the test event and each leg's departure time.
         row = replay(load_solomon(str(ROOT / 'data' / (entry['name'] + '.txt'))), routes)
         row['kind'] = entry['kind']
         rows.append(row)

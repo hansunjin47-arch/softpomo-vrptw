@@ -32,7 +32,7 @@ def prepare_event_encodings(model, reset_state, depot_xy, node_features, rain_to
 
 
 def event_stage(current_time, starts):
-    # 공개 단계는 차량별 현재 시각으로 결정한다. 이전 차량의 미래 정보를 다음 차량에 넘기지 않는다.
+    # Disclosure follows each vehicle's clock; do not transfer future knowledge between vehicles.
     # End time never removes knowledge. Depot reset selects the next vehicle's
     # time-zero observations, not knowledge from an already constructed route.
     stage = torch.zeros_like(current_time, dtype=torch.long)

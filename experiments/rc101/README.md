@@ -1,10 +1,10 @@
 # RC101: four offline experiment workflows
 
-## 새 PC에서 시작하기
+## Fresh PC Setup
 
-이 폴더는 기존 PC의 절대경로, 환경변수 API 키, 실험 결과 폴더 없이 실행하도록 구성되어 있습니다.
-아래 명령은 Windows PowerShell 예시입니다. Linux/WSL에서는 가상환경 Python 경로를
-`.venv/bin/python`으로 바꾸면 됩니다.
+This release does not require the original PC's absolute paths, API credentials,
+or experiment output directories. The commands below use Windows PowerShell.
+On Linux/WSL, use `.venv/bin/python` as the virtual environment's Python path.
 
 ```powershell
 git clone https://github.com/hansunjin47-arch/softpomo-vrptw.git
@@ -13,9 +13,10 @@ py -3.12 -m venv .venv
 .venv\Scripts\python.exe -m pip install --upgrade pip
 ```
 
-먼저 [PyTorch 설치 안내](https://pytorch.org/get-started/locally/)에서 **자신의 GPU에 맞는**
-설치 명령을 선택하고, 그 명령의 `pip` 대신 `.venv\Scripts\python.exe -m pip`를 사용하세요.
-그다음 아래를 실행합니다. 전체 학습은 CUDA GPU가 필요합니다.
+Choose the installation command for **your GPU** from the
+[PyTorch installation guide](https://pytorch.org/get-started/locally/), replacing
+`pip` with `.venv\Scripts\python.exe -m pip`. Then run the commands below.
+Full training requires a CUDA GPU.
 
 ```powershell
 .venv\Scripts\python.exe -m pip install -r requirements.txt
@@ -25,38 +26,40 @@ py -3.12 -m venv .venv
 .venv\Scripts\python.exe evaluate.py --run runs/pure128
 ```
 
-마지막 평가는 `status.json`이 `complete`이고 1000 epoch 체크포인트가 만들어진 뒤 실행합니다.
-시간 예산으로 중단되었다면 학습 명령에 `--resume`을 붙여 완료시킵니다.
-Kim/Phase2는 `--method kim` 또는 `--method phase2`로 바꾸고 출력 폴더도 별도로 지정합니다.
-Pure/Kim은 무작위 초기화부터, Phase2는 포함된 Pure500에서 501~1000 epoch를 학습합니다.
-**새 PC에서 실행한다는 것과 Phase1까지 새로 학습한다는 것은 다릅니다.**
-Phase1도 새로 학습하려면 해당 모델에 맞는 기준 경로·confidence 캐시를 다시 준비해야 합니다.
+Run evaluation after `status.json` reports `complete` and the epoch-1000
+checkpoint exists. If the time budget interrupts training, repeat the training
+command with `--resume`. For Kim/Phase2, use `--method kim` or `--method phase2`
+and a separate output directory. Pure/Kim start from random initialization;
+Phase2 trains epochs 501-1000 from the supplied Pure500 checkpoint.
+**Running on a fresh PC does not mean retraining Phase1.** A newly trained
+Phase1 model requires matching reference routes and confidence caches.
 
-### 파일이 전부 필수인가요?
+### File Roles and Dependencies
 
-모든 파일이 매 실행에 사용되는 것은 아닙니다. 현재 배포본은 네 방법의 실행과 재현 검증을
-하나의 묶음으로 검사하므로, 사용자가 파일을 임의로 지우면 manifest 검사가 실패합니다.
+Not every file is used by every run. The release verifies all four workflows
+and their reference inputs as a single bundle; deleting files arbitrarily will
+fail the manifest check.
 
-| 파일/폴더 | 역할과 필요 범위 |
+| File/directory | Role and scope |
 | --- | --- |
-| `server/train_cached.py`, `configs/` | 세 RL 방법의 공통 실행 진입점과 학습 설정 |
-| `train_vrptw.py`, `vrptw_env.py`, `event_observation.py`, `advantage.py` | 정책·환경·관측·학습 계산 |
-| `train_vrptw_llm.py`, `train_soft_cluster.py` | Kim/Phase2 모델과 학습기; 부모 클래스도 포함 |
-| `*LLMModule.py`, `*Ontology.py`, `generate_vrptw.py` | 현재 코드의 import 의존성. API 생성/무작위 고객 생성은 지원 명령에서 실행하지 않음 |
-| `data/` | train80/test80 사건 파일과 공개 관측; `split.json`이 학습/평가 용도를 구분 |
-| `cache/kim`, `cache/phase2` | 각 방법의 기존 LLM 출력. Pure RL 자체에는 필요 없음 |
-| `checkpoints/pure500.pt` | Phase2의 초기 모델/optimizer. Pure/Kim 초기 학습에는 필요 없음 |
-| `evaluate.py` | 학습된 모델의 test 평가와 공통 결과 집계 |
-| `history.py`, `lkh_io.py` | LKH 계획 행렬 작성·외부 실행·저장 경로 재평가 |
-| `reference/history/` | 기존 LKH 경로 재현과 행렬 검증용 자료. 신경망 학습 입력이 아님 |
-| `bundle_manifest.json`, `test_release.py`, `refresh_manifest.py` | 무결성 검사·테스트·의도적인 변경의 버전 갱신 |
-| `README.md`, `requirements.txt`, Git 설정 파일 | 새 환경 설치와 실행 안내 |
+| `server/train_cached.py`, `configs/` | Shared entry point and settings for the three RL methods |
+| `train_vrptw.py`, `vrptw_env.py`, `event_observation.py`, `advantage.py` | Policy, environment, observations, and training calculations |
+| `train_vrptw_llm.py`, `train_soft_cluster.py` | Kim/Phase2 models and trainers, including parent classes |
+| `*LLMModule.py`, `*Ontology.py`, `generate_vrptw.py` | Import dependencies; supported commands do not generate API caches or random customer instances |
+| `data/` | Train80/test80 scenarios and public observations; membership is specified in `split.json` |
+| `cache/kim`, `cache/phase2` | Existing LLM outputs for each guided method; not used by the Pure RL algorithm |
+| `checkpoints/pure500.pt` | Initial Phase2 model/optimizer; not used to initialize Pure/Kim |
+| `evaluate.py` | Test evaluation of trained models and shared metric aggregation |
+| `history.py`, `lkh_io.py` | LKH planning matrix, external solver invocation, and saved-route replay |
+| `reference/history/` | Reference LKH plan and matrix checks; not neural training inputs |
+| `bundle_manifest.json`, `test_release.py`, `refresh_manifest.py` | Integrity checks, tests, and versioning of intentional changes |
+| `README.md`, `requirements.txt`, Git configuration | Installation and usage support |
 
-코드 읽는 순서는 `server/train_cached.py` → `configs/` → 해당 trainer → `vrptw_env.py` →
-`evaluate.py`가 좋습니다. 핵심 분기에는 한국어 주석을 추가했습니다. LLM/ontology 파일의
-이름만 보고 API 호출 또는 최신 ontology 실험이 실행된다고 해석하지 마세요.
-기존 코드에는 공유 모듈 안의 미사용 분기도 남아 있습니다. **파일 단위 정리는 완료했지만,
-모든 함수가 네 실행 경로에 필요한 최소 코드로 재작성된 것은 아닙니다.**
+Suggested reading order: `server/train_cached.py`, `configs/`, the selected trainer,
+`vrptw_env.py`, then `evaluate.py`. English comments explain key control paths.
+LLM/ontology filenames do not imply API calls or enable the latest ontology experiments.
+Shared modules still contain legacy branches. **File-level cleanup is complete,
+but the code has not been rewritten into a minimal set of functions for these workflows.**
 
 Run all commands **from this directory**. Python 3.12 is recommended. These are
 the original train80/test80 four-method settings, not the later ontology ablations.

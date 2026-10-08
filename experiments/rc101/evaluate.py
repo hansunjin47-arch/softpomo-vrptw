@@ -11,7 +11,7 @@ METRICS = ('vehicles', 'travel_time', 'late_count', 'total_late', 'cost', 'rewar
 
 
 def replay(inst, routes):
-    # 네 방법을 같은 부동소수점 시뮬레이터로 비교한다. 완전 방문일 때만 아래 비용식을 쓴다.
+    # Use one floating-point evaluator for all methods; the cost below requires complete service.
     from vrptw_env import _solution_stats
     customers = [int(n) for route in routes for n in route if n]
     if sorted(customers) != list(range(1, inst['n_customers'] + 1)):
@@ -26,7 +26,7 @@ def replay(inst, routes):
 
 
 def summarize(rows):
-    # 표준편차의 표본은 test 시나리오이며, 학습 seed 또는 800개 후보 경로가 아니다.
+    # Standard deviations are across test scenarios, not training seeds or the 800 candidates.
     return {kind: {
         'count': len(selected),
         'mean': {key: statistics.mean(r[key] for r in selected) for key in METRICS},
@@ -37,7 +37,7 @@ def summarize(rows):
 
 
 def main():
-    # --run의 학습 설정을 읽으므로 평가 때 다른 batch/모델 설정을 수동으로 맞출 필요가 없다.
+    # Read settings from --run to avoid manually reconstructing the training configuration.
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--checkpoint', default='checkpoint-1000.pt', help='Filename inside --run')
@@ -84,7 +84,7 @@ def main():
         _set_seed(42 + names.index(name))
         inst = load_solomon(str(ROOT / 'data' / (name + '.txt')))
         with torch.no_grad():
-            # Pure는 내부에서 8개 변환을 묶고, guided는 변환별로 실행한 뒤 최선 후보를 선택한다.
+            # Pure batches eight transforms internally; guided evaluates transforms and selects the best.
             routes, reward = (trainer._best_solution(inst) if config['method'] == 'pure'
                               else trainer._best_solution_aug(inst, n_aug=8))
         row = replay(inst, routes)

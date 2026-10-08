@@ -1,6 +1,6 @@
 """LKH-3 file IO extracted from clustering_routing/R_lkh.py."""
 import os
-# LKH 실행 자체는 history.py에서 담당한다. 이 파일은 입력 작성과 출력 경로 파싱만 담당한다.
+# history.py launches LKH; this module only writes inputs and parses the returned routes.
 from typing import List, Optional
 
 def load_solomon(path: str) -> dict:

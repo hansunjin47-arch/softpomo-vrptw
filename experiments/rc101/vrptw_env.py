@@ -32,7 +32,7 @@ _ACCIDENT_SEVERITY = {
 
 
 def load_solomon(path: str) -> dict:
-    # 고객/시간창과 사건 정의를 읽고 정책·환경에서 사용할 정규화 표현을 구성한다.
+    # Load customer/time-window and event definitions into normalized policy/environment inputs.
     """
     Parse Solomon VRPTW benchmark file (with optional EVENTS section).
     Returns dict of normalized tensors (all via T or max_coord).
@@ -253,7 +253,7 @@ class Step_State:
 # ── Environment ───────────────────────────────────────────────────────────────
 
 class VRPTWEnv:
-    # 행동은 고객 방문 또는 depot 복귀이다. 시간창 지각은 비용이고 용량/방문 중복은 mask 대상이다.
+    # Actions visit customers or return to depot; lateness is penalized, capacity/revisits are masked.
     def __init__(self, **env_params):
         self.env_params      = env_params
         self.problem_size    = env_params['problem_size']
@@ -411,7 +411,7 @@ class VRPTWEnv:
         return self.step_state, None, False
 
     def step(self, selected):
-        # 구간 출발시각의 사건 효과로 이동한 뒤 대기·서비스·지각·적재량·차량 상태를 갱신한다.
+        # Apply departure-time event travel, then update waiting, service, lateness, load, and vehicle state.
         dev = selected.device
         N1  = self.problem_size + 1
 
@@ -663,7 +663,7 @@ def _event_travel_mult(t_depart: float, node_a: int, node_b: int,
 
 
 def _solution_stats(inst, routes):
-    # 저장된 경로의 공통 재평가 함수. 고객 지각과 depot 복귀 지각을 모두 집계한다.
+    # Common saved-route evaluator, including both customer and depot-return lateness.
     """Compute stats dict from routes for reuse in print/save.
 
     Timing uses event-aware travel times (via inst['preset_events']) so that

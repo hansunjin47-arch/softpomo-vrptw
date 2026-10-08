@@ -29,8 +29,8 @@ Key difference from original_POMO (VRPTWLLMModule):
 """
 from __future__ import annotations
 
-# 배포본에서는 API 생성 기능을 실행하지 않는다. 공통 상수와 함수의 import 의존성 때문에 유지한다.
-# 새 캐시 생성이 필요하면 별도 실험 설계가 필요하며, offline runner의 차단을 우회하지 않는다.
+# Offline workflows import shared constants and helpers here without invoking API generation.
+# Generating new caches requires a separate workflow; do not bypass the offline runner's safeguards.
 
 # Fixed logit-bias value assigned to any customer the LLM flags as a cluster
 # misfit (see module docstring). Symmetric with the +1.0 ceiling of the
