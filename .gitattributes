@@ -1,0 +1,2 @@
+# Preserve bundle bytes: SHA-256 integrity must survive Windows/Linux checkouts.
+experiments/rc101/** -text

@@ -1,0 +1,42 @@
+{
+  "status": "evaluated",
+  "test_evaluated": 80,
+  "groups": {
+    "RAIN": {
+      "count": 40,
+      "means": {
+        "vehicles": 19.0,
+        "travel_time": 1800.5658673485134,
+        "late_stops": 1.425,
+        "total_late": 10.219918581072767,
+        "served": 100.0
+      },
+      "zero_late_cases": 18,
+      "max_total_late": 76.19173405215264
+    },
+    "ACCIDENT": {
+      "count": 40,
+      "means": {
+        "vehicles": 19.0,
+        "travel_time": 1770.8469739548855,
+        "late_stops": 1.125,
+        "total_late": 12.083377376102163,
+        "served": 100.0
+      },
+      "zero_late_cases": 19,
+      "max_total_late": 121.90331549351691
+    },
+    "ALL": {
+      "count": 80,
+      "means": {
+        "vehicles": 19.0,
+        "travel_time": 1785.7064206516993,
+        "late_stops": 1.275,
+        "total_late": 11.151647978587466,
+        "served": 100.0
+      },
+      "zero_late_cases": 37,
+      "max_total_late": 121.90331549351691
+    }
+  }
+}

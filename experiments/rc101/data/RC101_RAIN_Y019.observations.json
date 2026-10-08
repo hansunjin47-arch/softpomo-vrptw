@@ -1,0 +1,39 @@
+{
+  "event_type": "RAIN",
+  "affected_nodes": [
+    26,
+    27,
+    28,
+    29,
+    31,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    54,
+    67,
+    71,
+    72,
+    81,
+    93,
+    94,
+    96
+  ],
+  "regions": [
+    "NE",
+    "E"
+  ],
+  "start_min": 13.3572,
+  "end_min": 51.0757,
+  "revealed_at_min": 0.0,
+  "synthetic": true,
+  "rainfall_mm_per_hour": 5,
+  "news_text": "Rainfall intensity of approximately 5 mm/h is forecast in NE, E. The announced disruption window is minute 13.3572 to 51.0757 after dispatch."
+}
