@@ -9,7 +9,7 @@ checkpoint. It does not include the later ontology/prompt/scale ablations.
 
 ```text
 data/                     # Scenarios, public observations, split, generator module
-pure_rl/                  # Pure policy, shared environment/advantage/observations, config
+pure_rl/                  # Pure policy, shared environment, policy event inputs, config
 proposed_model/
   kim/                    # Kim grouping algorithm, config.json, and cache/
     clustering.py         # Actual capacity/time-window clustering implementation
@@ -31,6 +31,18 @@ The proposed models reuse the environment and common policy utilities in
 remain import dependencies even though supported commands do not call their API
 or random-instance-generation functions. File organization is not a claim that
 every legacy function is exercised by the four workflows.
+
+The Pure RL folder now has four files:
+- `config.json`: experiment settings.
+- `train_vrptw.py`: network and training, including standard POMO advantage.
+- `vrptw_env.py`: physical simulation, constraints, reward, and saved-route replay.
+- `policy_event_inputs.py`: information available to the policy at each vehicle's
+  time, shared with proposed models. It does not generate events or apply traffic
+  effects; those belong to the data pipeline and simulator respectively.
+
+Unused lexicographic advantage modes and their checkpoint state have been removed.
+All supported methods keep the original reward-minus-mean, standard-deviation-scaled
+POMO advantage. Non-reward modes are rejected by the supported runner.
 
 ## Fresh PC Setup
 

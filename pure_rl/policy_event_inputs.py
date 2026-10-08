@@ -1,4 +1,10 @@
-"""Per-vehicle event observations, separate from simulator event effects."""
+"""Select event information the policy may use at each vehicle's current time.
+
+Shared by Pure RL and guided policies. This module does not generate events,
+change physical travel times, or call an LLM. vrptw_env.py applies travel effects;
+this module excludes hidden multipliers from policy tokens and selects accident
+encodings according to each vehicle's disclosure stage.
+"""
 import torch
 
 

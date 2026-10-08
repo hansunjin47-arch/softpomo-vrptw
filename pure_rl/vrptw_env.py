@@ -372,7 +372,7 @@ class VRPTWEnv:
         self.reset_state.depot_node_tw_close = self.depot_node_tw_close
         self.reset_state.rain_tokens    = None   # caller sets before pre_forward
         self.reset_state.acc_tokens     = None
-        from event_observation import accident_observations
+        from policy_event_inputs import accident_observations
         self.reset_state.acc_observations = accident_observations(
             batch_dict.get('events', []), batch_dict.get('T') or 1.0)
 

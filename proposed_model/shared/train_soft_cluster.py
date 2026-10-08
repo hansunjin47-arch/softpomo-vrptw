@@ -93,7 +93,6 @@ import torch.nn as nn
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 
-from advantage import hybrid_advantage, eps_schedule, tier_counts
 
 from train_vrptw_llm import (
     VRPTWLLMTrainer,
@@ -238,7 +237,6 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         # Ontology-upgrade Phase 1 diagnostic logging (design doc Part I) -- off
         # by default; enabled via trainer_p['episode_log_enabled'].
         self._current_epoch  = 0
-        self._tier_counts    = {'t0': 0, 't1': 0, 't2': 0, 'total': 0}
         self._phase1_logger  = None
         if trainer_p.get('episode_log_enabled', False):
             _epochs   = trainer_p.get('epochs', 500)
@@ -1799,25 +1797,8 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
                     Lc=detail['Lc'], Lt=detail['Lt'],
                 ))
 
-        if self.trainer_params.get('advantage_mode', 'reward') == 'hybrid_lex':
-            unserved = (self.env.visited_ninf_flag[:, :, 1:] == 0.0).sum(dim=2).float()
-            cur_eps  = eps_schedule(self._current_epoch - self.start_epoch, self.trainer_params)
-            advantage = hybrid_advantage(
-                self.env.total_late, self.env.depot_visit_count, self.env._get_travel_distance(),
-                eps=cur_eps,
-                A=self.trainer_params.get('advantage_A', 7.0),
-                clip=self.trainer_params.get('advantage_clip', 3.0),
-                running_std=self._adv_running_std,
-                unserved=unserved,
-            )
-            tc = tier_counts(self.env.total_late, self.env.depot_visit_count,
-                              self.env._get_travel_distance(), cur_eps, unserved=unserved)
-            for k in ('t0', 't1', 't2', 'total'):
-                self._tier_counts[k] += tc[k]
-            self._last_eps = cur_eps
-        else:
-            advantage = reward - reward.float().mean(dim=1, keepdim=True)
-            advantage = advantage / (advantage.std(dim=1, keepdim=True).clamp(min=1e-6))
+        advantage = reward - reward.float().mean(dim=1, keepdim=True)
+        advantage = advantage / (advantage.std(dim=1, keepdim=True).clamp(min=1e-6))
         log_prob  = prob_list.log().sum(dim=2)
         loss      = -(advantage * log_prob).mean()
 

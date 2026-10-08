@@ -15,6 +15,11 @@ class ReleaseTests(unittest.TestCase):
     def test_integrity(self):
         verify_bundle(ROOT)
 
+    def test_unsupported_advantage_rejected(self):
+        from run import build_trainer
+        with self.assertRaisesRegex(ValueError, 'only reward-based'):
+            build_trainer({'trainer': {'advantage_mode': 'hybrid_lex'}}, ROOT, ROOT / 'runs/unused', cpu=True)
+
     def test_split_and_caches(self):
         split = read(ROOT / 'data/split.json')
         names = []

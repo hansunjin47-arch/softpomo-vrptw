@@ -27,7 +27,6 @@ import torch.nn.functional as F
 from torch.optim import Adam as Optimizer
 from torch.cuda.amp import autocast, GradScaler
 
-from advantage import hybrid_advantage, RunningStd, eps_schedule, tier_counts
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from vrptw_env import (
@@ -238,15 +237,8 @@ trainer_params = dict(
     logging          = dict(model_save_interval=500, log_interval=10),
 )
 
-# advantage_mode='reward' (default): unchanged R-mean(R) baseline, using the
-# env's own scalarized weighted-sum reward. 'hybrid_lex': epsilon-constraint
-# preference (late<=eps always beats late>eps; within each group, magnitude
-# of veh/dist differences is preserved) via advantage.hybrid_advantage --
-# see advantage.py for the full design rationale.
+# Only the standard reward-based, within-scenario POMO baseline is supported.
 trainer_params['advantage_mode']  = 'reward'
-trainer_params['advantage_eps']   = 0.0
-trainer_params['advantage_A']     = 7.0
-trainer_params['advantage_clip']  = 3.0
 
 
 # ── Model ─────────────────────────────────────────────────────────────────────
@@ -284,7 +276,7 @@ class VRPTWModel(nn.Module):
         rain_tokens = reset_state.rain_tokens   # (batch, R, 4) or None
         acc_tokens  = reset_state.acc_tokens    # (batch, A, 5) or None
 
-        from event_observation import prepare_event_encodings
+        from policy_event_inputs import prepare_event_encodings
         prepare_event_encodings(self, reset_state, depot_xy, node_features, rain_tokens, acc_tokens)
 
         # Cached raw (unnormalized) tensors for the per-step slack feature --
@@ -326,7 +318,7 @@ class VRPTWModel(nn.Module):
 
         else:
             slack_feat = self._compute_slack_feat(state)
-            from event_observation import decode_event_observations
+            from policy_event_inputs import decode_event_observations
             probs = decode_event_observations(self, state, slack_feat=slack_feat)
 
             if self.training or self.mp['eval_type'] == 'softmax':
@@ -599,7 +591,6 @@ class VRPTWTrainer:
         self.env       = VRPTWEnv(**env_p)
         self.optimizer = Optimizer(self.model.parameters(), **opt_p['optimizer'])
         self._gen_rng  = np.random.default_rng(trainer_p.get('seed', 42))
-        self._adv_running_std = RunningStd()
         # AMP: forward-pass matmuls in FP16/BF16 (Tensor Core speedup + half the
         # activation memory), backward/optimizer step kept numerically safe via
         # GradScaler. Only wraps self.model(...) calls -- env.step() physics
@@ -607,7 +598,6 @@ class VRPTWTrainer:
         self._use_amp = trainer_p.get('use_amp', True) and self.device.type == 'cuda'
         self._scaler  = GradScaler(enabled=self._use_amp)
         self._current_epoch = trainer_p.get('model_load', {}).get('epoch') or 0
-        self._tier_counts = {'t0': 0, 't1': 0, 't2': 0, 'total': 0}
 
         data_dir = trainer_p['data_dir']
         self.instance_pool = []
@@ -723,14 +713,6 @@ class VRPTWTrainer:
                 print(f'Epoch {epoch:4d}/{total_epochs}  [{phase}]  '
                       f'train_reward={train_reward:.4f}  loss={train_loss:.6f}  '
                       f'elapsed={h:02d}:{m:02d}:{s:02d}')
-                if self.trainer_params.get('advantage_mode', 'reward') == 'hybrid_lex':
-                    tc = self._tier_counts
-                    tot = max(tc['total'], 1)
-                    print(f'  [tier]  eps={getattr(self, "_last_eps", float("nan")):.2f}  '
-                          f't0(unserved)={100*tc["t0"]/tot:.1f}%  '
-                          f't1(infeasible)={100*tc["t1"]/tot:.1f}%  '
-                          f't2(feasible)={100*tc["t2"]/tot:.1f}%')
-                    self._tier_counts = {'t0': 0, 't1': 0, 't2': 0, 'total': 0}
 
             if _MLFLOW:
                 mlflow.log_metrics({"train/reward": train_reward,
@@ -925,26 +907,8 @@ class VRPTWTrainer:
         if reward is None:
             reward = self._fallback_reward()
 
-        if tp.get('advantage_mode', 'reward') == 'hybrid_lex':
-            unserved  = (self.env.visited_ninf_flag[:, :, 1:] == 0.0).sum(dim=2).float()
-            # relative to start_epoch, not absolute: a decay schedule resumed from
-            # e.g. epoch 1001 must restart its own countdown at 0, not jump straight
-            # to eps_final because the absolute epoch already exceeds decay_epochs.
-            cur_eps   = eps_schedule(self._current_epoch - self.start_epoch, tp)
-            advantage = hybrid_advantage(
-                self.env.total_late, self.env.depot_visit_count, self.env.total_travel_time,
-                eps=cur_eps, A=tp.get('advantage_A', 7.0),
-                clip=tp.get('advantage_clip', 3.0), running_std=self._adv_running_std,
-                unserved=unserved,
-            )
-            tc = tier_counts(self.env.total_late, self.env.depot_visit_count,
-                              self.env.total_travel_time, cur_eps, unserved=unserved)
-            for k in ('t0', 't1', 't2', 'total'):
-                self._tier_counts[k] += tc[k]
-            self._last_eps = cur_eps
-        else:
-            advantage = reward - reward.float().mean(dim=1, keepdim=True)
-            advantage = advantage / (advantage.std(dim=1, keepdim=True).clamp(min=1e-6))
+        advantage = reward - reward.float().mean(dim=1, keepdim=True)
+        advantage = advantage / (advantage.std(dim=1, keepdim=True).clamp(min=1e-6))
         log_prob  = prob_list.log().sum(dim=2)
         loss      = -(advantage * log_prob).mean()
 

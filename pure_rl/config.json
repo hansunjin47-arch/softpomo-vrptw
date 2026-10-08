@@ -93,9 +93,6 @@
     "max_steps": 600,
     "n_mc_samples": 1,
     "advantage_mode": "reward",
-    "advantage_eps": 0.0,
-    "advantage_A": 7.0,
-    "advantage_clip": 3.0,
     "use_augmentation": true,
     "seed": 42,
     "train_aug8": false

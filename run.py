@@ -83,6 +83,8 @@ def block_network():
 
 def build_trainer(config, root, out, cpu=False):
     # Shared initialization: copy JSON settings and resolve paths/devices for the current PC.
+    if config['trainer'].get('advantage_mode', 'reward') != 'reward':
+        raise ValueError('This release supports only reward-based POMO advantage')
     denied = block_network()
     import torch
     import train_vrptw as pure
@@ -122,7 +124,7 @@ def build_trainer(config, root, out, cpu=False):
 
 
 def save_checkpoint(trainer, epoch, path, contract):
-    # Resuming requires RNG and advantage state as well as model and optimizer state.
+    # Restore RNG state together with model and optimizer state on resume.
     import numpy as np
     import torch
     state = dict(epoch=epoch, model_state_dict=trainer.model.state_dict(),
@@ -130,8 +132,7 @@ def save_checkpoint(trainer, epoch, path, contract):
         loss_log=trainer.loss_log, server_contract=contract,
         python_rng=random.getstate(), numpy_rng=np.random.get_state(),
         torch_rng=torch.get_rng_state(),
-        cuda_rng=torch.cuda.get_rng_state_all() if trainer.device.type == 'cuda' else [],
-        advantage_state=vars(trainer._adv_running_std))
+        cuda_rng=torch.cuda.get_rng_state_all() if trainer.device.type == 'cuda' else [])
     if hasattr(trainer, '_scaler'):
         state['scaler'] = trainer._scaler.state_dict()
     if hasattr(trainer, '_gen_rng'):
@@ -160,7 +161,6 @@ def restore(trainer, path, contract=None):
         torch.set_rng_state(state['torch_rng'])
         if trainer.device.type == 'cuda' and state['cuda_rng']:
             torch.cuda.set_rng_state_all(state['cuda_rng'])
-        vars(trainer._adv_running_std).update(state['advantage_state'])
         if 'scaler' in state and hasattr(trainer, '_scaler'):
             trainer._scaler.load_state_dict(state['scaler'])
         if 'generator_rng' in state and hasattr(trainer, '_gen_rng'):
