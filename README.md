@@ -16,7 +16,7 @@ proposed_model/
   phase2/                 # Phase2-specific config, caches, and initialization
     reference_cache.py    # Reference-route cache loading and disclosure gating
     checkpoints/pure500.pt
-  shared/                 # Shared guided policy, trainer, and LLM/domain modules
+  *.py                    # Shared guided policy, trainer, and LLM/domain modules
 lkh-3/                    # Historical matrix, solver interface, replay entry point
   reference/              # Original historical plan/matrix/summary
 run.py                    # Shared training entry point
@@ -187,5 +187,5 @@ tools; regenerating the manifest is not a normal training step.
 
 Kim/Phase2 training still consumes existing caches. Moving the actual Kim grouping
 implementation into `proposed_model/kim/clustering.py` does not enable paid cache
-generation. Shared attention, decoding, and training code remains in `shared/`
+generation. Shared attention, decoding, and training code lives directly in `proposed_model/`
 to prevent the two methods from drifting through duplicated implementations.
