@@ -14,6 +14,7 @@ Train80/test80 scenarios, train/test confidence caches, the matched Pure500
 initial checkpoint, offline entry points, and verification instructions are included.
 No API account or paid calls are required for these workflows.
 
-The other top-level directories contain earlier research implementations. They
-are preserved for history and are not the recommended coworker entry points.
-The current release does not include the later ontology/prompt/scale ablations.
+Only the current four-workflow release is retained in the working tree. Earlier
+implementations and datasets remain available in Git history, not as alternative
+entry points. The current release does not include the later
+ontology/prompt/scale ablations.
