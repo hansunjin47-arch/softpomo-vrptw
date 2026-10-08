@@ -12,8 +12,7 @@ import socket
 import sys
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+from bootstrap import ROOT
 
 
 def read(path):
@@ -218,7 +217,9 @@ def main():
     if args.batch_size is not None and args.batch_size < 1:
         ap.error('Batch size must be positive')
     digest = verify_bundle(ROOT)
-    config = read(ROOT / 'configs' / (args.method + '.json'))
+    config_path = (ROOT / 'pure_rl/config.json' if args.method == 'pure'
+                   else ROOT / 'proposed_model/configs' / (args.method + '.json'))
+    config = read(config_path)
     config['trainer']['seed'] = args.seed
     if args.epochs is not None:
         config['trainer']['epochs'] = args.epochs

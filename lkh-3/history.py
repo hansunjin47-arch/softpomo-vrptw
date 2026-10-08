@@ -2,15 +2,19 @@
 import argparse
 from pathlib import Path
 import subprocess
+import sys
+
+# Allow direct invocation as `python lkh-3/history.py` from any working directory.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from bootstrap import ROOT
 
 import numpy as np
 
 from evaluate import replay, summarize
 from lkh_io import load_solomon as load_raw, _write_vrp_file, _write_par_file, _parse_tour
-from server.train_cached import read, verify_bundle, write
+from run import read, verify_bundle, write
 from vrptw_env import load_solomon
 
-ROOT = Path(__file__).resolve().parent
 
 
 def planning_matrix(split):
@@ -47,12 +51,12 @@ def main():
         raise FileExistsError('Use a new output directory')
     split = read(ROOT / 'data/split.json')
     raw, mean, matrix = planning_matrix(split)
-    if not np.array_equal(matrix, read(ROOT / 'reference/history/history_matrix.json')['matrix']):
+    if not np.array_equal(matrix, read(ROOT / 'lkh-3/reference/history_matrix.json')['matrix']):
         raise ValueError('Historical matrix disagrees with the reference protocol')
     write(out / 'matrix.json', dict(unrounded=mean.tolist(), matrix=matrix.tolist()))
     if args.replay_reference:
         # Replay an existing plan; this branch does not run a new LKH optimization.
-        routes = read(ROOT / 'reference/history/routes.json')
+        routes = read(ROOT / 'lkh-3/reference/routes.json')
     else:
         _write_vrp_file(raw, matrix.tolist(), str(out / 'problem.vrp'), raw['vehicle_limit'],
                         distance_limit=int(raw['tw_close'][0]) * 3)
@@ -74,7 +78,7 @@ def main():
         rows.append(row)
     summary = summarize(rows)
     if args.replay_reference:
-        expected = read(ROOT / 'reference/history/summary.json')['groups']['ALL']['means']
+        expected = read(ROOT / 'lkh-3/reference/summary.json')['groups']['ALL']['means']
         for key in ('vehicles', 'travel_time', 'total_late'):
             if abs(summary['ALL']['mean'][key] - expected[key]) > 1e-8:
                 raise ValueError(f'Reference replay mismatch: {key}')

@@ -3,7 +3,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from server.train_cached import read, sha, validate_cache, validate_resume, verify_bundle
+from run import read, sha, validate_cache, validate_resume, verify_bundle
 
 ROOT = Path(__file__).resolve().parent
 
@@ -24,9 +24,9 @@ class ReleaseTests(unittest.TestCase):
                 names.append(name)
                 self.assertEqual(sha(ROOT / 'data' / (name + '.txt')), row['sha256'])
                 for method, suffix in (('kim', '_cluster.json'), ('phase2', '_rl_cluster.json')):
-                    validate_cache(ROOT / 'cache' / method / (name + suffix))
+                    validate_cache(ROOT / 'proposed_model/cache' / method / (name + suffix))
                 if row['kind'] == 'ACCIDENT':
-                    stages = list((ROOT / 'cache/kim').glob(name + '_acc_refresh_*.json'))
+                    stages = list((ROOT / 'proposed_model/cache/kim').glob(name + '_acc_refresh_*.json'))
                     self.assertEqual(len(stages), 1)
                     validate_cache(stages[0])
         self.assertEqual(len(set(names)), 160)

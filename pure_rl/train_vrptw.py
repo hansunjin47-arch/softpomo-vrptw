@@ -580,7 +580,7 @@ def _inst_tag(instances: list) -> str:
 
 
 class VRPTWTrainer:
-    # Supported workflows instantiate this class via server/train_cached.py, not the legacy main.
+    # Supported workflows instantiate this class via run.py, not the legacy main.
     def __init__(self, env_p, model_p, opt_p, trainer_p):
         self.env_params       = env_p
         self.model_params     = model_p

@@ -1,53 +1,14 @@
-# ── Model weights & checkpoints ───────────────────────────────────────────────
-checkpoints/
-
-# ── Experiment outputs ────────────────────────────────────────────────────────
-result*/
-results/
-mlruns/
-mlflow.db
-
-# ── Logs & ad-hoc outputs ─────────────────────────────────────────────────────
-logs/
-*.log
-*.log.err
-*.out
-phase2_out.txt
-phase2_err.txt
-run_eval_abcdef.log
-wait_and_run_fewshot.ps1
-
-# ── Generated plots / exports ─────────────────────────────────────────────────
-plots/
-pomo_export/
-
-# ── Python ────────────────────────────────────────────────────────────────────
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Local environments, credentials, caches, and generated experiment outputs.
 .venv/
-
-# ── IDE ───────────────────────────────────────────────────────────────────────
+.env
+.env.*
+__pycache__/
+*.py[cod]
+runs/
+*.log
+*.tmp
+*.zip
 .idea/
 .vscode/
-*.iml
-
-# ── Large application bundles ─────────────────────────────────────────────────
-Protege-5.6.9-win/
-Protege-5.6.9-win.zip
-*.zip
-
-# ── Large generated datasets (regenerable via generate_vrptw.py / generate_events.py) ──
-original_POMO/data/
-
-# ── Claude agent session data ─────────────────────────────────────────────────
-.claude/
-
-# ── Misc ─────────────────────────────────────────────────────────────────────
-*.db
-table_main_updated.tex
-build_rl_cache_r1_stderr.log
-build_rl_cache_r1_stdout.log
-cache_gen_deepseek.log
-cache_gen_deepseek.log.err
+# Old local validation outputs are not part of the reorganized repository.
+/experiments/

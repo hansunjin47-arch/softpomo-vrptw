@@ -4,9 +4,9 @@ import copy
 from pathlib import Path
 import statistics
 
-from server.train_cached import build_trainer, read, sha, verify_bundle, write
+from bootstrap import ROOT
+from run import build_trainer, read, sha, verify_bundle, write
 
-ROOT = Path(__file__).resolve().parent
 METRICS = ('vehicles', 'travel_time', 'late_count', 'total_late', 'cost', 'reward')
 
 

@@ -1,2 +1,7 @@
 # Preserve bundle bytes: SHA-256 integrity must survive Windows/Linux checkouts.
-experiments/rc101/** -text
+data/** -text
+pure_rl/** -text
+proposed_model/** -text
+lkh-3/** -text
+*.py -text
+bundle_manifest.json -text

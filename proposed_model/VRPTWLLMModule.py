@@ -33,7 +33,7 @@ Output
 from __future__ import annotations
 
 # Shared dependencies include event types; importing this module does not imply runtime API calls.
-# Paid request functions are disabled during initialization in server/train_cached.py.
+# Paid request functions are disabled during initialization in run.py.
 
 import json
 import os

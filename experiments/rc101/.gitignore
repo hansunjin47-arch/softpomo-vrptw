@@ -1,8 +1,0 @@
-runs/
-__pycache__/
-*.pyc
-.venv/
-.env
-*.log
-!checkpoints/
-!checkpoints/pure500.pt
