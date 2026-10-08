@@ -60,12 +60,12 @@ def validate_cache(path, n=100):
 
 def verify_bundle(root):
     # Verify code, data, caches, and initial weights to prevent mixing experiment versions.
-    manifest = read(root / 'bundle_manifest.json')
+    manifest = read(root / 'tools/bundle_manifest.json')
     for name, digest in manifest['sha256'].items():
         path = (root / name).resolve()
         if not path.is_relative_to(root.resolve()) or sha(path) != digest:
             raise ValueError(f'Bundle integrity failure: {name}')
-    return sha(root / 'bundle_manifest.json')
+    return sha(root / 'tools/bundle_manifest.json')
 
 
 def block_network():
@@ -103,25 +103,8 @@ def build_trainer(config, root, out, cpu=False):
                 raise RuntimeError('Cache refresh is not allowed on the server')
             if config['method'] == 'kim':
                 return super()._ensure_soft_cluster_cache(inst, False)
-            name = inst['name']
-            if name in self._cluster_conf_cache:
-                return
-            cached = validate_cache(Path(self._llm_cache_dir) / (name + '_rl_cluster.json'))
-            clusters, scores = guided._parse_cluster_cache(cached)
-            tensor = self._build_cluster_conf_tensor(clusters, scores, len(clusters),
-                inst['n_customers'], guided._parse_cluster_depot(cached))
-            self._cluster_assign_cache[name] = clusters
-            accidents = [e for e in inst['preset_events'] if e['type'] == 'ACCIDENT']
-            if accidents:
-                # Even precomputed accident guidance is gated by each vehicle's disclosure time.
-                if len(accidents) != 1:
-                    raise ValueError('This runner supports one event per scenario')
-                self._acc_stage_events[name] = [dict(
-                    t_start=float(accidents[0]['trigger_time']) / float(inst['T']), tensor=tensor)]
-                self._cluster_conf_cache[name] = torch.zeros_like(tensor)
-            else:
-                self._cluster_conf_cache[name] = tensor
-            self._original_cluster_conf[name] = self._cluster_conf_cache[name].clone()
+            from proposed_model.phase2.reference_cache import load_reference_cache
+            load_reference_cache(self, inst)
 
     tp = copy.deepcopy(config['trainer'])
     tp.update(data_dir=str(root / 'data'), result_dir=str(out / 'model'),
@@ -218,7 +201,7 @@ def main():
         ap.error('Batch size must be positive')
     digest = verify_bundle(ROOT)
     config_path = (ROOT / 'pure_rl/config.json' if args.method == 'pure'
-                   else ROOT / 'proposed_model/configs' / (args.method + '.json'))
+                   else ROOT / 'proposed_model' / args.method / 'config.json')
     config = read(config_path)
     config['trainer']['seed'] = args.seed
     if args.epochs is not None:

@@ -10,19 +10,19 @@ checkpoint. It does not include the later ontology/prompt/scale ablations.
 ```text
 data/                     # Scenarios, public observations, split, generator module
 pure_rl/                  # Pure policy, shared environment/advantage/observations, config
-proposed_model/           # Kim/Phase2 trainers and shared LLM/domain modules
-  configs/                # kim.json and phase2.json
-  cache/kim/              # Training and test confidence caches
-  cache/phase2/
-  checkpoints/pure500.pt   # Matched Phase2 initialization
+proposed_model/
+  kim/                    # Kim grouping algorithm, config.json, and cache/
+    clustering.py         # Actual capacity/time-window clustering implementation
+  phase2/                 # Phase2-specific config, caches, and initialization
+    reference_cache.py    # Reference-route cache loading and disclosure gating
+    checkpoints/pure500.pt
+  shared/                 # Shared guided policy, trainer, and LLM/domain modules
 lkh-3/                    # Historical matrix, solver interface, replay entry point
   reference/              # Original historical plan/matrix/summary
 run.py                    # Shared training entry point
 evaluate.py               # Shared learned-model evaluation and metric aggregation
 bootstrap.py              # Resolve shared imports after moving files
-test_release.py           # Input/integrity/resume checks
-refresh_manifest.py       # Explicitly version intentional source changes
-bundle_manifest.json      # SHA-256 of source and experiment inputs
+tools/                    # Tests, manifest, and explicit manifest refresh script
 requirements.txt
 ```
 
@@ -49,7 +49,7 @@ Use `.venv\Scripts\python.exe -m pip` instead of `pip` in its command, then:
 
 ```powershell
 .venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe -m unittest test_release
+.venv\Scripts\python.exe -m unittest discover -s tools
 .venv\Scripts\python.exe run.py --method phase2 --check-only --cpu --out runs/install_check
 ```
 
@@ -149,7 +149,7 @@ Load only trusted checkpoints: checkpoint loading uses pickle.
 The scenario files retain Solomon data; cite Solomon (1987) and respect its terms.
 
 All bundle inputs are checked, including files not needed by a particular method.
-For intentional source changes run `python refresh_manifest.py`; this creates a
+For intentional source changes run `python tools/refresh_manifest.py`; this creates a
 new experiment version. Do not regenerate hashes to bypass failed integrity checks.
 Moving files also changes the manifest: pre-reorganization runs cannot resume
 under this version's strict contract. Keep an old checkout to resume those runs.
@@ -160,3 +160,20 @@ two-scenario evaluation with historical weights, and full test80 reference repla
 The folder migration is checked with the same input tests and training smoke paths.
 Reference replay has mean K=19, T=1785.70642065, L=11.15164798. Full retraining and
 a fresh LKH solve are not packaging checks. Legacy versions remain in Git history.
+
+## Root Files
+
+`run.py` and `evaluate.py` are the shared execution commands. `bootstrap.py`
+resolves imports across method folders and is currently required by those commands.
+`requirements.txt` and `README.md` support installation and usage, while
+`.gitignore` and `.gitattributes` control versioning and byte-preserving checkout.
+They are not all numerical model inputs.
+
+Tests and maintenance utilities live in `tools/`, not at the root. The manifest
+there is still checked at runtime. Tests and manifest regeneration are development
+tools; regenerating the manifest is not a normal training step.
+
+Kim/Phase2 training still consumes existing caches. Moving the actual Kim grouping
+implementation into `proposed_model/kim/clustering.py` does not enable paid cache
+generation. Shared attention, decoding, and training code remains in `shared/`
+to prevent the two methods from drifting through duplicated implementations.

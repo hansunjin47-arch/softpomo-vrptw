@@ -2,10 +2,12 @@
 from pathlib import Path
 import tempfile
 import unittest
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from run import read, sha, validate_cache, validate_resume, verify_bundle
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseTests(unittest.TestCase):
@@ -24,9 +26,9 @@ class ReleaseTests(unittest.TestCase):
                 names.append(name)
                 self.assertEqual(sha(ROOT / 'data' / (name + '.txt')), row['sha256'])
                 for method, suffix in (('kim', '_cluster.json'), ('phase2', '_rl_cluster.json')):
-                    validate_cache(ROOT / 'proposed_model/cache' / method / (name + suffix))
+                    validate_cache(ROOT / 'proposed_model' / method / 'cache' / (name + suffix))
                 if row['kind'] == 'ACCIDENT':
-                    stages = list((ROOT / 'proposed_model/cache/kim').glob(name + '_acc_refresh_*.json'))
+                    stages = list((ROOT / 'proposed_model/kim/cache').glob(name + '_acc_refresh_*.json'))
                     self.assertEqual(len(stages), 1)
                     validate_cache(stages[0])
         self.assertEqual(len(set(names)), 160)
@@ -41,8 +43,9 @@ class ReleaseTests(unittest.TestCase):
         import json
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
+            (root / 'tools').mkdir()
             (root / 'input.txt').write_text('original')
-            (root / 'bundle_manifest.json').write_text(json.dumps({'sha256': {'input.txt': sha(root / 'input.txt')}}))
+            (root / 'tools/bundle_manifest.json').write_text(json.dumps({'sha256': {'input.txt': sha(root / 'input.txt')}}))
             verify_bundle(root)
             (root / 'input.txt').write_text('changed')
             with self.assertRaises(ValueError):

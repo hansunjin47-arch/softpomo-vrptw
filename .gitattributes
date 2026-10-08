@@ -4,4 +4,4 @@ pure_rl/** -text
 proposed_model/** -text
 lkh-3/** -text
 *.py -text
-bundle_manifest.json -text
+tools/** -text

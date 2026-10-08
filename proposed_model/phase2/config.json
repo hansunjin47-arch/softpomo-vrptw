@@ -2,13 +2,6 @@
   "trainer": {
     "use_cuda": true,
     "cuda_device_num": 0,
-    "epochs": 1000,
-    "train_episodes": 2500,
-    "train_batch_size": 64,
-    "test_batch_size": 1,
-    "max_steps": 600,
-    "n_mc_samples": 1,
-    "curriculum_epoch": 0,
     "train_instances": [
       "RC101_RAIN_P018",
       "RC101_RAIN_P025",
@@ -92,21 +85,27 @@
       "RC101_ACC_Y020"
     ],
     "test_instances": [],
+    "epochs": 1000,
+    "train_episodes": 2500,
+    "train_batch_size": 64,
+    "test_batch_size": 1,
+    "curriculum_epoch": 0,
+    "max_steps": 600,
+    "n_mc_samples": 1,
     "advantage_mode": "reward",
     "advantage_eps": 0.0,
     "advantage_A": 7.0,
     "advantage_clip": 3.0,
-    "cluster_mode": "kim2006",
+    "use_augmentation": true,
+    "seed": 42,
+    "pomo_size": 100,
+    "cluster_mode": "rl",
     "bias_mode": "cluster",
     "start_mode": "random",
-    "pomo_size": 100,
-    "seed": 42,
     "benchmark": "rc1",
     "experience_refresh_epoch": -1,
     "rl_recluster_epoch": null,
-    "use_augmentation": true,
-    "train_aug8": false,
-    "type_ratio": null
+    "train_aug8": false
   },
   "environment": {
     "problem_size": 100,
@@ -135,7 +134,7 @@
       "lr": 0.0001
     }
   },
-  "method": "kim",
+  "method": "phase2",
   "llm": {
     "enabled": true,
     "model": "anthropic/claude-sonnet-4.6",
@@ -153,5 +152,7 @@
     "use_fewshot_cache": false,
     "no_init_llm": false
   },
-  "cache_dir": "proposed_model/cache/kim"
+  "cache_dir": "proposed_model/phase2/cache",
+  "initial_checkpoint": "proposed_model/phase2/checkpoints/pure500.pt",
+  "prompt_version": "original"
 }
