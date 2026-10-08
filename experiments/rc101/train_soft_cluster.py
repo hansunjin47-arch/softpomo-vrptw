@@ -38,6 +38,7 @@ sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 
 def _parse_cluster_cache(data: dict):
+    # 그룹 ID별 고객 점수를 해석한다. '_'로 시작하는 항목은 depot 등 부가 정보이다.
     """Parse cluster cache JSON — two formats supported.
     Old: {"clusters": [[...], ...], "confidence": {"node": score, ...}}
     New: {"0": {"node": score, ...}, "1": {...}, ..., "_stats": {...}}  (compact,
@@ -189,6 +190,7 @@ TEST_INSTANCES = ["c101", "c101_rain_A", "c101_rain_B", "c101_acc_A", "c101_acc_
 # ── Soft-Cluster Trainer ──────────────────────────────────────────────────────
 
 class SoftClusterTrainer(VRPTWLLMTrainer):
+    # Kim과 Phase2가 공유하는 학습기. 두 방법의 차이는 기준 그룹/캐시의 생성 출처이다.
     """
     Extends VRPTWLLMTrainer with soft-clustering LLM confidence.
 
@@ -471,6 +473,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         flag, replacing its own (lower) score rather than sitting just under
         depot's bias.
         """
+        # 그룹 밖 고객의 bias는 0이다. depot보다 낮은 고객 점수는 아래에서 고정 음수로 치환한다.
         conf = torch.zeros(K, N + 1, device=self.device)
         for k, cluster_nodes in enumerate(clusters[:K]):
             for n in cluster_nodes:
@@ -1383,6 +1386,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
             return cluster_conf[cluster_idx] * mask * bias_strength
 
     def _active_route_cluster(self, name):
+        # 실제 첫 고객의 그룹을 현재 차량에 연결한다. 기준 그룹은 방문 가능 집합을 제한하지 않는다.
         """Anchor bias to the first customer since the most recent depot visit.
 
         Use actual route history so forced starts, free starts and every eval
@@ -1731,6 +1735,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
     # ------------------------------------------------------------------
 
     def _train_one_batch(self, inst: dict, batch_size: int):
+        # rollout 중 캐시 bias를 적용하되, 학습되는 것은 RL 모델이며 LLM은 업데이트하지 않는다.
         self.model.train()
         lp     = self.llm_params
         llm_on = lp['enabled']
@@ -2262,6 +2267,7 @@ class SoftClusterTrainer(VRPTWLLMTrainer):
         return aug
 
     def _best_solution_aug(self, inst: dict, n_aug: int = 8):
+        # 기하 변환에도 고객 ID와 사건 배정은 유지한다. 후보 선택은 시뮬레이터 보상 기준이다.
         """Run _best_solution on n_aug augmented instances, return best across all."""
         best_routes, best_reward = None, -float('inf')
         for aug_idx in range(n_aug):

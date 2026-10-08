@@ -24,6 +24,8 @@ ABox (instances per episode)
   customer_c          : set of Stop labels + affected_by event links
 """
 from __future__ import annotations
+
+# LLM 공통 모듈이 참조하는 도메인 표현이다. 새 PC에서도 import를 위해 이 파일을 유지해야 한다.
 import numpy as np
 from collections import defaultdict
 

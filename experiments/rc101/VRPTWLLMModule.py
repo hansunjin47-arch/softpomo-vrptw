@@ -32,6 +32,9 @@ Output
 """
 from __future__ import annotations
 
+# 사건 자료형 등 guided 모델의 공통 의존성이다. 이 파일이 있다고 학습 중 API를 호출하는 것은 아니다.
+# 유료 요청 함수는 server/train_cached.py의 초기화에서 차단된다.
+
 import json
 import os
 import re

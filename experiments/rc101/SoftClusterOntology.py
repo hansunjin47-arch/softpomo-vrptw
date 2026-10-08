@@ -28,6 +28,9 @@ ABox additions
 """
 from __future__ import annotations
 
+# 그룹/에피소드 관련 공통 객체를 제공한다. 파일 이름만으로 최신 ontology 실험 ON을 뜻하지 않는다.
+# 이 배포본은 기존 Kim/Phase2 캐시를 소비하며 최신 프롬프트를 다시 생성하지 않는다.
+
 import os
 import json
 import numpy as np
@@ -569,4 +572,3 @@ class SoftClusterOntology:
             "rain_events":     self.rain_events,
             "accident_events": self.accident_events,
         }
-

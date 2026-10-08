@@ -29,6 +29,10 @@ The saved .pt file is a list of inst dicts (same format as load_solomon()).
 """
 from __future__ import annotations
 
+# 현재 네 실행 경로는 제공된 train80/test80 파일을 사용하므로 고객 인스턴스를 재생성하지 않는다.
+# vrptw_env.py가 아래 생성 함수를 re-export하므로 현재 import 구조에서는 필요한 모듈이다.
+# 이 파일은 배포 데이터의 사건 generator를 재현하는 실행 진입점이 아니다.
+
 import argparse
 import math
 import os

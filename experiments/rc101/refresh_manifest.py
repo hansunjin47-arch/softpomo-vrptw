@@ -5,6 +5,7 @@ from server.train_cached import sha, write
 ROOT = Path(__file__).resolve().parent
 
 def main():
+    # 의도적인 코드 변경 뒤에만 실행한다. 기존 학습의 무결성 오류를 무시하기 위한 명령이 아니다.
     files = []
     for folder in ('configs', 'data', 'cache', 'checkpoints', 'reference'):
         files.extend(p for p in (ROOT / folder).rglob('*') if p.is_file())

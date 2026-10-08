@@ -256,6 +256,7 @@ trainer_params['advantage_clip']  = 3.0
 # Decoder context: last_node_emb || load || time  (emb+2)
 
 class VRPTWModel(nn.Module):
+    # Pure RL 정책: 정적 고객 정보와 공개된 사건 정보로 다음 행동의 확률을 만든다.
     def __init__(self, **mp):
         super().__init__()
         self.mp            = mp
@@ -402,6 +403,7 @@ class _EncoderLayer(nn.Module):
 
 
 class _Decoder(nn.Module):
+    # 현재 위치·시간·적재량을 반영한다. 불가능 행동 mask와 logit clipping은 별개이다.
     def __init__(self, **mp):
         super().__init__()
         emb  = mp['embedding_dim']
@@ -578,6 +580,7 @@ def _inst_tag(instances: list) -> str:
 
 
 class VRPTWTrainer:
+    # 배포본은 아래 standalone main 대신 server/train_cached.py에서 이 클래스를 생성한다.
     def __init__(self, env_p, model_p, opt_p, trainer_p):
         self.env_params       = env_p
         self.model_params     = model_p
@@ -871,6 +874,7 @@ class VRPTWTrainer:
 
     # ------------------------------------------------------------------
     def _train_one_batch(self, inst: dict, batch_size: int):
+        # 한 사건에 대해 여러 POMO 시작점을 rollout하고 상대 보상으로 policy gradient를 계산한다.
         self.model.train()
         tp = self.trainer_params
 
@@ -995,6 +999,7 @@ class VRPTWTrainer:
     # ------------------------------------------------------------------
     @torch.no_grad()
     def _best_solution(self, inst: dict):
+        # 평가에서는 gradient를 갱신하지 않고, 설정된 시작점/증강 후보 중 최고 보상을 선택한다.
         self.model.eval()
         max_steps    = self.trainer_params.get('max_steps', 600)
         n_mc_samples = self.trainer_params.get('n_mc_samples', 1)
