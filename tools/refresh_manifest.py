@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     # Run only after intentional changes, not to bypass an existing run's integrity errors.
     files = []
-    for folder in ('data', 'pure_rl', 'proposed_model', 'lkh-3'):
+    for folder in ('data', 'pure_rl', 'proposed_model', 'lkh-3', 'experiments'):
         files.extend(p for p in (ROOT / folder).rglob('*')
                      if p.is_file() and p.suffix in ('.py', '.json', '.txt', '.pt')
                      and '__pycache__' not in p.parts)

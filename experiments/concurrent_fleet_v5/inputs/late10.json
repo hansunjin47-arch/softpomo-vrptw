@@ -1,0 +1,72 @@
+{
+  "trainer": {
+    "use_cuda": true,
+    "cuda_device_num": 0,
+    "train_instances": [
+      "RC101_RAIN_P018",
+      "RC101_RAIN_P025",
+      "RC101_RAIN_P033",
+      "RC101_RAIN_P017",
+      "RC101_RAIN_P047",
+      "RC101_RAIN_P034",
+      "RC101_RAIN_P027",
+      "RC101_RAIN_P001",
+      "RC101_RAIN_P015",
+      "RC101_RAIN_P004",
+      "RC101_ACC_P041",
+      "RC101_ACC_P006",
+      "RC101_ACC_P015",
+      "RC101_ACC_P035",
+      "RC101_ACC_P022",
+      "RC101_ACC_P031",
+      "RC101_ACC_P013",
+      "RC101_ACC_P009",
+      "RC101_ACC_P037",
+      "RC101_ACC_P047"
+    ],
+    "test_instances": [],
+    "epochs": 1000,
+    "train_episodes": 2500,
+    "train_batch_size": 128,
+    "test_batch_size": 1,
+    "curriculum_epoch": 0,
+    "max_steps": 600,
+    "n_mc_samples": 1,
+    "advantage_mode": "reward",
+    "advantage_eps": 0.0,
+    "advantage_A": 7.0,
+    "advantage_clip": 3.0,
+    "use_augmentation": false,
+    "seed": 42,
+    "train_aug8": false
+  },
+  "environment": {
+    "problem_size": 100,
+    "pomo_size": 100,
+    "late_count_penalty": 0.0,
+    "late_penalty": 10,
+    "vehicle_penalty": 7.142857142857143,
+    "unserved_penalty": 500.0,
+    "D_max": 12.0,
+    "Lt_max": 7.070625000000001,
+    "dist_penalty_weight": 0.0,
+    "time_penalty": 1.0,
+    "TT_max": 7.070625000000001
+  },
+  "model": {
+    "embedding_dim": 128,
+    "encoder_layer_num": 6,
+    "head_num": 8,
+    "qkv_dim": 16,
+    "ff_hidden_dim": 512,
+    "eval_type": "argmax",
+    "logit_clipping": 10.0,
+    "learn_first_customer": true
+  },
+  "optimizer": {
+    "optimizer": {
+      "lr": 0.0001
+    }
+  },
+  "method": "pure"
+}

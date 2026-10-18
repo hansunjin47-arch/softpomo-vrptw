@@ -3,10 +3,10 @@
 Date: 2026-10-18. Status: design and implementation notes for the separate local
 `experiments/concurrent_fleet_v5/` experiment.
 
-**This is a documentation-only addition.** It does not replace this repository's
-released offline workflows, change its supported entry points, or include the
-local v5 source, checkpoints, or results. Local implementation paths below are
-identifiers, not claims that those files exist in this release.
+The experimental source, tests and train20 settings are now included under
+`experiments/concurrent_fleet_v5/`. This does not replace the released offline
+workflows or include checkpoints/results. See that folder's README for its
+separate experimental commands and portability notes.
 
 ## Scope
 
@@ -220,7 +220,7 @@ separately from successful parameter updates.
 
 ## Implementation and Verification References
 
-Local, not included in this documentation-only commit:
+Included experimental implementation:
 
 ```text
 experiments/concurrent_fleet_v5/env.py

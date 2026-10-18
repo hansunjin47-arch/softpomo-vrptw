@@ -11,4 +11,5 @@ runs/
 .idea/
 .vscode/
 # Old local validation outputs are not part of the reorganized repository.
-/experiments/
+/experiments/*
+!/experiments/concurrent_fleet_v5/
