@@ -1,5 +1,10 @@
 # Concurrent Fleet Guidance Review
 
+For the COMPLETE current local training implementation, see
+`snapshots/concurrent_fleet_v8_active/README.md` and its
+`experiments/concurrent_fleet_v8/train.py`. That snapshot supersedes the limited
+upload scope described below and retains original sources and input paths.
+
 This review adds an isolated confidence adapter and offline prompt builder to
 the previously published concurrent-fleet experiment. Existing released runners
 and running local training jobs are unchanged. No LLM requests are made.

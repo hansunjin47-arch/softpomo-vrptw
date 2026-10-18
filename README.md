@@ -1,5 +1,12 @@
 # SoftPOMO VRPTW
 
+## Current Concurrent-Fleet Review
+
+The complete active local v8 code, original configurations and event inputs are
+in [snapshots/concurrent_fleet_v8_active](snapshots/concurrent_fleet_v8_active/README.md).
+Start with its `experiments/concurrent_fleet_v8/train.py`. The root-level release
+described below is separate; do not confuse it with the current training snapshot.
+
 Four offline workflows on fixed RC101: LKH-3 Full History, Pure RL,
 Kim + Confidence, and Pure RL500 + Phase2. Run commands from the repository root.
 The release includes train80/test80, confidence caches, and the matched Pure500
