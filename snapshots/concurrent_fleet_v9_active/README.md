@@ -1,5 +1,18 @@
 # Current Pure RL V9 Review Snapshot
 
+## Customer-Only LLM Integration Update
+
+The separate [v9 guided adapter](experiments/concurrent_fleet_v9_guided/README.md)
+now includes the [concurrent ontology](experiments/concurrent_fleet_v9_guided/ONTOLOGY.md),
+separate train/test prompt builders and [online one-shot evaluation](experiments/concurrent_fleet_v9_guided/ONLINE.md).
+Accident disclosure interrupts the simulation clock to refresh confidence before
+the next routing decision. Depot, NEW and STOP receive no direct confidence bias.
+API latency pauses the simulator; paid calls require explicit opt-in. Tests use
+mock responses only. This addition does not change the active pure-RL source.
+The deferred guidance notes below describe the original pure-RL snapshot stage.
+
+    python -m unittest experiments.concurrent_fleet_v9_guided.test_guidance experiments.concurrent_fleet_v9_guided.test_ontology experiments.concurrent_fleet_v9_guided.test_prompts experiments.concurrent_fleet_v9_guided.test_online -v
+
 This is the October 19 diagnostic-plan implementation. V8 is preserved separately.
 All 15 source files recorded by the vehicle200 protocol match their SHA256.
 Dependencies, configs and train20/test80 data are included; no checkpoints,
