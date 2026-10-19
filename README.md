@@ -1,5 +1,12 @@
 # SoftPOMO VRPTW
 
+## October 19 Pure RL V9 Update
+
+The current diagnostic-plan implementation and 200-minute vehicle-cost run are
+in [the complete v9 snapshot](snapshots/concurrent_fleet_v9_active/README.md).
+See [implemented and deferred changes](etc/pure_rl_v9_diagnostic_changes_20261019.md).
+The v8 snapshot below is preserved as the historical baseline.
+
 ## Current Concurrent-Fleet Review
 
 The complete active local v8 code, original configurations and event inputs are

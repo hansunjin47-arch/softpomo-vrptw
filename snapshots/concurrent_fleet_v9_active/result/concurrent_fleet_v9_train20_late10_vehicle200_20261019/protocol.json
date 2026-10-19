@@ -1,0 +1,107 @@
+{
+  "version": "concurrent_fleet_v9_sector_stop_vehicle200",
+  "device": "cuda:0",
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "configs": {
+    "10": {
+      "trainer": {
+        "use_cuda": true,
+        "cuda_device_num": 0,
+        "train_instances": [
+          "RC101_RAIN_P018",
+          "RC101_RAIN_P025",
+          "RC101_RAIN_P033",
+          "RC101_RAIN_P017",
+          "RC101_RAIN_P047",
+          "RC101_RAIN_P034",
+          "RC101_RAIN_P027",
+          "RC101_RAIN_P001",
+          "RC101_RAIN_P015",
+          "RC101_RAIN_P004",
+          "RC101_ACC_P041",
+          "RC101_ACC_P006",
+          "RC101_ACC_P015",
+          "RC101_ACC_P035",
+          "RC101_ACC_P022",
+          "RC101_ACC_P031",
+          "RC101_ACC_P013",
+          "RC101_ACC_P009",
+          "RC101_ACC_P037",
+          "RC101_ACC_P047"
+        ],
+        "test_instances": [],
+        "epochs": 1000,
+        "train_episodes": 2500,
+        "train_batch_size": 128,
+        "test_batch_size": 1,
+        "curriculum_epoch": 0,
+        "max_steps": 600,
+        "n_mc_samples": 1,
+        "advantage_mode": "reward",
+        "advantage_eps": 0.0,
+        "advantage_A": 7.0,
+        "advantage_clip": 3.0,
+        "use_augmentation": false,
+        "seed": 42,
+        "train_aug8": false
+      },
+      "environment": {
+        "problem_size": 100,
+        "pomo_size": 100,
+        "late_count_penalty": 0.0,
+        "late_penalty": 10,
+        "vehicle_penalty": 11.785851085771531,
+        "unserved_penalty": 500.0,
+        "D_max": 12.0,
+        "Lt_max": 7.070625000000001,
+        "dist_penalty_weight": 0.0,
+        "time_penalty": 1.0,
+        "TT_max": 7.070625000000001
+      },
+      "model": {
+        "embedding_dim": 128,
+        "encoder_layer_num": 6,
+        "head_num": 8,
+        "qkv_dim": 16,
+        "ff_hidden_dim": 512,
+        "eval_type": "argmax",
+        "logit_clipping": 10.0,
+        "learn_first_customer": true
+      },
+      "optimizer": {
+        "optimizer": {
+          "lr": 0.0001
+        }
+      },
+      "method": "pure"
+    }
+  },
+  "weights": [
+    10
+  ],
+  "smoke_updates": 0,
+  "vehicle_equivalent_minutes": 200.0,
+  "resume_from": null,
+  "checkpoint_every_updates": 20,
+  "optimization": "State-cache invalidation at each transition phase; per-encoding attention KV cache",
+  "model": "Sector report encoder, STOP token, dispatch context and capacity masks; clamp retained",
+  "learning": "Legacy full-graph single backward; encoder batch128 (no sharing); Adam, AMP/GradScaler, per-episode mean/std baseline, clip=1, batch128 x rollout100; no replay",
+  "changes": "Concurrent global clock and t0 dispatch action mapping; CUDA tensor environment. One-shot test.",
+  "source_hashes": {
+    "experiments\\concurrent_fleet_v9\\env.py": "21eac4a939bef31266513cff320d4c19550868a00d4a602cc2655099ec4a6f25",
+    "experiments\\concurrent_fleet_v9\\policy.py": "1224c9a1fb871662f61aed01e48267275175ffad2a6445d95b06f5e504c0730d",
+    "experiments\\concurrent_fleet_v9\\test_v9.py": "87f5216330808cd94643e2a48731c8709c587ddfe3563c6cc4d2432e1dc8d108",
+    "experiments\\concurrent_fleet_v9\\train.py": "146ac743e6c946a81da928d676d02e753195ee2eb0822e577a610ad4764b6f95",
+    "experiments\\concurrent_fleet_v9\\train_vehicle200.py": "7dcbc6c4722668d5ba872d2a31c20391c25345e8f17913a332a0905b2ab8a7d7",
+    "experiments\\concurrent_fleet_v9\\__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "experiments\\concurrent_fleet_v8\\env.py": "60405794bf4be557c223c63d384b2bd679e38f71bc3dc977446a5e9ac7ea4a8b",
+    "experiments\\concurrent_fleet_v8\\policy.py": "2247281009a30708f193c898a77cfaa9a9ddafb1af779830821c1a39e38bd235",
+    "experiments\\concurrent_fleet_pair\\io.py": "d88b3aa747961dc0d015a6c8e7b25e0b26d6aab48b32d72f06b89363d7200e13",
+    "experiments\\concurrent_fleet_v5\\env.py": "3767d1da702f05378dd656996242a4df5c058da22bedcc33a0b7ae44d421e860",
+    "experiments\\concurrent_fleet_v7\\policy.py": "a34ed357233a5db136426ea4c8606df49d2bd0cde70c9908a167327fa0aabc0c",
+    "experiments\\concurrent_fleet_v3\\run.py": "4d1fa5787265ec49b636f3a7d5b4e057e74123bac20b41392d4ba33782819147",
+    "train_vrptw.py": "2f8af10c086896e788660b026cb0397e7bf0389c6cc64b4c81259c6a59a44ca1",
+    "vrptw_env.py": "bdb743877d77305124df25eef7e421d8b3472a50099a8ac5ff6adc4a7e0856e2",
+    "event_observation.py": "c402475179c78a24d524b69979d76648fca049b2d0cb4e20f57dc02b072d90e6"
+  }
+}
