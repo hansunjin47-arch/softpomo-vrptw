@@ -1,0 +1,541 @@
+{
+  "vehicle_equivalent_minutes": 121.21071428571429,
+  "scope": "Original sequential routing, archived evaluation metrics; not causal concurrent one-shot results",
+  "results": [
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 1.0,
+      "run": "result\\rc101_phase2_train20_bks_late1_gpt54_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.340193619885498
+      },
+      "metrics": {
+        "vehicles": 13.05,
+        "travel_time": 1628.6125331512758,
+        "late_count": 23.7875,
+        "total_late": 296.26761220063986,
+        "served": 100,
+        "reward": -2.0664602905511855,
+        "cost": 2.066460394696654
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 11.697033222500497
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 1.0,
+      "run": "server_export\\rc101_bks_verified_20261014_111512\\rc101_bks_train20_80_e1000_20261013\\train20_pure",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.340193619885498
+      },
+      "metrics": {
+        "vehicles": 14.0125,
+        "travel_time": 1682.643182193348,
+        "late_count": 22.7125,
+        "total_late": 199.21522454643755,
+        "reward": -2.109858101606369,
+        "cost": 2.1098580044599764,
+        "served": 100,
+        "distance": 1640.506419503689
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 9.842587958033633
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 5,
+      "run": "result\\rc101_kim_train20_bks_late5_sonnet46_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.3798018712073077
+      },
+      "metrics": {
+        "vehicles": 17.0375,
+        "travel_time": 1823.686574375505,
+        "late_count": 3.9,
+        "total_late": 13.483443744879667,
+        "served": 100,
+        "reward": -2.3313776165246964,
+        "cost": 2.3313776703749434
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.0347996788404044
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 5,
+      "run": "result\\rc101_phase2_train20_bks_late5_gpt54_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.3798018712073077
+      },
+      "metrics": {
+        "vehicles": 15.2875,
+        "travel_time": 1810.91000001583,
+        "late_count": 3.9125,
+        "total_late": 26.951724350370572,
+        "served": 100,
+        "reward": -2.2385320127010346,
+        "cost": 2.2385323176348977
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 5.936189700562844
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 5,
+      "run": "result\\rc101_phase2_train20_bks_late5_sonnet46_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.3798018712073077
+      },
+      "metrics": {
+        "vehicles": 15.325,
+        "travel_time": 1814.067838051362,
+        "late_count": 3.7125,
+        "total_late": 22.658450185852193,
+        "served": 100,
+        "reward": -2.230421504378319,
+        "cost": 2.2304218070121067
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 6.276995829044307
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 5,
+      "run": "server_export\\rc101_bks_late5_received_20261014_163304\\late5",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.3798018712073077
+      },
+      "metrics": {
+        "vehicles": 15.275,
+        "travel_time": 1826.4800340320999,
+        "late_count": 4.1125,
+        "total_late": 28.864495891520185,
+        "reward": -2.2524504244327543,
+        "cost": 2.252450675744121,
+        "served": 100,
+        "distance": 1779.1915816485882
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 5.351336050449418
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 10.0,
+      "run": "result\\bks_normalized_late10_train20_20261013\\rc101",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.42931218535957
+      },
+      "metrics": {
+        "vehicles": 17.275,
+        "travel_time": 1827.296017130066,
+        "late_count": 2.3375,
+        "total_late": 10.17860686771477,
+        "reward": -2.3707224249839784,
+        "cost": 2.3707222812062394,
+        "served": 100,
+        "distance": 1773.8877685546875
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.4117898270311633
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 10.0,
+      "run": "result\\rc101_kim_train20_bks_late10_gpt54_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.42931218535957
+      },
+      "metrics": {
+        "vehicles": 16.4125,
+        "travel_time": 1873.183610826989,
+        "late_count": 4.1875,
+        "total_late": 18.01296235139004,
+        "served": 100,
+        "reward": -2.3823235750198366,
+        "cost": 2.3823236291907097
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 1.934232926177215
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 10.0,
+      "run": "result\\rc101_phase2_train20_bks_late10_gpt54_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.42931218535957
+      },
+      "metrics": {
+        "vehicles": 17.275,
+        "travel_time": 1800.6784637705775,
+        "late_count": 2.3625,
+        "total_late": 10.722121537510771,
+        "served": 100,
+        "reward": -2.3582398027181624,
+        "cost": 2.358239646678688
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.9256239321238997
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 10.0,
+      "run": "result\\rc101_phase2_train20_bks_late10_sonnet46_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.42931218535957
+      },
+      "metrics": {
+        "vehicles": 17.275,
+        "travel_time": 1822.5336222499309,
+        "late_count": 2.325,
+        "total_late": 10.279129404182656,
+        "served": 100,
+        "reward": -2.3685083478689193,
+        "cost": 2.3685082091855807
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.502929699213996
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 20,
+      "run": "result\\rc101_phase2_train20_bks_late20_gpt54_v1",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18.0,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136213,
+        "late_count": 1.7625,
+        "reward": -2.528332813664094
+      },
+      "metrics": {
+        "vehicles": 17.4125,
+        "travel_time": 1822.7031116264789,
+        "late_count": 1.1,
+        "total_late": 7.285864780778259,
+        "served": 100,
+        "reward": -2.4037255346775055,
+        "cost": 2.403725489697424
+      },
+      "matched_test_names": true
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 20,
+      "run": "server_export\\rc101_bks_late20_received_20261015_093725\\late20",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.528332813664094
+      },
+      "metrics": {
+        "vehicles": 17.3875,
+        "travel_time": 1830.0218135404587,
+        "late_count": 0.9625,
+        "total_late": 5.44539686101426,
+        "reward": -2.384561312198639,
+        "cost": 2.3845611511261975,
+        "served": 100,
+        "distance": 1779.795261257887
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 5.686421572385514
+    },
+    {
+      "instance": "rc101",
+      "train_size": 20,
+      "lambda_late": 40.0,
+      "run": "result\\rc101_bks_late40_train20_20261015",
+      "history": "analysis\\rc101_pilot_history_20_80_20260923_104517",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1772.5954006017023,
+        "total_late": 16.803305520136217,
+        "late_count": 1.7625,
+        "reward": -2.726374070273142
+      },
+      "metrics": {
+        "vehicles": 17.6125,
+        "travel_time": 1948.226621803103,
+        "late_count": 0.8875,
+        "total_late": 6.230755747987318,
+        "reward": -2.5529810011386873,
+        "cost": 2.5529806753762565,
+        "served": 100,
+        "distance": 1894.6974792480469
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 6.359853432713802
+    },
+    {
+      "instance": "rc101",
+      "train_size": 40,
+      "lambda_late": 5,
+      "run": "result\\rc101_phase2_train40_bks_late5_gpt54_v1",
+      "history": "analysis\\rc101_history_train40_20260928",
+      "history_metrics": {
+        "vehicles": 18.0,
+        "travel_time": 1764.2323015484349,
+        "total_late": 12.17713262428586,
+        "late_count": 1.625,
+        "reward": -2.361242712992558
+      },
+      "metrics": {
+        "vehicles": 16.1875,
+        "travel_time": 1823.4190307951226,
+        "late_count": 3.9,
+        "total_late": 19.133393946363586,
+        "served": 100,
+        "reward": -2.2871529281139376,
+        "cost": 2.2871530911499693
+      },
+      "matched_test_names": true
+    },
+    {
+      "instance": "rc101",
+      "train_size": 40,
+      "lambda_late": 5,
+      "run": "server_export\\bks_completed_received_20261015_220737\\rc101_bks_train40_80_late5_10_20261014\\train40_late5",
+      "history": "analysis\\rc101_history_train40_20260928",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1764.2323015484349,
+        "total_late": 12.17713262428586,
+        "late_count": 1.625,
+        "reward": -2.361242712992558
+      },
+      "metrics": {
+        "vehicles": 16.6625,
+        "travel_time": 1872.371128102694,
+        "late_count": 3.725,
+        "total_late": 18.87159434960755,
+        "reward": -2.349157285690308,
+        "cost": 2.349157386273282,
+        "served": 100,
+        "distance": 1821.0291160166264
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 0.5118206041580309
+    },
+    {
+      "instance": "rc101",
+      "train_size": 40,
+      "lambda_late": 10,
+      "run": "server_export\\bks_completed_received_20261015_220737\\rc101_bks_train40_80_late5_10_20261014\\train40_late10",
+      "history": "analysis\\rc101_history_train40_20260928",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1764.2323015484349,
+        "total_late": 12.17713262428586,
+        "late_count": 1.625,
+        "reward": -2.397122180932939
+      },
+      "metrics": {
+        "vehicles": 17.225,
+        "travel_time": 1824.616266596116,
+        "late_count": 2.1,
+        "total_late": 8.683013366199653,
+        "reward": -2.356758376955986,
+        "cost": 2.356758274450951,
+        "served": 100,
+        "distance": 1776.097808045149
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 1.6838485248289903
+    },
+    {
+      "instance": "rc101",
+      "train_size": 40,
+      "lambda_late": 20,
+      "run": "server_export\\bks_completed_received_20261015_220737\\rc101_bks_train40_80_late20_20261015\\train40_late20",
+      "history": "analysis\\rc101_history_train40_20260928",
+      "history_metrics": {
+        "vehicles": 18,
+        "travel_time": 1764.2323015484349,
+        "total_late": 12.17713262428586,
+        "late_count": 1.625,
+        "reward": -2.4688811168137006
+      },
+      "metrics": {
+        "vehicles": 18.3375,
+        "travel_time": 1935.860707985184,
+        "late_count": 1.0125,
+        "total_late": 7.2546880167071,
+        "reward": -2.5361124217510223,
+        "cost": 2.5361124025655513,
+        "served": 100,
+        "distance": 1880.0014553904534
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": -2.723147959372718
+    },
+    {
+      "instance": "rc101",
+      "train_size": 80,
+      "lambda_late": 1.0,
+      "run": "server_export\\rc101_bks_verified_20261014_111512\\rc101_bks_train20_80_e1000_20261013\\train80_pure",
+      "history": "analysis\\rc101_history_train80_20260929",
+      "history_metrics": {
+        "vehicles": 19,
+        "travel_time": 1785.7064206516993,
+        "total_late": 11.151647978587466,
+        "late_count": 1.275,
+        "reward": -2.4160179381000373
+      },
+      "metrics": {
+        "vehicles": 13,
+        "travel_time": 1642.0485229185065,
+        "late_count": 26.7375,
+        "total_late": 297.34102591193613,
+        "reward": -2.071439102292061,
+        "cost": 2.07143924956229,
+        "served": 100,
+        "distance": 1601.1255905032158
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 14.26225704303854
+    },
+    {
+      "instance": "rc101",
+      "train_size": 80,
+      "lambda_late": 5,
+      "run": "server_export\\bks_train80_received_20261016_095923\\rc101_bks_train40_80_late5_10_20261014\\train80_late5",
+      "history": "analysis\\rc101_history_train80_20260929",
+      "history_metrics": {
+        "vehicles": 19,
+        "travel_time": 1785.7064206516993,
+        "total_late": 11.151647978587466,
+        "late_count": 1.275,
+        "reward": -2.4423042705873526
+      },
+      "metrics": {
+        "vehicles": 15.15,
+        "travel_time": 1716.1370878176285,
+        "late_count": 6.5,
+        "total_late": 34.7739733701949,
+        "reward": -2.1959098428487778,
+        "cost": 2.195909883082692,
+        "served": 100,
+        "distance": 1671.6684268027543
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 10.088603229007365
+    },
+    {
+      "instance": "rc101",
+      "train_size": 80,
+      "lambda_late": 10,
+      "run": "server_export\\bks_train80_received_20261016_095923\\rc101_bks_train40_80_late5_10_20261014\\train80_late10",
+      "history": "analysis\\rc101_history_train80_20260929",
+      "history_metrics": {
+        "vehicles": 19,
+        "travel_time": 1785.7064206516993,
+        "total_late": 11.151647978587466,
+        "late_count": 1.275,
+        "reward": -2.475162186196497
+      },
+      "metrics": {
+        "vehicles": 17.2625,
+        "travel_time": 1839.7838513827626,
+        "late_count": 4.15,
+        "total_late": 16.257596144237304,
+        "reward": -2.4130116164684297,
+        "cost": 2.4130114429902347,
+        "served": 100,
+        "distance": 1789.9778310537338
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.5109765959121733
+    },
+    {
+      "instance": "rc101",
+      "train_size": 80,
+      "lambda_late": 20,
+      "run": "server_export\\bks_train80_received_20261016_095923\\rc101_bks_train40_80_late20_20261015\\train80_late20",
+      "history": "analysis\\rc101_history_train80_20260929",
+      "history_metrics": {
+        "vehicles": 19,
+        "travel_time": 1785.7064206516993,
+        "total_late": 11.151647978587466,
+        "late_count": 1.275,
+        "reward": -2.5408780174147854
+      },
+      "metrics": {
+        "vehicles": 17.3375,
+        "travel_time": 1982.4922841739758,
+        "late_count": 0.9625,
+        "total_late": 5.5306940697271365,
+        "reward": -2.4718449234962465,
+        "cost": 2.4718447358478977,
+        "served": 100,
+        "distance": 1928.4632349967956
+      },
+      "matched_train_test_and_event_dynamics": true,
+      "cost_reduction_vs_history_pct": 2.716906561186494
+    }
+  ]
+}

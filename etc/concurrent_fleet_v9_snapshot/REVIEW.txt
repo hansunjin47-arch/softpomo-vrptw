@@ -1,0 +1,32 @@
+Concurrent fleet v9 review snapshot (2026-10-21)
+
+This directory preserves the local experiment source layout without modifying
+the repository's portable sequential entry points. It is a source/results review
+snapshot, not a standalone training distribution. Original data, frozen source
+bundles, credentials, checkpoints and paid confidence caches are not included.
+Run imports relative to this directory when supplying those original artifacts.
+
+Key changes:
+- Concurrent fleet v9 environment/policy and Kim/Phase2 training pipelines.
+- Test confidence output uses required customer-ID keys; cluster IDs are restored
+  locally. Legacy validated responses remain readable. No reward/bias change.
+- Sequential Pure RL training now initializes at depot in forced-start mode.
+  Its model selects the forced first customer next, charging the first arc.
+  This fix does not retroactively change archived training or evaluation results.
+- Server arrays for train40/80 x vehicle500/700 and vehicle121.2107/200.
+
+Results:
+- analysis/concurrent_v9_completed_results.json: per-instance test80 metrics and
+  means; source paths identify settings. Pure500 reference exports occur twice.
+- analysis/sequential_rc_bks_inventory.json: archived sequential evaluations,
+  separate from concurrent results and subject to historical training defects.
+- analysis/pure700_readonly_diagnostics/report.json: inference-only diagnostics.
+
+Kim600 preserved the first 58 completed evaluations, reused its validated retry,
+and finished the remaining cases with customer-keyed output. Do not describe it
+as a full fresh keyed-output reevaluation of all 80 cases.
+
+Checks (from this directory):
+python -m unittest analysis.test_training_depot_start
+python -m unittest experiments.concurrent_fleet_v9_guided.test_prompts experiments.concurrent_fleet_v9_guided.test_online experiments.concurrent_fleet_v9_guided.test_guidance
+The depot regression test requires the original local RC101 fixture, excluded here.
