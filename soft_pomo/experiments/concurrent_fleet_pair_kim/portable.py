@@ -43,6 +43,30 @@ def inputs(args):
 def artifact(args):
     return (args.artifact or ROOT/f'cache/new_head/{args.case}_v{args.vehicle_cost}').resolve()
 
+def validate_reference(example,case,cfg):
+    if example.get('reference_role')=='cross_setting_example':
+        assert case=='c101' and example.get('routing_mode')=='sequential'
+        assert example.get('objective') and example.get('source_provenance')
+        assert example['checkpoint_epoch']==500
+    else:
+        expected=cfg['environment']['vehicle_penalty']/100
+        assert abs(example['objective_coefficients']['vehicles']-expected)<1e-8,'Generate a reference for this vehicle cost first'
+
+def enrich_reference(request,base,example,*,offline=False):
+    request=shared.enrich(request,base,example,offline=offline)
+    if example.get('reference_role')=='cross_setting_example':
+        request['messages'][0]['content']+= (
+            '\nREFERENCE PROVENANCE: The C101 rl_reference_example was produced by a '
+            'SEQUENTIAL-routing Pure RL policy (seed42, epoch500), whereas the TARGET '
+            'uses CONCURRENT routing. The example also uses its own objective '
+            '(vehicles/10 + (driving_minutes + 5*lateness_minutes)/828.94). '
+            'Its reported reward belongs only to that source objective and simulator. '
+            'Do not interpret its route, vehicle count, timing, or reward as a concurrent '
+            'target result or optimum. Use it only as a qualitative illustration; '
+            'apply the TARGET objective_coefficients, current public information and '
+            'concurrent action rules when producing target confidence.')
+    return request
+
 def reference(args):
     source,split,groups,cfg=inputs(args)
     run=args.pure_run.resolve();actual=read(run/'protocol.json')['configs']['5']
@@ -64,8 +88,7 @@ def prepare(args):
     if not ref.exists():ref=source/'reference.json'
     if not ref.exists():raise ValueError('Run reference --pure-run PATH first; no matching concurrent Pure RL example is packaged for this case')
     example=read(ref)
-    expected=cfg['environment']['vehicle_penalty']/100
-    assert abs(example['objective_coefficients']['vehicles']-expected)<1e-8,'Generate a reference for this vehicle cost first'
+    validate_reference(example,args.case,cfg)
     template=read(source/'request_template.json')
     provenance=dict(case=args.case,vehicle_cost=args.vehicle_cost,late=5,reference_sha256=hashlib.sha256(ref.read_bytes()).hexdigest(),
         inputs=read(source/'manifest.json')['sha256'],prompt_code={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'analysis/pair_kim_rl_example.py',ROOT/'experiments/concurrent_fleet_v9_guided/prompts.py']})
@@ -81,7 +104,7 @@ def prepare(args):
     base_path=art/'base_confidence.json'
     if base_path.exists():base=read(base_path)
     else:
-        base=shared.as_list(client(shared.enrich(build_test_request(inst,cfg['environment'],groups,[],template=template),None,example)),groups)
+        base=shared.as_list(client(enrich_reference(build_test_request(inst,cfg['environment'],groups,[],template=template),None,example)),groups)
         write(base_path,base)
     for i,row in enumerate(split['train']):
         path=art/'train_cache'/(row['name']+'.json')
@@ -91,7 +114,7 @@ def prepare(args):
             ctx=json.loads(req['messages'][1]['content'])
             ctx['public_events']=[{k:v for k,v in r.items() if k in PUBLIC_FIELDS} for r in reports]
             req['messages'][1]['content']=json.dumps(ctx)
-            event=shared.as_list(client(shared.enrich(req,base,example,offline=True)),groups)
+            event=shared.as_list(client(enrich_reference(req,base,example,offline=True)),groups)
             acc=reports[0]['event_type']=='ACCIDENT'
             write(path,dict(initial=base if acc else event,post_disclosure=event if acc else None,revealed_at_min=reports[0]['revealed_at_min']))
         cache=read(path);parse_response(cache['initial'],groups)

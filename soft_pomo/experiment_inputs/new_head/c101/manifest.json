@@ -1,6 +1,6 @@
 {
   "case": "c101",
-  "scope": "Dataset/config/group definitions and fixed Pure RL reference where available; NO LLM confidence caches",
+  "scope": "Dataset/config/groups plus existing sequential C101 independent Pure RL example, explicitly labeled cross-setting; no LLM confidence caches",
   "sha256": {
     "config.json": "c70055cdac52a0246e6e584145c42e1fc717dd73fecfa2ab7c43047c6a7f2eb8",
     "groups.json": "9921633d9770e5ca46c09f4113b8eae1272b5bac94400eefb6c71fd71e17de6c",
@@ -205,6 +205,7 @@
     "dataset/data/C101_RAIN_P049.observations.json": "9a4ab0da8ce48274c7918e389160df482891cd77059906e70d557c8efba93a49",
     "dataset/data/C101_RAIN_P049.txt": "309bd6f4ade88e88c46e6192b939e8d0d2312891580969b2df93cbbaeeb7518b",
     "dataset/data/C101_RAIN_P050.observations.json": "ff75f3050d0ef81af6bc596cfae8b10b717a871e1b009f8d9ca42dfe5818a6d1",
-    "dataset/data/C101_RAIN_P050.txt": "a76faa4654680c60b7d04ec1520103f2d63006dbea3543b7dc2a6eeed88579b0"
+    "dataset/data/C101_RAIN_P050.txt": "a76faa4654680c60b7d04ec1520103f2d63006dbea3543b7dc2a6eeed88579b0",
+    "reference.json": "dcdecd27d2d43225ef272a2f5b1e7df2d4fa8a8d8190624e59c7225442a412dd"
   }
 }

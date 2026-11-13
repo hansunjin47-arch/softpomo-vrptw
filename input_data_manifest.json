@@ -1,5 +1,5 @@
 {
-  "scope": "Local input datasets plus frozen splits/configs/groups and fixed R/RC independent Pure RL example; no LLM confidence caches",
+  "scope": "Input datasets/configs/groups plus independent Pure RL examples: concurrent R/RC and explicitly labeled sequential C; no LLM confidence caches",
   "sha256": {
     "data/102_stop.txt": "9112ec7e4a12b62ee6efc174be99b5d4f0f655629e9fcc4d9c8a7a7abe598c4c",
     "data/1051_stop.txt": "07f1a58e87c262cfd4d4655af842b6be11dfbd6c8f773bebb183d8b4567e36d9",
@@ -6896,7 +6896,7 @@
     "soft_pomo/datasets/r101_pair100_l5_mask_kim_s42_46_20261106/configs/config.json": "453de6af33b261258f15c6a876ff9dfa3c002a433fb093114fab2adb14720129",
     "soft_pomo/experiment_inputs/new_head/c101/config.json": "c70055cdac52a0246e6e584145c42e1fc717dd73fecfa2ab7c43047c6a7f2eb8",
     "soft_pomo/experiment_inputs/new_head/c101/groups.json": "9921633d9770e5ca46c09f4113b8eae1272b5bac94400eefb6c71fd71e17de6c",
-    "soft_pomo/experiment_inputs/new_head/c101/manifest.json": "0409bbd2496784e152be7ebc8f07dcdfcba09589bea734199fe99441d5608690",
+    "soft_pomo/experiment_inputs/new_head/c101/manifest.json": "14a898ee660a269c0f4c104bc2874c6b6ad7a28de8f1726c97f736235ca4bbde",
     "soft_pomo/experiment_inputs/new_head/c101/request_template.json": "a043208ce6b60a391338d0ecc6997b699272cfd122979f0ec35225ad3968d919",
     "soft_pomo/experiment_inputs/new_head/r101/config.json": "453de6af33b261258f15c6a876ff9dfa3c002a433fb093114fab2adb14720129",
     "soft_pomo/experiment_inputs/new_head/r101/groups.json": "3d808218d03d2993d2b904efa2c45698e2322d6c2b8a49e3a52835c7c4ccd719",
@@ -7510,6 +7510,7 @@
     "soft_pomo/experiment_inputs/new_head/rc101/dataset/data/RC101_RAIN_P049.observations.json": "692f117901bb5a4ebaa79d65b5ce17d178ce471dce08098addf3958dc4b689e3",
     "soft_pomo/experiment_inputs/new_head/rc101/dataset/data/RC101_RAIN_P049.txt": "7586ffc1f35a13671b2d02456a85337c8fd50c155af09b6f49c08f97866e25ac",
     "soft_pomo/experiment_inputs/new_head/rc101/dataset/data/RC101_RAIN_P050.observations.json": "22d5b94c4221a8480b7a97ca1c9f785ce6cf19bd28a460fa7bcad6d25b0493d5",
-    "soft_pomo/experiment_inputs/new_head/rc101/dataset/data/RC101_RAIN_P050.txt": "385d68884421d260771510ac2664187cb24cc8c08999f656e3260bc6f9af176c"
+    "soft_pomo/experiment_inputs/new_head/rc101/dataset/data/RC101_RAIN_P050.txt": "385d68884421d260771510ac2664187cb24cc8c08999f656e3260bc6f9af176c",
+    "soft_pomo/experiment_inputs/new_head/c101/reference.json": "dcdecd27d2d43225ef272a2f5b1e7df2d4fa8a8d8190624e59c7225442a412dd"
   }
 }

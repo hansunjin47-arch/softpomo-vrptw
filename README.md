@@ -61,8 +61,11 @@ environment activated. Update from branch `code-sync-20261113` first.
 Install a CUDA-compatible PyTorch separately and `pip install -r requirements-code.txt`.
 No checkpoint, LLM confidence cache or API credential is included.
 `experiment_inputs/new_head` contains hash-checked Train20/Test80 inputs, configs,
-ordered groups and, for R/RC vehicle100, an independent fixed Pure RL example.
-C needs a matching concurrent Pure RL checkpoint to generate its example.
+ordered groups and independent fixed Pure RL examples. R/RC vehicle100 examples
+come from concurrent routing. C reuses the existing 20261027 SEQUENTIAL-routing
+seed42/epoch500 example; its source routing mode and source objective are explicitly
+identified in every cache request. It is qualitative context, not a concurrent
+target result. C does NOT require downloading a checkpoint or retraining Pure RL.
 
 The treatment adds +5 only to NEW(group[0]) while dispatch is open. It does not
 boost other NEW customers or existing pairs during dispatch. After dispatch,
@@ -84,15 +87,14 @@ python -m experiments.concurrent_fleet_pair_kim.portable prepare --case r101 --a
 python -m experiments.concurrent_fleet_pair_kim.portable train --case r101 --method newhead --seed 42
 ```
 
-C101: if you already have the matching Pure RL run directory containing
-`protocol.json`, `split.json`, and `late5/checkpoint-1000.pt`, skip the first
-command and pass that directory to `--pure-run`. Sequential-routing checkpoints
-are not compatible substitutes. The reference command uses CPU, no API, and
-creates a distinct event case checked against all Train/Test cases.
+C101: directly generate caches from the packaged existing example, then train.
+The sequential example's original objective is preserved as
+`vehicles/10 + (driving_minutes + 5*lateness_minutes)/828.94`; target vehicle100
+uses different weights. Prompts explicitly prohibit interpreting the example's
+reward or timing as a concurrent target result. The original example routes and
+performance are unchanged. No old LLM confidence cache is shipped or reused.
 
 ```powershell
-python -m experiments.concurrent_fleet_pair_kim.portable train --case c101 --method pure --seed 42
-python -m experiments.concurrent_fleet_pair_kim.portable reference --case c101 --pure-run result/new_head/c101_pure_v100_s42/run
 python -m experiments.concurrent_fleet_pair_kim.portable prepare --case c101 --allow-api
 python -m experiments.concurrent_fleet_pair_kim.portable train --case c101 --method newhead --seed 42
 ```
@@ -111,8 +113,13 @@ foreach ($experimentSeed in 42..46) {
 Do not include a seed already completed in that loop. Use `--resume` only to
 resume the same output/configuration. Additional options: `--artifact PATH`,
 `--out PATH`, `--vehicle-cost 200`, `--head-beta 5`, `--smoke-updates 1` (use a
-separate output directory for smoke tests). Vehicle200 requires its own matching
-Pure RL reference/cache; a vehicle100 reference is rejected. Late lambda is
+separate output directory for smoke tests). For R/RC, vehicle200 requires its own
+matching Pure RL reference/cache; a vehicle100 reference is rejected. C's explicitly
+labeled cross-setting example can be used for either target weight, with separate
+target caches. To replace it with a concurrent example, optionally use `reference
+--case c101 --pure-run PATH --artifact NEW_PATH` with a matching concurrent Pure RL
+run (`protocol.json`, `split.json`, `late5/checkpoint-1000.pt`). Sequential
+checkpoints themselves cannot be loaded into the concurrent model. Late lambda is
 fixed to5 in this workflow. Independently regenerated caches are not byte-identical
 to the old PC; compare baseline and treatment with the same new cache.
 
