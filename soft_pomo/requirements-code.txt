@@ -1,0 +1,10 @@
+# Install a PyTorch build matching the destination GPU separately.
+numpy
+scipy
+matplotlib
+pandas
+scikit-learn
+requests
+tqdm
+paramiko
+mlflow
