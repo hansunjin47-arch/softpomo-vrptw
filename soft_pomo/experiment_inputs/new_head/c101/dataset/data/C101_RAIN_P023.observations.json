@@ -1,0 +1,37 @@
+{
+  "event_type": "RAIN",
+  "affected_nodes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    75,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100
+  ],
+  "regions": [
+    "N",
+    "NE"
+  ],
+  "start_min": 84.3356,
+  "end_min": 500.0614,
+  "revealed_at_min": 0.0,
+  "synthetic": true,
+  "rainfall_mm_per_hour": 10,
+  "news_text": "Rainfall intensity of approximately 10 mm/h is forecast in N, NE. The announced disruption window is minute 84.3356 to 500.0614 after dispatch."
+}
