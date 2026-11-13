@@ -1,0 +1,21 @@
+{
+  "validated": true,
+  "instances": 15,
+  "files": 45,
+  "rain_severity": {
+    "2.0": 5,
+    "1.5": 7,
+    "1.25": 3
+  },
+  "accident_severity": {
+    "1.2": 16,
+    "2.04": 7,
+    "5.88": 13
+  },
+  "accident_wave_sizes": {
+    "2": 9,
+    "3": 6
+  },
+  "source_base_preserved": true,
+  "serialized_events_match": true
+}

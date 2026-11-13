@@ -1,0 +1,48 @@
+{
+  "base": {
+    "vehicles": 15,
+    "travel_time": 1635.1133148670197,
+    "late_count": 2,
+    "total_late": 1.6550321578979492
+  },
+  "groups": {
+    "RAIN": {
+      "count": 10,
+      "attempts": 10,
+      "impacted": 9,
+      "no_impact": 1,
+      "increased_lateness": 9,
+      "mean_spatial_customers": 24.5,
+      "mean_affected_routes": 3.9,
+      "delta_travel_quantiles": [
+        0.0,
+        28.808848379244807,
+        45.90700008992144,
+        73.20408606266801,
+        109.53164431231471
+      ],
+      "mean_delta_travel": 50.39588338102162,
+      "mean_delta_late_count": 4.5,
+      "mean_delta_total_late": 40.63198632721739
+    },
+    "ACCIDENT": {
+      "count": 10,
+      "attempts": 10,
+      "impacted": 9,
+      "no_impact": 1,
+      "increased_lateness": 9,
+      "mean_spatial_customers": 14.0,
+      "mean_affected_routes": 2.1,
+      "delta_travel_quantiles": [
+        0.0,
+        28.276890605413996,
+        41.56359066869254,
+        53.9285763013429,
+        70.94356447535438
+      ],
+      "mean_delta_travel": 40.263449873275725,
+      "mean_delta_late_count": 3.9,
+      "mean_delta_total_late": 61.394833115209096
+    }
+  }
+}

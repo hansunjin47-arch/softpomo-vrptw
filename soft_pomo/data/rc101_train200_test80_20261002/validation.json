@@ -1,0 +1,23 @@
+{
+  "train": 200,
+  "test": 80,
+  "added": 120,
+  "added_rain": 60,
+  "added_accident": 60,
+  "original_instances_and_observations_byte_identical": true,
+  "original_test_split_unchanged": true,
+  "no_duplicate_events": true,
+  "static_attributes_identical": true,
+  "added_validation": {
+    "count": 120,
+    "train": 120,
+    "test": 0,
+    "fixed_route_replay_identical": true,
+    "event_dynamics_unchanged": true,
+    "public_news_count": 120,
+    "original_data_untouched": true
+  },
+  "training_started": false,
+  "llm_calls": 0,
+  "fresh_validation_and_test_generated": false
+}

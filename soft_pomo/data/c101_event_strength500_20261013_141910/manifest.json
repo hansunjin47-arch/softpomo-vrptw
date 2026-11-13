@@ -1,0 +1,5570 @@
+{
+  "seed": 20260922,
+  "role": "pilot_only_not_final_test",
+  "source": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\data\\Solomon\\c101.txt",
+  "source_sha256": "a6da75152d182d60ecd2c6f854296f5be452f92282d096adebcf5d99a7f16516",
+  "code_sha256": "798fc339b972316a46affa36c6f59d030666ac7620807ec8d48a04b440762f97",
+  "horizon": 1236.0,
+  "regions": "Eight 45-degree depot-centered wedges, N then clockwise",
+  "duration_fraction": {
+    "RAIN": [
+      0.15,
+      0.35
+    ],
+    "ACCIDENT": [
+      0.05,
+      0.2
+    ]
+  },
+  "multiplier": {
+    "RAIN": [
+      1.5000000000000004,
+      6.0
+    ],
+    "ACCIDENT": [
+      1.9999999999999998,
+      11.0
+    ]
+  },
+  "start": "Uniform(depot_open, depot_close-duration); strictly after opening",
+  "spatial": {
+    "RAIN": "Uniform count 1..4, adjacent, random anchor",
+    "ACCIDENT": "One random sector"
+  },
+  "acceptance": "Positive overlap with at least one affected customer TW; no route-impact filtering",
+  "observations": "UNSET placeholders; solver sensitivity pilot only, not ready for RL/LLM",
+  "visibility": "RAIN known at dispatch; ACC revealed at trigger; metadata only, no training executed",
+  "cases": [
+    {
+      "name": "C101_RAIN_P001",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 286.9236,
+        "duration": 400.2707,
+        "multiplier": 4.450015,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0,
+        1
+      ],
+      "sector_names": [
+        "NW",
+        "N",
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        19,
+        92,
+        93,
+        94,
+        97,
+        100
+      ],
+      "file_sha256": "d27caa831ea4fdb7eaf1ef1cb670c8b7f4a714b665c8b57f5b724954477a1f0e",
+      "source_sha256": "a6db13a8336727e86602a05e5b9a89bdcf28ab6772ae3643298d460c16e85150",
+      "original_multiplier": 1.690003
+    },
+    {
+      "name": "C101_RAIN_P002",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 614.7125,
+        "duration": 399.5362,
+        "multiplier": 3.61933,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5,
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "SW",
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2,
+        4,
+        6,
+        12,
+        14,
+        21,
+        22,
+        23,
+        26,
+        34,
+        36,
+        39,
+        48,
+        49,
+        50,
+        51,
+        52,
+        75
+      ],
+      "file_sha256": "8193b2350d5a885593bfeb39635103d44fb00e6402abbe3724e323f9b87e3e76",
+      "source_sha256": "77412ec0c64f4f3e7ed12e6617eb8578fcbb27a0af9ffe99c033dd20c6dc4717",
+      "original_multiplier": 1.523866
+    },
+    {
+      "name": "C101_RAIN_P003",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 811.6493,
+        "duration": 253.9609,
+        "multiplier": 2.317895,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "sector_names": [
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        21,
+        22,
+        34,
+        47,
+        49,
+        50,
+        52,
+        69
+      ],
+      "file_sha256": "772dfad9f5bbb1887708d10466bd69ed235d395168dbe41f363af640c6d476a4",
+      "source_sha256": "6ce313ed0e180235350468444f3e96a3aecd4678343af2a6b35d482a94f8820c",
+      "original_multiplier": 1.263579
+    },
+    {
+      "name": "C101_RAIN_P004",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 372.7123,
+        "duration": 269.029,
+        "multiplier": 3.44914,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7
+      ],
+      "sector_names": [
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        14,
+        15,
+        16,
+        26,
+        28,
+        29,
+        30,
+        37,
+        38,
+        39
+      ],
+      "file_sha256": "8a067e47b95a8b5c14bb38c9281dddfba1aed2f70f70c1e3d6807e3933c63c67",
+      "source_sha256": "4b39cc61cb7f90ba22aa26afc1789fad93f994260071182f11ff0d76eb5e574f",
+      "original_multiplier": 1.489828
+    },
+    {
+      "name": "C101_RAIN_P005",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 828.1715,
+        "duration": 384.6154,
+        "multiplier": 3.024945,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "sector_names": [
+        "N",
+        "NE",
+        "E",
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2,
+        66,
+        75,
+        91
+      ],
+      "file_sha256": "b661ba0265577a6adbe721143e5897907ed3ae39e5df57898164bcd75b888aa7",
+      "source_sha256": "98c2394110acc2c84b925c5918bfb9c46d7305ad7efabfc89d07245c1a3b495c",
+      "original_multiplier": 1.404989
+    },
+    {
+      "name": "C101_RAIN_P006",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 637.9021,
+        "duration": 385.7438,
+        "multiplier": 1.81798,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        12,
+        23
+      ],
+      "file_sha256": "4943a4680596c53237bdc4b63df8dba22ed924f8522dd60878a85953548a331b",
+      "source_sha256": "99d21b90da21c52ac945044a5c7553cd779f0d65ccede5540cbf7ded7110b897",
+      "original_multiplier": 1.163596
+    },
+    {
+      "name": "C101_RAIN_P007",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 786.3109,
+        "duration": 227.5423,
+        "multiplier": 1.855635,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0,
+        1
+      ],
+      "sector_names": [
+        "NW",
+        "N",
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2,
+        75,
+        91,
+        99
+      ],
+      "file_sha256": "cdb4c9835443f7f193158c989df3de26897f798e1f0c03c237f4b95b823a36d9",
+      "source_sha256": "e21ddb0b97b0e8ccf2631857096d76bba59a31d476a72ae1176d62edc01d6c61",
+      "original_multiplier": 1.171127
+    },
+    {
+      "name": "C101_RAIN_P008",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 329.3009,
+        "duration": 388.7747,
+        "multiplier": 5.32513,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        44,
+        53,
+        56,
+        58,
+        59,
+        60,
+        64
+      ],
+      "file_sha256": "716726484bd3b5bbf4783e3ffc6691217fed14219402610423497573eaf46029",
+      "source_sha256": "e36ed3ce3d3c98de63c6b28b7b89210bd27e3b0c5860de486635c40f705651bd",
+      "original_multiplier": 1.865026
+    },
+    {
+      "name": "C101_RAIN_P009",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 712.61,
+        "duration": 423.3226,
+        "multiplier": 5.326335,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1,
+        2,
+        3
+      ],
+      "sector_names": [
+        "NE",
+        "E",
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        66,
+        79,
+        80,
+        89,
+        91,
+        99,
+        100
+      ],
+      "file_sha256": "ea14a42b39ca22deb678d814eeed191c41291d4b91d4037f23487d7583b3ebef",
+      "source_sha256": "e9694b0213bf670d0034ee7fcf5de87c9c2746fb40bb5f055d748f07fb7c73cd",
+      "original_multiplier": 1.865267
+    },
+    {
+      "name": "C101_RAIN_P010",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 243.1155,
+        "duration": 314.8035,
+        "multiplier": 4.62978,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        8,
+        9,
+        10,
+        11,
+        15,
+        16,
+        18,
+        19,
+        27,
+        28,
+        29,
+        30,
+        37,
+        38
+      ],
+      "file_sha256": "f9ed1157cb0635cd4a951d3e92e4c6729ab8bd5e74167e2b8fa41e407aad2f99",
+      "source_sha256": "e84a4b0808f97affd2d578428fc500c2d1f6fe211577f55869447289df8bcf2d",
+      "original_multiplier": 1.725956
+    },
+    {
+      "name": "C101_RAIN_P011",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 470.9444,
+        "duration": 335.004,
+        "multiplier": 5.705715,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        73,
+        84,
+        85,
+        88,
+        89
+      ],
+      "file_sha256": "b163ab5546302f7d517f8f9ea7cab836508e32eecbdecc5052862ce8d806fccd",
+      "source_sha256": "69a5bc22614cc70a73c3da4f2b267c52acf6bda44a8df2cdc19dd645bda1d13f",
+      "original_multiplier": 1.941143
+    },
+    {
+      "name": "C101_RAIN_P012",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 197.81,
+        "duration": 363.0123,
+        "multiplier": 1.55395,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2,
+        3
+      ],
+      "sector_names": [
+        "E",
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        61,
+        62,
+        63,
+        70,
+        71,
+        72,
+        73,
+        74,
+        76,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "file_sha256": "e8c18440c7985266d6fac8d42ed146c36ec8d925b300754d5eae9237642fb642",
+      "source_sha256": "5db953b2e1a79077e17e6815b9aa5709fe90590874e9442d025a26806534965c",
+      "original_multiplier": 1.11079
+    },
+    {
+      "name": "C101_RAIN_P013",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 442.2986,
+        "duration": 196.1223,
+        "multiplier": 3.78334,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0
+      ],
+      "sector_names": [
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        6,
+        9,
+        11,
+        14,
+        16
+      ],
+      "file_sha256": "35f62f64454d80f0e6806b406cf5132d207dd36d7650e12f50ff2d6ed6d0f74d",
+      "source_sha256": "21e18323709a3556895a4c7ba73048f809fc2c84c0399d455459da64eb82d25c",
+      "original_multiplier": 1.556668
+    },
+    {
+      "name": "C101_RAIN_P014",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 594.1192,
+        "duration": 216.5681,
+        "multiplier": 2.364055,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5,
+        6
+      ],
+      "sector_names": [
+        "S",
+        "SW",
+        "W"
+      ],
+      "tw_overlap_customers": [
+        26,
+        34,
+        36,
+        39,
+        45,
+        48,
+        51,
+        59,
+        60,
+        64,
+        68
+      ],
+      "file_sha256": "c0e00561a248497fb978b44da2b33d9b6d05bf31b9a805c54b3e626a1cb1ee97",
+      "source_sha256": "376f127a5e66f9478cf067661cc9de096c47bb38ad371a6fb3053c34f472e5d5",
+      "original_multiplier": 1.272811
+    },
+    {
+      "name": "C101_RAIN_P015",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 9.5259,
+        "duration": 423.7024,
+        "multiplier": 4.410015,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1,
+        2,
+        3
+      ],
+      "sector_names": [
+        "NE",
+        "E",
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        62,
+        63,
+        65,
+        67,
+        70,
+        71,
+        74,
+        76,
+        78,
+        81,
+        82,
+        83,
+        86,
+        87,
+        90,
+        92,
+        94,
+        95,
+        96,
+        98
+      ],
+      "file_sha256": "8a170a336351327b22559abb1698c20dd11fc7bae17726083418e6e75fbc3647",
+      "source_sha256": "a59a84fb8707a4c90d8b7e41d51650aba3d0df441f9e8f3fd2b786ced41811e3",
+      "original_multiplier": 1.682003
+    },
+    {
+      "name": "C101_RAIN_P016",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 131.4488,
+        "duration": 245.6239,
+        "multiplier": 3.25346,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sector_names": [
+        "NE",
+        "E",
+        "SE",
+        "S"
+      ],
+      "tw_overlap_customers": [
+        40,
+        41,
+        42,
+        44,
+        53,
+        54,
+        55,
+        62,
+        63,
+        71,
+        74,
+        76,
+        78,
+        82,
+        83,
+        86,
+        87,
+        92,
+        94,
+        95,
+        96
+      ],
+      "file_sha256": "e1646c35ede2254d106f36c42fcc4d74e6a44fa775de8b7ddd99b6bb6a08d76e",
+      "source_sha256": "9ba4859647ac867cc6aaeeb267d1ec77a44803d349fbbfbc800e196d0fc18cd1",
+      "original_multiplier": 1.450692
+    },
+    {
+      "name": "C101_RAIN_P017",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 57.9646,
+        "duration": 234.4074,
+        "multiplier": 5.162135,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0
+      ],
+      "sector_names": [
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        3,
+        5,
+        7,
+        8,
+        13,
+        17,
+        18,
+        19
+      ],
+      "file_sha256": "e191be8778c3dcc195f1d489eb769ec45d5346eb71d624e1834567d349c8b64e",
+      "source_sha256": "cab5b2774fa337f274da6871b53215f3f5543377cb95cf0bd2b5de305abdad8a",
+      "original_multiplier": 1.832427
+    },
+    {
+      "name": "C101_RAIN_P018",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 817.8715,
+        "duration": 258.1805,
+        "multiplier": 2.638905,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2,
+        75
+      ],
+      "file_sha256": "bf8765bb433a738f39ce760f655fb4dc817bd9178d063fa5b8118eced7a3e61a",
+      "source_sha256": "11c3afd8a5c047997118068ae270d428956c3aa01a0974d030a3ab4648872a9a",
+      "original_multiplier": 1.327781
+    },
+    {
+      "name": "C101_RAIN_P019",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 636.6456,
+        "duration": 259.5255,
+        "multiplier": 4.46418,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        88,
+        89
+      ],
+      "file_sha256": "634818070b6872f7cf75382508f1480fc50883954a4e98d887f374585749d538",
+      "source_sha256": "3393514f2e440c179634a8db1df8a62c3021b41f94a7c1c21c5c1c066b44a8b4",
+      "original_multiplier": 1.692836
+    },
+    {
+      "name": "C101_RAIN_P020",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 299.4212,
+        "duration": 198.8499,
+        "multiplier": 4.13847,
+        "nodes": [
+          31,
+          35,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5
+      ],
+      "sector_names": [
+        "S",
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        35,
+        40,
+        44,
+        46,
+        53,
+        56,
+        58
+      ],
+      "file_sha256": "82850a07da96128c68fe06448c8e6897f0dfdeb3204a40a58d6a7ece3c88c126",
+      "source_sha256": "f81f31ee9d4e911267ddc0ec46e25fc6709ae5f7742a1ed6f492daa2e3216886",
+      "original_multiplier": 1.627694
+    },
+    {
+      "name": "C101_RAIN_P021",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 482.0617,
+        "duration": 309.4526,
+        "multiplier": 3.564145,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "sector_names": [
+        "SE",
+        "S",
+        "SW",
+        "W"
+      ],
+      "tw_overlap_customers": [
+        26,
+        28,
+        30,
+        34,
+        36,
+        38,
+        39,
+        45,
+        46,
+        48,
+        51,
+        58,
+        59,
+        60,
+        61,
+        64,
+        68,
+        72,
+        77,
+        79,
+        80
+      ],
+      "file_sha256": "e52185963b9f552db3b2c45b2742ae6faa2ab6ae8b918f5173e847946ebc3aa8",
+      "source_sha256": "f6a65e74f3705be753b0a348683152974a18d3985d9822b0aed49a0886048df7",
+      "original_multiplier": 1.512829
+    },
+    {
+      "name": "C101_RAIN_P022",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 268.7917,
+        "duration": 344.1213,
+        "multiplier": 3.57928,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        16,
+        19,
+        27,
+        28,
+        29,
+        30,
+        37,
+        38,
+        39
+      ],
+      "file_sha256": "24ccf13b49ff8422db6993a5515f6395207bb60a165038292dad56a4c8daceb8",
+      "source_sha256": "342f82e9d54634ecaf5152084c1ddce5449fb4158a089210a6786de6acb5122b",
+      "original_multiplier": 1.515856
+    },
+    {
+      "name": "C101_RAIN_P023",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 84.3356,
+        "duration": 415.7258,
+        "multiplier": 2.38452,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0,
+        1
+      ],
+      "sector_names": [
+        "N",
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        3,
+        7,
+        8,
+        10,
+        11,
+        92,
+        93,
+        94,
+        95,
+        96
+      ],
+      "file_sha256": "47f3d90044ca4f709856dd4978c4dab8bfdf59a89e6bc538965f784fa2e2d808",
+      "source_sha256": "478a502b5bf342327b7c9713eb946089efa26d9b27303b65755191de6cfb5fd5",
+      "original_multiplier": 1.276904
+    },
+    {
+      "name": "C101_RAIN_P024",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 808.5181,
+        "duration": 201.3174,
+        "multiplier": 5.371095,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sector_names": [
+        "NE",
+        "E",
+        "SE",
+        "S"
+      ],
+      "tw_overlap_customers": [
+        66,
+        69,
+        80,
+        91,
+        99
+      ],
+      "file_sha256": "04ebdd00d223d9beafdad61c3258c206c73133cde0375615a604f9127503246a",
+      "source_sha256": "0255cc92e1fb749030ef4328dd22a0a86c25bf467e65bc98a4ec657746997542",
+      "original_multiplier": 1.874219
+    },
+    {
+      "name": "C101_RAIN_P025",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 551.1954,
+        "duration": 354.0187,
+        "multiplier": 4.55207,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5,
+        6,
+        7
+      ],
+      "sector_names": [
+        "SW",
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        12,
+        14,
+        22,
+        23,
+        26,
+        28,
+        34,
+        36,
+        39,
+        45,
+        48,
+        50,
+        51
+      ],
+      "file_sha256": "6edd43ea0ed3800f767efbf7e10c5443d592cd18200e60f5b86fe9324f94d98e",
+      "source_sha256": "f070bd7be478f944c97a36eb065d6fd437f46ab7f048676f3d988fe8a89bbc04",
+      "original_multiplier": 1.710414
+    },
+    {
+      "name": "C101_RAIN_P026",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 401.8924,
+        "duration": 385.5105,
+        "multiplier": 4.404235,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        12,
+        14,
+        15,
+        16,
+        23
+      ],
+      "file_sha256": "b0c32f2b9c138787f7d67f7bb61cc442f35208a066ac7787ca71cc18f8c35d06",
+      "source_sha256": "6b4683982d4a9af0a3d3b094e015929ab9ab9334d2fb001d74850001cb037e7a",
+      "original_multiplier": 1.680847
+    },
+    {
+      "name": "C101_RAIN_P027",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 707.507,
+        "duration": 262.3845,
+        "multiplier": 2.646165,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7
+      ],
+      "sector_names": [
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        12,
+        21,
+        22,
+        23,
+        34,
+        36
+      ],
+      "file_sha256": "13a420771a9f41bbbe337d2031766f8a47f6259193f40bb27c86facdafb2c2d6",
+      "source_sha256": "3e9478c483875386a7c1d988c3f8acb634b22aade466c228de1015fa025da5a2",
+      "original_multiplier": 1.329233
+    },
+    {
+      "name": "C101_RAIN_P028",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 858.4151,
+        "duration": 269.4154,
+        "multiplier": 1.66175,
+        "nodes": [
+          31,
+          35,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5
+      ],
+      "sector_names": [
+        "S",
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        47,
+        49,
+        50,
+        52,
+        69
+      ],
+      "file_sha256": "e2a8e793d9983269aa56786529b2865db2ecc8b940bb17566451f97734c908e8",
+      "source_sha256": "a9eaf5adef0311c941878c4bb7c7598e13120c60920c073efa68e055b146c8a7",
+      "original_multiplier": 1.13235
+    },
+    {
+      "name": "C101_RAIN_P029",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 497.207,
+        "duration": 296.7372,
+        "multiplier": 5.5762,
+        "nodes": [
+          31,
+          35,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "sector_names": [
+        "E",
+        "SE",
+        "S",
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        45,
+        46,
+        48,
+        51,
+        58,
+        59,
+        60,
+        61,
+        64,
+        68,
+        72,
+        73,
+        77,
+        79,
+        80,
+        84,
+        85,
+        88,
+        89
+      ],
+      "file_sha256": "f2c3b5bac35b9fa2f499fdea4295b21867da0b6c203c927764bf27e698023cfe",
+      "source_sha256": "9659fdb4c402fae1cc4371883e611114b5b1eb48c91e44d63b061d5b64b1e0e4",
+      "original_multiplier": 1.91524
+    },
+    {
+      "name": "C101_RAIN_P030",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 192.2682,
+        "duration": 399.2816,
+        "multiplier": 3.39277,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sector_names": [
+        "NE",
+        "E",
+        "SE",
+        "S"
+      ],
+      "tw_overlap_customers": [
+        40,
+        41,
+        44,
+        53,
+        54,
+        56,
+        58,
+        60,
+        61,
+        62,
+        63,
+        70,
+        71,
+        72,
+        73,
+        74,
+        76,
+        77,
+        82,
+        83,
+        84,
+        85,
+        86,
+        92,
+        93,
+        94,
+        95,
+        97
+      ],
+      "file_sha256": "fa4b6ce229e83e7f5b3b680a6d12509f4d5e39b06ae2007cb47592c5b116c1d0",
+      "source_sha256": "3b48db07bfa57784ad9954eec08a805a3bfc6d7e00960ce0b6d8479959c7ad2b",
+      "original_multiplier": 1.478554
+    },
+    {
+      "name": "C101_RAIN_P031",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 941.6356,
+        "duration": 279.9705,
+        "multiplier": 5.19718,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        75
+      ],
+      "file_sha256": "1918ce160d46f771d242107da9bf1b7bb14bb30079826d0fb1f7ac833a5b4d84",
+      "source_sha256": "b0d16eb4202af8ca5d014a8987116c3dfe475ff7c923fe00d3464cfe1041468c",
+      "original_multiplier": 1.839436
+    },
+    {
+      "name": "C101_RAIN_P032",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 605.3964,
+        "duration": 277.1865,
+        "multiplier": 2.342965,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0,
+        1
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N",
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        2,
+        4,
+        6,
+        12,
+        14,
+        22,
+        23,
+        26,
+        34,
+        36,
+        39,
+        91,
+        97,
+        99,
+        100
+      ],
+      "file_sha256": "e1d1205d9715c00e1e883954b854bbad416390c3e8cfc5719d8412e3f16eda83",
+      "source_sha256": "98a838e3eed4ebddc73b4ce60459e315bccdd803e79beddfcb9363c70d6f0929",
+      "original_multiplier": 1.268593
+    },
+    {
+      "name": "C101_RAIN_P033",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 4.3414,
+        "duration": 311.6787,
+        "multiplier": 4.939085,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "sector_names": [
+        "SE",
+        "S",
+        "SW",
+        "W"
+      ],
+      "tw_overlap_customers": [
+        20,
+        24,
+        25,
+        27,
+        31,
+        32,
+        33,
+        35,
+        40,
+        41,
+        42,
+        43,
+        53,
+        54,
+        55,
+        57,
+        62,
+        63,
+        65,
+        67
+      ],
+      "file_sha256": "8c7cfc4fe56cc42b7a6067bedb2d6958c3cdf9a4d6265faf1343a6aa6dbf9931",
+      "source_sha256": "4b51f9300746e8ea8311aeba93a9626f197b633ff3cc74a9ab67f8fae7b9f977",
+      "original_multiplier": 1.787817
+    },
+    {
+      "name": "C101_RAIN_P034",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 676.2861,
+        "duration": 238.6538,
+        "multiplier": 2.849755,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0,
+        1
+      ],
+      "sector_names": [
+        "NW",
+        "N",
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2,
+        4,
+        6,
+        12,
+        23,
+        91,
+        99,
+        100
+      ],
+      "file_sha256": "02a806e3f2dd510ba84c476fd6e7e2bf8818fb1c4c7d516f4f031525a1769237",
+      "source_sha256": "2abecde46efe04928420447f6dd7689079d20c6a40d559a5fe5cc6ff8d3028ea",
+      "original_multiplier": 1.369951
+    },
+    {
+      "name": "C101_RAIN_P035",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 884.6501,
+        "duration": 347.2544,
+        "multiplier": 1.89592,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        21,
+        75
+      ],
+      "file_sha256": "2bb5aacf945e77a293c044ae234ef2dc74ff83724b36a1004979ac87516bd054",
+      "source_sha256": "5502c3dbceeeed943f40fc94d48ef2c83e5d914afcb8df06842c4cbf47025edb",
+      "original_multiplier": 1.179184
+    },
+    {
+      "name": "C101_RAIN_P036",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 454.0481,
+        "duration": 399.5267,
+        "multiplier": 2.270085,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        2,
+        4,
+        6,
+        9,
+        11,
+        12,
+        14,
+        16,
+        22,
+        23,
+        26,
+        28,
+        30,
+        34,
+        36,
+        38,
+        39
+      ],
+      "file_sha256": "1b25ff7816e332f0b8e516e3381f952a7b0a4526b48eb005475751b216b36329",
+      "source_sha256": "1503b38ba1295f4fc918706a7a0b6453f89b2acf770430128d205bf3c5857ff6",
+      "original_multiplier": 1.254017
+    },
+    {
+      "name": "C101_RAIN_P037",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 810.318,
+        "duration": 350.3402,
+        "multiplier": 4.740165,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5,
+        6
+      ],
+      "sector_names": [
+        "SW",
+        "W"
+      ],
+      "tw_overlap_customers": [
+        21,
+        22,
+        34,
+        47,
+        49,
+        50,
+        52
+      ],
+      "file_sha256": "0053cfc84bdd6f035759a7014fdf6c0488c4398d62cd511706c4f2e8fa783fad",
+      "source_sha256": "9ddcf3837bd3de2725d71db6082ca4eaa0371a264af1681b16b09450aa69f8eb",
+      "original_multiplier": 1.748033
+    },
+    {
+      "name": "C101_RAIN_P038",
+      "kind": "RAIN",
+      "attempts": 2,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 5.7308,
+        "duration": 297.3686,
+        "multiplier": 5.48808,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7,
+        0
+      ],
+      "sector_names": [
+        "W",
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        3,
+        5,
+        7,
+        8,
+        13,
+        17,
+        18,
+        19,
+        20,
+        24,
+        25,
+        27,
+        32,
+        33
+      ],
+      "file_sha256": "a0156d04a5077cbe6084c1ea1ae3fdf1fe2c5d52f46f2c99f6e6e9315dd33d94",
+      "source_sha256": "48ed3c7e8f3c84b8dfa7548b587158ee39e61d403a705f384d3a44196d5f3421",
+      "original_multiplier": 1.897616
+    },
+    {
+      "name": "C101_RAIN_P039",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 25.5335,
+        "duration": 427.5326,
+        "multiplier": 4.750255,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        62,
+        63,
+        65,
+        67,
+        72,
+        74
+      ],
+      "file_sha256": "1310e279217be5972b6e8d64bf248b4e458008bb66464852e7e119e113061723",
+      "source_sha256": "c2e167257255c26c785f84ce4f1edfe238680bdc6e783c7042782a1280b13da1",
+      "original_multiplier": 1.750051
+    },
+    {
+      "name": "C101_RAIN_P040",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 120.2668,
+        "duration": 314.5996,
+        "multiplier": 5.428755,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7
+      ],
+      "sector_names": [
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        15,
+        17,
+        18,
+        19,
+        24,
+        25,
+        27,
+        29,
+        33,
+        37
+      ],
+      "file_sha256": "0cc0d8388045fab0e9fbcd2321055285e90778d05b5f8819c74e24225f06a9e8",
+      "source_sha256": "7438445fccab2514b3bf09334a0644704dbe9c01cb519684cccd96bf00218341",
+      "original_multiplier": 1.885751
+    },
+    {
+      "name": "C101_RAIN_P041",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 242.8615,
+        "duration": 329.8016,
+        "multiplier": 5.81081,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        40,
+        44,
+        53,
+        54,
+        56,
+        58,
+        60
+      ],
+      "file_sha256": "bd97b915e12c37b4a73f9edef34480b1c3e16aac17689313ca408c9492880546",
+      "source_sha256": "7983885961140b6f459f96c6850dd07a989606888b03ccbac1f46c49449991c8",
+      "original_multiplier": 1.962162
+    },
+    {
+      "name": "C101_RAIN_P042",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 607.83,
+        "duration": 337.2772,
+        "multiplier": 2.70149,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3,
+        4
+      ],
+      "sector_names": [
+        "SE",
+        "S"
+      ],
+      "tw_overlap_customers": [
+        59,
+        60,
+        61,
+        64,
+        66,
+        68,
+        69,
+        77,
+        79,
+        80
+      ],
+      "file_sha256": "72dab4aa3a131cf2f216ae33df3005eeb00112894a6c4b00466726cf033bf206",
+      "source_sha256": "baba9694c4f5222f6238a0e4ddd9faa415a9267efe26bdf611ef2a3c53f472c9",
+      "original_multiplier": 1.340298
+    },
+    {
+      "name": "C101_RAIN_P043",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 638.6174,
+        "duration": 351.6116,
+        "multiplier": 4.46551,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "sector_names": [
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        12,
+        21,
+        22,
+        23,
+        26,
+        34,
+        36,
+        48,
+        50,
+        51,
+        52,
+        59,
+        64,
+        68,
+        69
+      ],
+      "file_sha256": "4c75c096e25eef83ef4f91c24700a9ad7729d8e243ad2e30062972d7c186c5a0",
+      "source_sha256": "10c2fc237cb4e57509cd96b19a8f808b9b053ff056071c6ac8c8d6f6991d2836",
+      "original_multiplier": 1.693102
+    },
+    {
+      "name": "C101_RAIN_P044",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 987.3208,
+        "duration": 225.201,
+        "multiplier": 3.48288,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7,
+        0
+      ],
+      "sector_names": [
+        "NW",
+        "N"
+      ],
+      "tw_overlap_customers": [
+        75
+      ],
+      "file_sha256": "03f6bfcfa3e724f2fc42474bdd7b81d787cc1c47c5e642bb464a1275cc6d351a",
+      "source_sha256": "12ad1cc57358c23be7fb31380adfd53d1808d3e5addd5d67b2965f6886d78a43",
+      "original_multiplier": 1.496576
+    },
+    {
+      "name": "C101_RAIN_P045",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 320.4554,
+        "duration": 189.8318,
+        "multiplier": 5.078785,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        70,
+        71,
+        73,
+        82,
+        83,
+        84
+      ],
+      "file_sha256": "77282ebd59e7725f7d4a41bcfa4429a46d7b1f3ffe460862c8965684055860aa",
+      "source_sha256": "292a9eedfdf206ac0cc57391eb1f54521538428d983138b7cbddd807bf088669",
+      "original_multiplier": 1.815757
+    },
+    {
+      "name": "C101_RAIN_P046",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 81.2621,
+        "duration": 214.5768,
+        "multiplier": 4.213335,
+        "nodes": [
+          31,
+          35,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5
+      ],
+      "sector_names": [
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        31,
+        35
+      ],
+      "file_sha256": "933524efff2e2a327792cc78284c26f71ef59c10c994e5d21e8e7ff2868132c7",
+      "source_sha256": "114bcd422161387423d95be991663013730d47f4af330cd9fa5042a05b71b725",
+      "original_multiplier": 1.642667
+    },
+    {
+      "name": "C101_RAIN_P047",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 176.2816,
+        "duration": 302.2845,
+        "multiplier": 2.71279,
+        "nodes": [
+          31,
+          35,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4,
+        5
+      ],
+      "sector_names": [
+        "S",
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        31,
+        35,
+        40,
+        41,
+        44,
+        46,
+        53,
+        54,
+        56,
+        58
+      ],
+      "file_sha256": "ac88c996fb200480b00098a5f66d4e83de88b42b5f62ee2c68d76be70685235c",
+      "source_sha256": "fd02fb1cb63fb95b880da4c918e98c6a732b598aed509a5328446b3a00376de8",
+      "original_multiplier": 1.342558
+    },
+    {
+      "name": "C101_RAIN_P048",
+      "kind": "RAIN",
+      "attempts": 2,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 43.2609,
+        "duration": 241.306,
+        "multiplier": 2.92749,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6,
+        7
+      ],
+      "sector_names": [
+        "W",
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        13,
+        17,
+        18,
+        19,
+        20,
+        24,
+        25,
+        27,
+        32,
+        33
+      ],
+      "file_sha256": "0cc482ce17d6de4f4c04baef5046a5b6e6cea6d2b753a3c2d5eb9e59dfe2f810",
+      "source_sha256": "2483003501a83e55cc02cff6b3e6cfb64a10905baf47c2c65fdbe633dc16124c",
+      "original_multiplier": 1.385498
+    },
+    {
+      "name": "C101_RAIN_P049",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 525.1969,
+        "duration": 417.6923,
+        "multiplier": 3.962015,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5,
+        6
+      ],
+      "sector_names": [
+        "SW",
+        "W"
+      ],
+      "tw_overlap_customers": [
+        21,
+        22,
+        26,
+        28,
+        34,
+        36,
+        39,
+        45,
+        48,
+        50,
+        51,
+        52
+      ],
+      "file_sha256": "4375b369503aa6d1f335838a10b4bf3dd32d488b17ddb3e2968d723bb2717280",
+      "source_sha256": "641b54ceb87310c06098bfa065b9f05c2a7260e16a8e085ae1075a7bd1c2befc",
+      "original_multiplier": 1.592403
+    },
+    {
+      "name": "C101_RAIN_P050",
+      "kind": "RAIN",
+      "attempts": 1,
+      "event": {
+        "type": "RAIN",
+        "trigger_time": 713.964,
+        "duration": 274.3716,
+        "multiplier": 2.932445,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        91,
+        99,
+        100
+      ],
+      "file_sha256": "2c496eda39a298aa22ee417fb6bf07e3b423c91fc49732015c8fa7c7d2521f55",
+      "source_sha256": "3e6bf7fbf7c6a07d393dddaa355b1119bffbc8109d93025b441819af52d14b84",
+      "original_multiplier": 1.386489
+    },
+    {
+      "name": "C101_ACC_P001",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 357.0625,
+        "duration": 192.0371,
+        "multiplier": 5.769505,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        15,
+        16
+      ],
+      "file_sha256": "cc055e3c0adcb1dc4de312160094866cce2ac64ce2ee690263bef0ac1f765880",
+      "source_sha256": "3fae0537caa33813b64b43d52045b8ec8329b665cb7844c20287422e409022fc",
+      "original_multiplier": 1.953901
+    },
+    {
+      "name": "C101_ACC_P002",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 256.1346,
+        "duration": 178.2874,
+        "multiplier": 3.582375,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        70,
+        71,
+        76,
+        82,
+        83
+      ],
+      "file_sha256": "a7b6806b31d8a3099797bdcd55a9f9791356227c6a517d6b47b7cfcb0c553e63",
+      "source_sha256": "8614598cbbbe8f561e4d33b94a09c7cc212de919d14edb7f706cecb780d871af",
+      "original_multiplier": 1.516475
+    },
+    {
+      "name": "C101_ACC_P003",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 427.7222,
+        "duration": 88.8028,
+        "multiplier": 3.39781,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        70,
+        73,
+        84
+      ],
+      "file_sha256": "f407fad52911e13f258206066f8841828dfbba158b19f4e6ff99d94592ebb13d",
+      "source_sha256": "6d9b92bcb5384a7ea9dd26260475a648b055a89317691be71af06a148b33f817",
+      "original_multiplier": 1.479562
+    },
+    {
+      "name": "C101_ACC_P004",
+      "kind": "ACCIDENT",
+      "attempts": 2,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 726.9293,
+        "duration": 134.429,
+        "multiplier": 4.239715,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        66,
+        79,
+        80
+      ],
+      "file_sha256": "12613de67b6e29c04a646e43157704edc728c890e641f311a1dda3cdf896816c",
+      "source_sha256": "69df589f8ac45619d4db819e30724c765917b57845e7899597e054fe7f2ee3c5",
+      "original_multiplier": 1.647943
+    },
+    {
+      "name": "C101_ACC_P005",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 861.8082,
+        "duration": 90.2371,
+        "multiplier": 10.328305,
+        "nodes": [
+          31,
+          35,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5
+      ],
+      "sector_names": [
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        50,
+        52
+      ],
+      "file_sha256": "b414d89234271b4ecd4dfdbbd0e88716f027a2d2e42593b491e753aad4f04bb5",
+      "source_sha256": "ec63a11e5f0cbedd7994e44138268a64f5957c5cb6a0f48c37f3b3597cee83be",
+      "original_multiplier": 2.865661
+    },
+    {
+      "name": "C101_ACC_P006",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 6.6359,
+        "duration": 188.6599,
+        "multiplier": 2.59588,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        3,
+        5,
+        7
+      ],
+      "file_sha256": "7cfc514ac780a214fdce9c1dc39e30475372a79838cc5f8a979435ae888c7435",
+      "source_sha256": "43cea404fa28f65803c8b5450b69c813e27d1019855337b4d2b01ce959a21da4",
+      "original_multiplier": 1.319176
+    },
+    {
+      "name": "C101_ACC_P007",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 714.8422,
+        "duration": 192.2618,
+        "multiplier": 7.88109,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        91,
+        99,
+        100
+      ],
+      "file_sha256": "ec1a75902a10faea68d3a4bd6c8bfb6f2b1eed32212d99cd6d9bc09f338f0c9b",
+      "source_sha256": "ab44328cc8cbd55972916173b649a588c47786e74dd31cab5b065ccd0307de43",
+      "original_multiplier": 2.376218
+    },
+    {
+      "name": "C101_ACC_P008",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 602.1082,
+        "duration": 227.092,
+        "multiplier": 2.589025,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        61,
+        66,
+        77,
+        79,
+        80
+      ],
+      "file_sha256": "ae62eef4a9d5cc5609f97cf4c3727f26f77bed69e702675549fd2f3cc043da92",
+      "source_sha256": "4a95e4ec3dd28a55fa517b87d4feb5d1bbe15e9c47ac8a30098bfea3eab1980f",
+      "original_multiplier": 1.317805
+    },
+    {
+      "name": "C101_ACC_P009",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 452.469,
+        "duration": 157.0924,
+        "multiplier": 6.76273,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        93,
+        97
+      ],
+      "file_sha256": "8aa1b5bc6318a156925da9d89488d9ac58513d84f616a48c284bcdc80a2053d4",
+      "source_sha256": "4e0133dc5fbe10938f3f24def61314ece006d34c8c0adb05026b7f7336c949be",
+      "original_multiplier": 2.152546
+    },
+    {
+      "name": "C101_ACC_P010",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 393.2448,
+        "duration": 205.3655,
+        "multiplier": 8.085475,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        70,
+        73,
+        82,
+        84,
+        85
+      ],
+      "file_sha256": "3c035f7a4bdaabbe89614270e42764ef6c3168876df1f28f4182fe29965f129a",
+      "source_sha256": "def79aa6aedc9062133438c4d695e1da7692a8b4658aa4f008c931ec4cfa2562",
+      "original_multiplier": 2.417095
+    },
+    {
+      "name": "C101_ACC_P011",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 660.9126,
+        "duration": 221.4306,
+        "multiplier": 3.819555,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        91,
+        99,
+        100
+      ],
+      "file_sha256": "0e23ae193663dff2622330ca6ecb97525b003667169b95b65305fda24ec0f6af",
+      "source_sha256": "aaeb12eed7f30ae84d10aac11c72963e1ebb761c1b78dd92e0bb63d255b10e9c",
+      "original_multiplier": 1.563911
+    },
+    {
+      "name": "C101_ACC_P012",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 419.692,
+        "duration": 103.8948,
+        "multiplier": 9.57742,
+        "nodes": [
+          31,
+          35,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5
+      ],
+      "sector_names": [
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        46
+      ],
+      "file_sha256": "83b267e567a90248810eb39636874bb59214d4f3d3566e0abc2ba82de5cb7367",
+      "source_sha256": "e1a469edc8487ef72d6d2d9e156679948471fba8b1cf5abfda5bdfd83b2ad8fe",
+      "original_multiplier": 2.715484
+    },
+    {
+      "name": "C101_ACC_P013",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 167.0016,
+        "duration": 200.7583,
+        "multiplier": 7.02916,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        40,
+        41,
+        44,
+        53,
+        54
+      ],
+      "file_sha256": "a5fa831667c8d4f45287c9531c5723aada50050252edfbb94a4dc21a94d11077",
+      "source_sha256": "7aea1fcd74c5068193470b0385a163aeb89ab7704562e02e212f2b84ae21a0f0",
+      "original_multiplier": 2.205832
+    },
+    {
+      "name": "C101_ACC_P014",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 165.2811,
+        "duration": 210.6187,
+        "multiplier": 7.966595,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        18,
+        19
+      ],
+      "file_sha256": "71fbdd5bb37e95c7f850ab58220b73bc501c3c2888a3a4573cda50f11b5af5d2",
+      "source_sha256": "3cce6a0f3f76236d00bb704d7bd10f243a9c972245d574687e10ee963295e772",
+      "original_multiplier": 2.393319
+    },
+    {
+      "name": "C101_ACC_P015",
+      "kind": "ACCIDENT",
+      "attempts": 2,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 793.2763,
+        "duration": 80.8826,
+        "multiplier": 7.249455,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        89
+      ],
+      "file_sha256": "78883c450144e735ce0ce40e35077f7de5b17965c3d9c35c0b43eac3a756e013",
+      "source_sha256": "844348dc5155a2440eaa2783258c3ca11218f3caaa080dc654e41ffa73e642d1",
+      "original_multiplier": 2.249891
+    },
+    {
+      "name": "C101_ACC_P016",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 909.9067,
+        "duration": 133.7396,
+        "multiplier": 9.12023,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        69
+      ],
+      "file_sha256": "0395f8d0dfb8b053a4867fe72b1edfaed47a7f4eeea60da37b82157b92d1b63c",
+      "source_sha256": "96606679094b1b666678e8387b3f7c5f2793fd9816217292aad71615163fcd9f",
+      "original_multiplier": 2.624046
+    },
+    {
+      "name": "C101_ACC_P017",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 465.277,
+        "duration": 104.8868,
+        "multiplier": 8.89723,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        58,
+        60
+      ],
+      "file_sha256": "3777677b900edadc11ac5d26675e03120707097489a001106fd951c03e6a2dd8",
+      "source_sha256": "064de2c7866ae29968a9b37895c1f0ab8f3134b96bfefa1cc62d7f9576791a4f",
+      "original_multiplier": 2.579446
+    },
+    {
+      "name": "C101_ACC_P018",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 859.1361,
+        "duration": 64.1986,
+        "multiplier": 6.905945,
+        "nodes": [
+          31,
+          35,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5
+      ],
+      "sector_names": [
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        50,
+        52
+      ],
+      "file_sha256": "a23a81e0fa18345aca4436a000f75da65bc20c48273db44e8e65b66fb7940886",
+      "source_sha256": "567fa1c597257cd9479ade691397732bc8fa576ac4e7c5688638fcadbc078ab1",
+      "original_multiplier": 2.181189
+    },
+    {
+      "name": "C101_ACC_P019",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 731.6391,
+        "duration": 133.8181,
+        "multiplier": 2.82079,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        59,
+        68
+      ],
+      "file_sha256": "b8585b5757449caf3280d9f458adda34cc164cf32c5f0cd9f8c80253de90b106",
+      "source_sha256": "ae641e31447ced9b2a5b392fd118249336eefb571d80f6e21c20601208511d81",
+      "original_multiplier": 1.364158
+    },
+    {
+      "name": "C101_ACC_P020",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 663.8612,
+        "duration": 101.1076,
+        "multiplier": 4.906985,
+        "nodes": [
+          31,
+          35,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        5
+      ],
+      "sector_names": [
+        "SW"
+      ],
+      "tw_overlap_customers": [
+        48,
+        51
+      ],
+      "file_sha256": "7e728fdf2772b419083fb8d0dc6986ebad60be6ed38af91107565c2c2a22fa6d",
+      "source_sha256": "f4f0cb9567ee697aeaeebe3b0a4d27cbfc53ebc1a16ed557a0ecf6056099c9a4",
+      "original_multiplier": 1.781397
+    },
+    {
+      "name": "C101_ACC_P021",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 185.6201,
+        "duration": 75.6261,
+        "multiplier": 8.2093,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        25,
+        27
+      ],
+      "file_sha256": "f8631c7baeed695715d88b52c38497610994229b21a532ed39620b738e5b493e",
+      "source_sha256": "feca9a07bc244129afff8383a74157861db16c132a31c07ff2fbcb395c3610f3",
+      "original_multiplier": 2.44186
+    },
+    {
+      "name": "C101_ACC_P022",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 414.6896,
+        "duration": 223.0281,
+        "multiplier": 6.967755,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        6,
+        9,
+        11
+      ],
+      "file_sha256": "ced7177d90a7b441d3965ab45a4eb97a0a0acf3e8de98403bbfb2550ba082532",
+      "source_sha256": "dab750693703bc82cd4fc960ef934db7e41aa23890b7b3eebdc7e50499e1ee9c",
+      "original_multiplier": 2.193551
+    },
+    {
+      "name": "C101_ACC_P023",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 41.548,
+        "duration": 65.1501,
+        "multiplier": 10.66408,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        42,
+        55,
+        57
+      ],
+      "file_sha256": "2acb0d8e64c17f7ea28fd5f22665a4d8cb952b8cf418012e8d44cb604ea01874",
+      "source_sha256": "d0a9ee19aeabf12bca61f9644d4f7ea8185a0685f0919d8829fd6a5ce1d33588",
+      "original_multiplier": 2.932816
+    },
+    {
+      "name": "C101_ACC_P024",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 578.9169,
+        "duration": 174.8125,
+        "multiplier": 8.466395,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        85,
+        88,
+        89
+      ],
+      "file_sha256": "a5a5d486effd489872299ec2575ba375f73c79d1cd12d6c834e259c38e565871",
+      "source_sha256": "d26dc7e456e2ac2cf0d4f6317ab6cb26b241d58293586c57139d1058cc683b13",
+      "original_multiplier": 2.493279
+    },
+    {
+      "name": "C101_ACC_P025",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 565.5277,
+        "duration": 239.5414,
+        "multiplier": 10.35843,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        4,
+        6,
+        9
+      ],
+      "file_sha256": "f9305d18784042e35daaf071090c04d7bbed48ea8196a862a680b3b63b848397",
+      "source_sha256": "b50ae17224d672dd35fe1a9ff2d2698b8d1d0da806bc7b934377b5861987aac9",
+      "original_multiplier": 2.871686
+    },
+    {
+      "name": "C101_ACC_P026",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 831.7351,
+        "duration": 240.1537,
+        "multiplier": 7.905565,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        21,
+        22
+      ],
+      "file_sha256": "47ec241331d140b024dc70a7ee9a3ad3c1b9c7a54004b5dfc4eb3469725d9131",
+      "source_sha256": "6eaaab4efdaea6ca5759a45d165a4aef460b8e23ec04529616d9deb2b29d3cd2",
+      "original_multiplier": 2.381113
+    },
+    {
+      "name": "C101_ACC_P027",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 868.5892,
+        "duration": 230.5763,
+        "multiplier": 3.187985,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        66
+      ],
+      "file_sha256": "359046dd2a6f8a6ee13e963c13acd59f4e232ded8c1b4b0ed3adc3442ca664b4",
+      "source_sha256": "6d45e86496cbaacf177756b0c1d99bb385d5fcfd34200fbf86b6acd63383add1",
+      "original_multiplier": 1.437597
+    },
+    {
+      "name": "C101_ACC_P028",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 909.736,
+        "duration": 132.1395,
+        "multiplier": 6.494285,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        75
+      ],
+      "file_sha256": "051d26497ba6d8942f2adb0f597402c67e02f41b5d25b8aad74ecfdcf72c44e2",
+      "source_sha256": "cf0fd4a280eeafbf5b9f2d93a5c82abab9328d8089ad76e4eb7a438878c80d47",
+      "original_multiplier": 2.098857
+    },
+    {
+      "name": "C101_ACC_P029",
+      "kind": "ACCIDENT",
+      "attempts": 2,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 85.1096,
+        "duration": 175.7943,
+        "multiplier": 8.038405,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        13,
+        17,
+        18
+      ],
+      "file_sha256": "9737d32b76fbda5214dabfc54acbc118f7809f9c04a8b30550d04b986db9e83d",
+      "source_sha256": "372d633da82b8b95bcdb436b108a525a801fd7b83a229731c478ea94755395e8",
+      "original_multiplier": 2.407681
+    },
+    {
+      "name": "C101_ACC_P030",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 358.5615,
+        "duration": 143.2761,
+        "multiplier": 8.581485,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        29,
+        30,
+        37,
+        38
+      ],
+      "file_sha256": "c189a94f7fabfa82aa581fd61632b534bf15e90e74d3c534bd245642de3ac9de",
+      "source_sha256": "45a6eeba9c05ae638d463956d67126288a8d5153fa0636536db8846d5038411d",
+      "original_multiplier": 2.516297
+    },
+    {
+      "name": "C101_ACC_P031",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 887.2078,
+        "duration": 115.591,
+        "multiplier": 4.91554,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        75
+      ],
+      "file_sha256": "514569dce1b5ea1f3674b73716ea272fa99ed8a9ffabf8919f2bb6a9210f2413",
+      "source_sha256": "ed89e3fb6e5300aa1bb834b01ca8c698ec35136a44c07303be54e65e7b84daad",
+      "original_multiplier": 1.783108
+    },
+    {
+      "name": "C101_ACC_P032",
+      "kind": "ACCIDENT",
+      "attempts": 2,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 570.1234,
+        "duration": 69.6847,
+        "multiplier": 3.956225,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        97
+      ],
+      "file_sha256": "5e19070d33922f5de50683ff629c7f361823e1e57904d8806ea2a704cb8ea84e",
+      "source_sha256": "59ae0057d579f3161f67fbab141abc86594e98c40ee3a949b978425a27d8551d",
+      "original_multiplier": 1.591245
+    },
+    {
+      "name": "C101_ACC_P033",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 278.2518,
+        "duration": 74.8475,
+        "multiplier": 9.200895,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        94
+      ],
+      "file_sha256": "5201aeae308325b07dd7dbb7b90d0e7637eb633156a31ad1d0aeba747d37ba83",
+      "source_sha256": "7772b6db9e43a60635e3ff7d57430b541c0e769d4919378a191b393eadc3b7cb",
+      "original_multiplier": 2.640179
+    },
+    {
+      "name": "C101_ACC_P034",
+      "kind": "ACCIDENT",
+      "attempts": 3,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 603.8372,
+        "duration": 222.4591,
+        "multiplier": 2.21871,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        2,
+        4,
+        6,
+        9
+      ],
+      "file_sha256": "ef27a32a74f1c4b661bdd30c7b3d67abf250f97a1bb7cde5436741fba075407b",
+      "source_sha256": "0ad3930db07706b7f5d399cd389c763871b3fa9ccc467de52cfb417c3d3ce07d",
+      "original_multiplier": 1.243742
+    },
+    {
+      "name": "C101_ACC_P035",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 66.8361,
+        "duration": 67.5285,
+        "multiplier": 8.865575,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        20,
+        24,
+        32,
+        33
+      ],
+      "file_sha256": "221cbb8707796a634b0bb079e1f320e40ec4c33eeddc645f0b00d9102cd81abf",
+      "source_sha256": "75a8b52ada5ff270db347c36bd4bae495de1dfe81dffc5a8d0dcf619729f25ed",
+      "original_multiplier": 2.573115
+    },
+    {
+      "name": "C101_ACC_P036",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 210.2131,
+        "duration": 97.8552,
+        "multiplier": 3.677555,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        18,
+        19
+      ],
+      "file_sha256": "bcdc041dc68de4eb4fcbe8e51a72014f4b67b43f76122c5d71808e05a855c862",
+      "source_sha256": "6c814fe22e75241a8cf39f9224bfcb6ba35c09b748d4052dad04f13d8982aa8b",
+      "original_multiplier": 1.535511
+    },
+    {
+      "name": "C101_ACC_P037",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 239.1009,
+        "duration": 101.4479,
+        "multiplier": 7.36119,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        8
+      ],
+      "file_sha256": "c3e2f0019c5d84b4473033cfaa91275fb5186fab8ecaa374b04c828a9e37291a",
+      "source_sha256": "7b8fad607c34e00cdb31f831ad61fe881b04b0d918a76d605993bc8ddb6ee980",
+      "original_multiplier": 2.272238
+    },
+    {
+      "name": "C101_ACC_P038",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 94.2136,
+        "duration": 183.0186,
+        "multiplier": 4.37503,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        24,
+        25,
+        27,
+        32,
+        33
+      ],
+      "file_sha256": "13a0cbe221c042b23589f0d71db78d367f659e1a5119754007da406389852ba5",
+      "source_sha256": "6c53b796e9f9020c2ee66f305b84a2d32cb004da50bb2eba409994633001b8c8",
+      "original_multiplier": 1.675006
+    },
+    {
+      "name": "C101_ACC_P039",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 546.0093,
+        "duration": 92.3962,
+        "multiplier": 6.535075,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        97
+      ],
+      "file_sha256": "feba82738d3d6f273929bdb46c7e83186327addfc87d830f0f84a2f5c03f0d64",
+      "source_sha256": "99b2bd403811dbb0b68d8fa8a4fa048e7e08fb9f6d78e08412aaaf85189394bb",
+      "original_multiplier": 2.107015
+    },
+    {
+      "name": "C101_ACC_P040",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 855.4892,
+        "duration": 122.2592,
+        "multiplier": 5.363,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        66
+      ],
+      "file_sha256": "1ed1fe36031a3d4c29a80627bb38095ff432e558173c65b03c53e22621c6eda1",
+      "source_sha256": "d47b0d5180b67d80d6719df0fd7a1b769d7a423301e7376920302613d0fe0464",
+      "original_multiplier": 1.8726
+    },
+    {
+      "name": "C101_ACC_P041",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 265.6757,
+        "duration": 154.3172,
+        "multiplier": 2.762105,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        40,
+        44,
+        53,
+        56
+      ],
+      "file_sha256": "0b3bfad35c2f7c9b9f6739d28ec80754b63f5414e38577cdbdf779d4da88c5eb",
+      "source_sha256": "efdd994f7852f8f08f7e57b73622e42c847764e545d9bd8598032193725358f7",
+      "original_multiplier": 1.352421
+    },
+    {
+      "name": "C101_ACC_P042",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 62.3014,
+        "duration": 194.1726,
+        "multiplier": 3.11141,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        63,
+        65,
+        67
+      ],
+      "file_sha256": "c15b982b116e865716e87c2e897513fd16e570c8a0f6f11607b85f94d40a23d3",
+      "source_sha256": "88d977c039b9a119953348c495506b34ef79c8f866c13314ad3b12c037c5e759",
+      "original_multiplier": 1.422282
+    },
+    {
+      "name": "C101_ACC_P043",
+      "kind": "ACCIDENT",
+      "attempts": 2,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 372.6563,
+        "duration": 184.3348,
+        "multiplier": 9.2991,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        70,
+        73,
+        82,
+        84,
+        85
+      ],
+      "file_sha256": "598151a4a4a859adf38112135802a23883539993ba98116f4747b4cb001b7664",
+      "source_sha256": "bc92925d07fd116f3c862b2551c64cd14b88e971e4bc6bc0a18337fa3693e49f",
+      "original_multiplier": 2.65982
+    },
+    {
+      "name": "C101_ACC_P044",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 412.7033,
+        "duration": 221.5934,
+        "multiplier": 8.294085,
+        "nodes": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        1
+      ],
+      "sector_names": [
+        "NE"
+      ],
+      "tw_overlap_customers": [
+        92,
+        93,
+        97
+      ],
+      "file_sha256": "24025eaa6b73d4728f33267d65b7a0d028f72f6c432df0daa8636911b31da8f6",
+      "source_sha256": "58301798f0a06623c06158c0f0d41e346c5570e12853b71e0ba8055bae94c66c",
+      "original_multiplier": 2.458817
+    },
+    {
+      "name": "C101_ACC_P045",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 458.8586,
+        "duration": 193.6704,
+        "multiplier": 7.25598,
+        "nodes": [
+          40,
+          41,
+          42,
+          44,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          64,
+          68,
+          69
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        4
+      ],
+      "sector_names": [
+        "S"
+      ],
+      "tw_overlap_customers": [
+        58,
+        59,
+        60,
+        64
+      ],
+      "file_sha256": "afacc9f17e65594b25fe8bfbc2f68ed64a02b8c169cf13db2458ad9c7e0c361c",
+      "source_sha256": "e63a248dd849b20bbafeb2c499a4a1296be451866172961605620d7a1eaa2559",
+      "original_multiplier": 2.251196
+    },
+    {
+      "name": "C101_ACC_P046",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 635.5343,
+        "duration": 126.7995,
+        "multiplier": 9.1673,
+        "nodes": [
+          61,
+          62,
+          63,
+          65,
+          66,
+          67,
+          72,
+          74,
+          77,
+          79,
+          80
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        3
+      ],
+      "sector_names": [
+        "SE"
+      ],
+      "tw_overlap_customers": [
+        77,
+        79
+      ],
+      "file_sha256": "d5db5f3d3d1667b836b116d24aae76a2e946720dea80518397602e51a21dae11",
+      "source_sha256": "703bdb7a90657dddde587343d9183b586ab82f91856e525819bfeeb47214a1c5",
+      "original_multiplier": 2.63346
+    },
+    {
+      "name": "C101_ACC_P047",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 534.9521,
+        "duration": 167.3159,
+        "multiplier": 4.45824,
+        "nodes": [
+          70,
+          71,
+          73,
+          76,
+          78,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        2
+      ],
+      "sector_names": [
+        "E"
+      ],
+      "tw_overlap_customers": [
+        73,
+        85,
+        88
+      ],
+      "file_sha256": "331ac604721c2ec8fe7380c3ff65883bf35dae529625cba716808545d4603539",
+      "source_sha256": "16a29ed495e4c5a1e19f7b6d6df0e83d819f4ff22b9898e1fe578c12bf136fc9",
+      "original_multiplier": 1.691648
+    },
+    {
+      "name": "C101_ACC_P048",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 823.7072,
+        "duration": 111.4019,
+        "multiplier": 5.40032,
+        "nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          75
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        0
+      ],
+      "sector_names": [
+        "N"
+      ],
+      "tw_overlap_customers": [
+        1,
+        2
+      ],
+      "file_sha256": "a45256b6f6aa8188266c5bd93059d5677c754a016f423ad8f7336ec745de37e3",
+      "source_sha256": "a1035eac55cc051efde65682959abb550e05fff9b1536772095e1bbfa7e6305c",
+      "original_multiplier": 1.880064
+    },
+    {
+      "name": "C101_ACC_P049",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 284.7665,
+        "duration": 115.8919,
+        "multiplier": 9.107065,
+        "nodes": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          23
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        7
+      ],
+      "sector_names": [
+        "NW"
+      ],
+      "tw_overlap_customers": [
+        15,
+        19
+      ],
+      "file_sha256": "ea03dcfc942a37ff1858eff20de8bebba22ac380574875cb583657ce5c88ce30",
+      "source_sha256": "7c47d06904439941cf6891b5e98c0f3d883a3d3ac0fcfce95ee9cc8da9132e00",
+      "original_multiplier": 2.621413
+    },
+    {
+      "name": "C101_ACC_P050",
+      "kind": "ACCIDENT",
+      "attempts": 1,
+      "event": {
+        "type": "ACCIDENT",
+        "trigger_time": 302.7237,
+        "duration": 192.7266,
+        "multiplier": 10.49464,
+        "nodes": [
+          20,
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "rainfall_mm": 0.0,
+        "vehicles_involved": 0
+      },
+      "sectors": [
+        6
+      ],
+      "sector_names": [
+        "W"
+      ],
+      "tw_overlap_customers": [
+        27,
+        29,
+        30,
+        37,
+        38
+      ],
+      "file_sha256": "40006f6a2668852ba06f51de878da8613377e64974b5698b4b88c543f6caaee2",
+      "source_sha256": "5f00258accc16c824a698e24206ec42c30a1bcd04eafd499e0377af2ceb78a2c",
+      "original_multiplier": 2.898928
+    }
+  ],
+  "source_pilot": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\soft_pomo\\data\\c101_event_pilot_20260923_203633",
+  "source_manifest_sha256": "c62765defde2546e17584bb5909a826a4cacefd384f4f9bd3372d15784f9edd0",
+  "strength_alpha": 5.0,
+  "multiplier_transform": "1 + 5.0 * (original_multiplier - 1)"
+}

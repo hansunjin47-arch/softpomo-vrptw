@@ -1,0 +1,30 @@
+{
+  "event_type": "ACCIDENT",
+  "affected_nodes": [
+    30,
+    32,
+    33,
+    50,
+    51,
+    56,
+    62,
+    63,
+    76,
+    80,
+    84,
+    85,
+    89,
+    91,
+    92,
+    95
+  ],
+  "regions": [
+    "SE"
+  ],
+  "start_min": 171.919,
+  "end_min": 201.2438,
+  "revealed_at_min": 171.919,
+  "synthetic": true,
+  "vehicles_involved": 2,
+  "news_text": "A collision involving 2 vehicles is reported in SE. The announced disruption window is minute 171.9190 to 201.2438 after dispatch."
+}

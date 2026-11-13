@@ -1,0 +1,4038 @@
+{
+  "seed": 42,
+  "family": "C",
+  "config": {
+    "n_sectors_total": 8,
+    "rain_n_sectors": [
+      2,
+      3
+    ],
+    "rain_sector_fracs": [
+      0.125,
+      0.25,
+      0.5
+    ],
+    "rain_severity": [
+      {
+        "name": "light",
+        "mu": 1.25,
+        "mm_per_h": [
+          0.25,
+          6.4
+        ],
+        "text": "약한 비",
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "name": "moderate",
+        "mu": 1.5,
+        "mm_per_h": [
+          6.4,
+          15.0
+        ],
+        "text": "비",
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "name": "heavy",
+        "mu": 2.0,
+        "mm_per_h": [
+          15.0,
+          30.0
+        ],
+        "text": "호우주의보",
+        "weight": 1,
+        "enabled": true
+      }
+    ],
+    "rain_delta_k": [
+      1.0,
+      2.0
+    ],
+    "acc_n_sectors": [
+      1,
+      1
+    ],
+    "acc_severity": [
+      {
+        "name": "minor",
+        "mu": 1.2,
+        "vehicles": 2,
+        "residual_cap": 0.83,
+        "text": "2중 추돌",
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "name": "moderate",
+        "mu": 2.04,
+        "vehicles": 3,
+        "residual_cap": 0.49,
+        "text": "3중 추돌",
+        "weight": 1,
+        "enabled": true
+      },
+      {
+        "name": "major",
+        "mu": 5.88,
+        "vehicles": 5,
+        "residual_cap": 0.17,
+        "text": "5중 연쇄 추돌",
+        "weight": 1,
+        "enabled": true
+      }
+    ],
+    "acc_delta_k": [
+      0.5,
+      1.5
+    ],
+    "acc_n_events": [
+      2,
+      3
+    ],
+    "acc_wave_frac": 0.5,
+    "delta_min": 5.0,
+    "delta_max_frac": 0.3,
+    "max_retries": 50,
+    "force_pre_clear": false
+  },
+  "generator": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\original_POMO\\generate_events.py",
+  "generator_hash": "70f5c9a6ded8008b9429b0719214af2d7e90045bb6a81901ffc79ca112267a4d",
+  "instances": [
+    {
+      "name": "CH03",
+      "seed": 42002,
+      "source_hash": "fe5bb4af0ed946e1ffbd5c347343f0af7df1a9f62efb35c37a24fbf8bd913f3f",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH03_RAIN2.txt",
+          "sha256": "56c3c3b5e88fd7eb96580bc883312bfd64cc9d31d8e853f781d47a1e19cb8873",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                4,
+                5,
+                6,
+                7
+              ],
+              "sector_names": [
+                "S",
+                "SW",
+                "W",
+                "NW"
+              ],
+              "trigger_time": 0.0,
+              "duration": 91.7,
+              "announce_time": -140.8,
+              "nominal_duration": 232.4,
+              "multiplier": 2.0,
+              "severity_name": "heavy",
+              "severity_text": "호우주의보",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                5,
+                13,
+                21,
+                34,
+                47
+              ],
+              "n_covered": 5,
+              "n_touched": 8,
+              "n_arrival_hit": 5,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "n_late_on_ref": 17,
+              "dist_delta_ref": 106.55265443782912,
+              "delay_mass": 301136.33171637723,
+              "rainfall_mm": 20.2
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH03_ACC2.txt",
+          "sha256": "12c288ca480e5709d68b273626784b935319935fafcdda4673343df188beb4ff",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                4
+              ],
+              "sector_names": [
+                "S"
+              ],
+              "trigger_time": 538.9,
+              "duration": 86.2,
+              "announce_time": 538.9,
+              "nominal_duration": 86.2,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "reveal_time": 538.9,
+              "label": "overlap",
+              "bound_set": [
+                9
+              ],
+              "n_covered": 1,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.6324555320336458,
+              "delay_mass": 15684.039632320906,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 603.4,
+              "duration": 193.5,
+              "announce_time": 263.6,
+              "nominal_duration": 193.5,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 263.6,
+              "label": "overlap",
+              "bound_set": [
+                12
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.6000000000000227,
+              "delay_mass": 15699.194161388335,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH02",
+      "seed": 42001,
+      "source_hash": "12fa7dff95e8a64ec779ec5242093e2ca57f3552ce63a01ac81a1c41c95bcd99",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH02_RAIN2.txt",
+          "sha256": "a5785bb3c711fa36323c1d081b3fa16b2989d548d48f19ad92e0e70133ed6215",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 98.3,
+              "duration": 163.9,
+              "announce_time": 98.3,
+              "nominal_duration": 163.9,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                18,
+                23
+              ],
+              "n_covered": 2,
+              "n_touched": 3,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 5.0,
+              "delay_mass": 39247.98540347075,
+              "rainfall_mm": 6.9
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH02_ACC2.txt",
+          "sha256": "d084c70c547f5a7de8252c33ce48afe39e9dc71afbc99ef2fe507ec7c3fd3317",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                4
+              ],
+              "sector_names": [
+                "S"
+              ],
+              "trigger_time": 603.8,
+              "duration": 141.2,
+              "announce_time": 603.8,
+              "nominal_duration": 141.2,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "reveal_time": 603.8,
+              "label": "overlap",
+              "bound_set": [
+                6
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.3255106965997356,
+              "delay_mass": 81557.00608806834,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 618.5,
+              "duration": 129.6,
+              "announce_time": 427.4,
+              "nominal_duration": 129.6,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 427.4,
+              "label": "overlap",
+              "bound_set": [
+                12
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.6000000000000227,
+              "delay_mass": 15699.194161388335,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH01",
+      "seed": 42000,
+      "source_hash": "8f8b82e832baf6fdc45633d4436befd26745f102e9301314c15be10e68907f46",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH01_RAIN2.txt",
+          "sha256": "4fb12cca4465b7628c76400140e4f0ae4b7a6fb92717f71336fffe71b7e0eda9",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                2,
+                3,
+                4,
+                5
+              ],
+              "sector_names": [
+                "E",
+                "SE",
+                "S",
+                "SW"
+              ],
+              "trigger_time": 254.8,
+              "duration": 186.6,
+              "announce_time": 254.8,
+              "nominal_duration": 186.6,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                8,
+                10,
+                15,
+                19,
+                71,
+                84,
+                85,
+                92,
+                93
+              ],
+              "n_covered": 9,
+              "n_touched": 11,
+              "n_arrival_hit": 10,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 21.13120276247821,
+              "delay_mass": 157048.71283537312,
+              "rainfall_mm": 7.0
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH01_ACC2.txt",
+          "sha256": "d5e77984ede859290aa29dac9ff94c9bd29dc5831baec41bcc34da69e71be26a",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                7
+              ],
+              "sector_names": [
+                "NW"
+              ],
+              "trigger_time": 1105.6,
+              "duration": 89.6,
+              "announce_time": 1105.6,
+              "nominal_duration": 89.6,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "reveal_time": 1105.6,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.6000000000000227,
+              "delay_mass": 15339.421947773915,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                1
+              ],
+              "sector_names": [
+                "NE"
+              ],
+              "trigger_time": 1165.3,
+              "duration": 151.3,
+              "announce_time": 181.6,
+              "nominal_duration": 151.3,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "reveal_time": 181.6,
+              "label": "post_service",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 0,
+              "n_arrival_hit": 0,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.0,
+              "delay_mass": 85154.07045958818,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                3
+              ],
+              "sector_names": [
+                "SE"
+              ],
+              "trigger_time": 1140.6,
+              "duration": 165.9,
+              "announce_time": 783.0,
+              "nominal_duration": 165.9,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 783.0,
+              "label": "post_service",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 0,
+              "n_arrival_hit": 0,
+              "_node_set": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.0,
+              "delay_mass": 429583.1631745087,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH04",
+      "seed": 42003,
+      "source_hash": "073789aa31c014a53191217ac4647e7d752e1e321bfa867c74490092b2e48c88",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH04_RAIN2.txt",
+          "sha256": "1049cdd59b76dd31de0a09e8f74bc01effe10e880827ec2607476e3d0a52b3cc",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                1,
+                2
+              ],
+              "sector_names": [
+                "NE",
+                "E"
+              ],
+              "trigger_time": 704.2,
+              "duration": 130.1,
+              "announce_time": 704.2,
+              "nominal_duration": 130.1,
+              "multiplier": 2.0,
+              "severity_name": "heavy",
+              "severity_text": "호우주의보",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                63,
+                80,
+                87
+              ],
+              "n_covered": 3,
+              "n_touched": 7,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 11.385164807134288,
+              "delay_mass": 203042.6752394613,
+              "rainfall_mm": 28.5
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH04_ACC2.txt",
+          "sha256": "74ab6574752f4fad4347d84c52f611cdad2b78072309e653a9dabd198d388355",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 99.4,
+              "duration": 128.0,
+              "announce_time": 99.4,
+              "nominal_duration": 128.0,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 99.4,
+              "label": "overlap",
+              "bound_set": [
+                78
+              ],
+              "n_covered": 1,
+              "n_touched": 4,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.8867956800418142,
+              "delay_mass": 26261.68432383835,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                6
+              ],
+              "sector_names": [
+                "W"
+              ],
+              "trigger_time": 122.7,
+              "duration": 102.7,
+              "announce_time": 880.9,
+              "nominal_duration": 102.7,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "reveal_time": 880.9,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 3,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.13765389628054,
+              "delay_mass": 24506.370315999247,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 155.8,
+              "duration": 121.1,
+              "announce_time": 427.9,
+              "nominal_duration": 121.1,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 427.9,
+              "label": "overlap",
+              "bound_set": [
+                76,
+                88
+              ],
+              "n_covered": 2,
+              "n_touched": 4,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 23.562724368761337,
+              "delay_mass": 640785.0975016613,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH05",
+      "seed": 42004,
+      "source_hash": "9f4cdd6229e8da285a44008e0bc1c0e2729e231c9f30d45955812e2010033353",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH05_RAIN2.txt",
+          "sha256": "2f71429ce0655783418e3811317d40fa38e966a182147485a7ac324861ca3036",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                4,
+                5,
+                6,
+                7
+              ],
+              "sector_names": [
+                "S",
+                "SW",
+                "W",
+                "NW"
+              ],
+              "trigger_time": 0.0,
+              "duration": 39.8,
+              "announce_time": -206.4,
+              "nominal_duration": 246.2,
+              "multiplier": 2.0,
+              "severity_name": "heavy",
+              "severity_text": "호우주의보",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 5,
+              "n_arrival_hit": 5,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 83.15854135492714,
+              "delay_mass": 301136.33171637723,
+              "rainfall_mm": 22.4
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH05_ACC2.txt",
+          "sha256": "8ab5b9ac3b143c7df8b3e97f0f584b202b84dd4a1d4f1f08272d57817b6a6b00",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                1
+              ],
+              "sector_names": [
+                "NE"
+              ],
+              "trigger_time": 576.1,
+              "duration": 86.9,
+              "announce_time": 576.1,
+              "nominal_duration": 86.9,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "reveal_time": 576.1,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 3,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 19.99117916692444,
+              "delay_mass": 399569.0998488371,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 576.6,
+              "duration": 93.1,
+              "announce_time": 792.7,
+              "nominal_duration": 93.1,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 792.7,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 2,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 9.759999999999991,
+              "delay_mass": 383060.3375378758,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH06",
+      "seed": 42005,
+      "source_hash": "3cac1cabc99d97759c0ba7a3b10d9de010584cc5f2eeb01d355a515bab64eb54",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH06_RAIN2.txt",
+          "sha256": "3dc689b3689bb31793c35b1dac31d0855e86b67d6c7c3639a595f42551ebbc8e",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "sector_names": [
+                "NE",
+                "E",
+                "SE",
+                "S"
+              ],
+              "trigger_time": 254.8,
+              "duration": 200.6,
+              "announce_time": 254.8,
+              "nominal_duration": 200.6,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                8,
+                10,
+                61,
+                70,
+                71,
+                84,
+                85,
+                92,
+                93
+              ],
+              "n_covered": 9,
+              "n_touched": 11,
+              "n_arrival_hit": 9,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 15.63120276247821,
+              "delay_mass": 157948.49533449637,
+              "rainfall_mm": 12.0
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH06_ACC2.txt",
+          "sha256": "c5f5da8058c22ff80da5bb3283000c0e3baa928be2d8c0470db70ea31fe7c45e",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                7
+              ],
+              "sector_names": [
+                "NW"
+              ],
+              "trigger_time": 639.2,
+              "duration": 184.2,
+              "announce_time": 639.2,
+              "nominal_duration": 184.2,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "reveal_time": 639.2,
+              "label": "overlap",
+              "bound_set": [
+                45
+              ],
+              "n_covered": 1,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.8770329614268348,
+              "delay_mass": 15339.421947773915,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                1
+              ],
+              "sector_names": [
+                "NE"
+              ],
+              "trigger_time": 646.4,
+              "duration": 163.1,
+              "announce_time": 644.2,
+              "nominal_duration": 163.1,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "reveal_time": 644.2,
+              "label": "overlap",
+              "bound_set": [
+                63,
+                79
+              ],
+              "n_covered": 2,
+              "n_touched": 4,
+              "n_arrival_hit": 4,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "n_late_on_ref": 3,
+              "dist_delta_ref": 55.69327810810796,
+              "delay_mass": 399569.0998488371,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                7
+              ],
+              "sector_names": [
+                "NW"
+              ],
+              "trigger_time": 639.9,
+              "duration": 24.8,
+              "announce_time": -110.7,
+              "nominal_duration": 135.5,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 1,
+              "n_arrival_hit": 0,
+              "_node_set": [
+                31,
+                35,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.07424514337753862,
+              "delay_mass": 15339.421947773915,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH08",
+      "seed": 42007,
+      "source_hash": "672a5b72718a8df49d8fd0e89dcd1345e54c6ed6bb923d710199cee3dbfa365a",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH08_RAIN2.txt",
+          "sha256": "6f81a000a10ba001d663333d69ee97dd92f3fe853a633b59ccc9e2fd2ec90769",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "sector_names": [
+                "N",
+                "NE",
+                "E",
+                "SE"
+              ],
+              "trigger_time": 0.0,
+              "duration": 164.4,
+              "announce_time": -44.9,
+              "nominal_duration": 209.3,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                57,
+                59,
+                66,
+                69,
+                81,
+                89,
+                91,
+                99,
+                100
+              ],
+              "n_covered": 9,
+              "n_touched": 10,
+              "n_arrival_hit": 10,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 84.45931950690044,
+              "delay_mass": 167330.23005530296,
+              "rainfall_mm": 7.0
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH08_ACC2.txt",
+          "sha256": "d6be2bd0a529d3d4d6ea85a56390f03245322c6484e68f88803a3abbb0571845",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 159.0,
+              "duration": 102.3,
+              "announce_time": 159.0,
+              "nominal_duration": 102.3,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 159.0,
+              "label": "overlap",
+              "bound_set": [
+                18,
+                23
+              ],
+              "n_covered": 2,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.2000000000000455,
+              "delay_mass": 15699.194161388335,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                4
+              ],
+              "sector_names": [
+                "S"
+              ],
+              "trigger_time": 208.2,
+              "duration": 159.5,
+              "announce_time": 1076.5,
+              "nominal_duration": 169.8,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "reveal_time": 1076.5,
+              "label": "overlap",
+              "bound_set": [
+                8
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                75
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.9415642097360433,
+              "delay_mass": 81557.00608806834,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH07",
+      "seed": 42006,
+      "source_hash": "8b0f271cc1cc9e5072670ecc502c85ce0d8a76110f2ddf642cdf9b3e7043c7e5",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH07_RAIN2.txt",
+          "sha256": "c01951c304811f07dd50c4948cb612d1c3ddd9ea61d345f9c0e69647580a62d5",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 320.9,
+              "duration": 167.2,
+              "announce_time": 320.9,
+              "nominal_duration": 167.2,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                15
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.5,
+              "delay_mass": 39247.98540347075,
+              "rainfall_mm": 10.6
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH07_ACC2.txt",
+          "sha256": "1a4d47e696ce236dfffe1a169b0ff6101e55d11db864d2c0d2eb6e87fa989507",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                0
+              ],
+              "sector_names": [
+                "N"
+              ],
+              "trigger_time": 721.9,
+              "duration": 154.9,
+              "announce_time": 721.9,
+              "nominal_duration": 154.9,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 721.9,
+              "label": "overlap",
+              "bound_set": [
+                44
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 24.399999999999977,
+              "delay_mass": 570037.2209586711,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                6
+              ],
+              "sector_names": [
+                "W"
+              ],
+              "trigger_time": 738.7,
+              "duration": 56.3,
+              "announce_time": -28.2,
+              "nominal_duration": 84.4,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 19.21758425596761,
+              "delay_mass": 597955.435710383,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH09",
+      "seed": 42008,
+      "source_hash": "bb3e88c5ac328e5b820ff98acf7dd47a1fb67d4bf8788ea1197d0377c3634950",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH09_RAIN2.txt",
+          "sha256": "1c314ac959aa0704561f625e9d212e59ba7b8283becf90cb400994593eaa2819",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                0,
+                1,
+                2,
+                7
+              ],
+              "sector_names": [
+                "N",
+                "NE",
+                "E",
+                "NW"
+              ],
+              "trigger_time": 788.1,
+              "duration": 138.7,
+              "announce_time": 788.1,
+              "nominal_duration": 138.7,
+              "multiplier": 1.25,
+              "severity_name": "light",
+              "severity_text": "약한 비",
+              "nodes": [
+                31,
+                35,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                40,
+                65,
+                90
+              ],
+              "n_covered": 3,
+              "n_touched": 9,
+              "n_arrival_hit": 4,
+              "_node_set": [
+                31,
+                35,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 3.846291201783515,
+              "delay_mass": 82482.5606279358,
+              "rainfall_mm": 3.0
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH09_ACC2.txt",
+          "sha256": "b037ee97ca8432136fdf9c3a5577bb2b6edffdf4e3afaf493e47e4a4dd11a382",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                0
+              ],
+              "sector_names": [
+                "N"
+              ],
+              "trigger_time": 691.2,
+              "duration": 178.1,
+              "announce_time": 691.2,
+              "nominal_duration": 178.1,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 691.2,
+              "label": "overlap",
+              "bound_set": [
+                44
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.0,
+              "delay_mass": 23362.18118683069,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 706.3,
+              "duration": 108.8,
+              "announce_time": 971.1,
+              "nominal_duration": 108.8,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 971.1,
+              "label": "overlap",
+              "bound_set": [
+                87
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.1999999999998181,
+              "delay_mass": 26261.68432383835,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                3
+              ],
+              "sector_names": [
+                "SE"
+              ],
+              "trigger_time": 723.3,
+              "duration": 117.2,
+              "announce_time": 1118.8,
+              "nominal_duration": 194.4,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 1118.8,
+              "label": "overlap",
+              "bound_set": [
+                98
+              ],
+              "n_covered": 1,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 26.279604258816335,
+              "delay_mass": 429583.1631745087,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH10",
+      "seed": 42009,
+      "source_hash": "00b9bf77bcb8387ef175d7be757bfc7079c7ed3d380fba45ba7a893a8ac69c12",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH10_RAIN2.txt",
+          "sha256": "f40b4d3a829fb397d8d9cf35f37e91f04931f3e5d7a2328026ff1ed3267a6257",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                4,
+                5,
+                6,
+                7
+              ],
+              "sector_names": [
+                "S",
+                "SW",
+                "W",
+                "NW"
+              ],
+              "trigger_time": 874.2,
+              "duration": 155.4,
+              "announce_time": 874.2,
+              "nominal_duration": 155.4,
+              "multiplier": 1.25,
+              "severity_name": "light",
+              "severity_text": "약한 비",
+              "nodes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                1,
+                20
+              ],
+              "n_covered": 2,
+              "n_touched": 5,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                43,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                75
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.75,
+              "delay_mass": 75284.08292909431,
+              "rainfall_mm": 0.7
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH10_ACC2.txt",
+          "sha256": "6f022f16beba25f0da2d4c9146942cd048d5039f470de9b388f0e2fc58bd98e1",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 69.8,
+              "duration": 183.9,
+              "announce_time": 69.8,
+              "nominal_duration": 183.9,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 69.8,
+              "label": "overlap",
+              "bound_set": [
+                78,
+                88,
+                89
+              ],
+              "n_covered": 3,
+              "n_touched": 5,
+              "n_arrival_hit": 4,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 53.19667093242606,
+              "delay_mass": 640785.0975016613,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 85.2,
+              "duration": 71.8,
+              "announce_time": 1164.2,
+              "nominal_duration": 80.0,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 1164.2,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 4.159999999999968,
+              "delay_mass": 81635.80963921944,
+              "description": "3중 추돌",
+              "vehicles_involved": 3,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH11",
+      "seed": 42010,
+      "source_hash": "c9a896a21491f6af68e4594774733325af047af61aff76980811f4044a6ea18f",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH11_RAIN2.txt",
+          "sha256": "74dd73367653a921101fc06f50470549c1306b451af839952e25886d2d03e28b",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                3
+              ],
+              "sector_names": [
+                "SE"
+              ],
+              "trigger_time": 0.0,
+              "duration": 185.4,
+              "announce_time": -59.1,
+              "nominal_duration": 244.5,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                91,
+                99,
+                100
+              ],
+              "n_covered": 3,
+              "n_touched": 3,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 32.25362535647935,
+              "delay_mass": 44014.668358043855,
+              "rainfall_mm": 15.0
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH11_ACC2.txt",
+          "sha256": "49e3ebd679e05de0455e647b3f2d2431cf756cbcdfdbbb4b51bbaabb6bb6557c",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                0
+              ],
+              "sector_names": [
+                "N"
+              ],
+              "trigger_time": 580.6,
+              "duration": 141.6,
+              "announce_time": 580.6,
+              "nominal_duration": 141.6,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 580.6,
+              "label": "overlap",
+              "bound_set": [
+                55
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 10.800571399419823,
+              "delay_mass": 121483.34217151957,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                3
+              ],
+              "sector_names": [
+                "SE"
+              ],
+              "trigger_time": 583.6,
+              "duration": 49.0,
+              "announce_time": -116.1,
+              "nominal_duration": 165.1,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 17.595090224264254,
+              "delay_mass": 429583.1631745087,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                3
+              ],
+              "sector_names": [
+                "SE"
+              ],
+              "trigger_time": 623.3,
+              "duration": 110.8,
+              "announce_time": 864.7,
+              "nominal_duration": 110.8,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "reveal_time": 864.7,
+              "label": "overlap",
+              "bound_set": [
+                96
+              ],
+              "n_covered": 1,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 9.759999999999991,
+              "delay_mass": 429583.1631745087,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH12",
+      "seed": 42011,
+      "source_hash": "80ddb0eb53c6dcaf8afeed3ac760239fa6fa8a2f9bd9811771d902066c1a1bc0",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH12_RAIN2.txt",
+          "sha256": "49106be8edfe8fc030de26d7a5db71060ee4474a90293cb6f8ca79c4b4c28f7a",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                0,
+                7
+              ],
+              "sector_names": [
+                "N",
+                "NW"
+              ],
+              "trigger_time": 796.8,
+              "duration": 168.6,
+              "announce_time": 796.8,
+              "nominal_duration": 168.6,
+              "multiplier": 2.0,
+              "severity_name": "heavy",
+              "severity_text": "호우주의보",
+              "nodes": [
+                31,
+                35,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                40
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                31,
+                35,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 5.0,
+              "delay_mass": 186063.11879331878,
+              "rainfall_mm": 20.5
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH12_ACC2.txt",
+          "sha256": "af99f5c9f62921508c76cc3263a317de5a83a9908935b4ea7d31ea70a6feada2",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                1
+              ],
+              "sector_names": [
+                "NE"
+              ],
+              "trigger_time": 760.4,
+              "duration": 99.7,
+              "announce_time": 760.4,
+              "nominal_duration": 99.7,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "reveal_time": 760.4,
+              "label": "overlap",
+              "bound_set": [
+                80
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.236343583022176,
+              "delay_mass": 16375.78278069003,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                5
+              ],
+              "sector_names": [
+                "SW"
+              ],
+              "trigger_time": 799.8,
+              "duration": 158.8,
+              "announce_time": 720.9,
+              "nominal_duration": 158.8,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "reveal_time": 720.9,
+              "label": "post_service",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 0,
+              "n_arrival_hit": 0,
+              "_node_set": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                23
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 0.0,
+              "delay_mass": 15699.194161388335,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH13",
+      "seed": 42012,
+      "source_hash": "a4c1369024f5ad05b9be9d0b0f6de6b31a6225114df6b122645b9fa9aeafc26f",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH13_RAIN2.txt",
+          "sha256": "d4c54e7396b1a0c0f3ecb69ad60ad90d7011cd38eebdc421def59713098f586e",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                1,
+                2
+              ],
+              "sector_names": [
+                "NE",
+                "E"
+              ],
+              "trigger_time": 219.8,
+              "duration": 233.2,
+              "announce_time": 219.8,
+              "nominal_duration": 233.2,
+              "multiplier": 2.0,
+              "severity_name": "heavy",
+              "severity_text": "호우주의보",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                61,
+                71,
+                84,
+                85
+              ],
+              "n_covered": 4,
+              "n_touched": 8,
+              "n_arrival_hit": 6,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 19.828427124746213,
+              "delay_mass": 203042.6752394613,
+              "rainfall_mm": 24.6
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH13_ACC2.txt",
+          "sha256": "8cebb909099a2d348647043921683517f22ae6450a49a1d7da4d376607ba4714",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 552.9,
+              "duration": 174.2,
+              "announce_time": 552.9,
+              "nominal_duration": 174.2,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 552.9,
+              "label": "overlap",
+              "bound_set": [
+                83,
+                86
+              ],
+              "n_covered": 2,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 13.519999999999982,
+              "delay_mass": 136560.7584839595,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                0
+              ],
+              "sector_names": [
+                "N"
+              ],
+              "trigger_time": 582.4,
+              "duration": 132.7,
+              "announce_time": 231.2,
+              "nominal_duration": 132.7,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 231.2,
+              "label": "overlap",
+              "bound_set": [],
+              "n_covered": 0,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 2.0770329614268803,
+              "delay_mass": 23362.18118683069,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH14",
+      "seed": 42013,
+      "source_hash": "fe50a22304be975d94adc67ba30ee4bdc89135faa50d4feb7c309bec3f84fad9",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH14_RAIN2.txt",
+          "sha256": "4a3316bb79458da27795b8a2b0a5b030bc027dc21d1bbb72e29288ed95e9d1c3",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                6
+              ],
+              "sector_names": [
+                "W"
+              ],
+              "trigger_time": 372.3,
+              "duration": 153.4,
+              "announce_time": 372.3,
+              "nominal_duration": 153.4,
+              "multiplier": 1.5,
+              "severity_name": "moderate",
+              "severity_text": "비",
+              "nodes": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                30,
+                37
+              ],
+              "n_covered": 2,
+              "n_touched": 3,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 6.415475947422465,
+              "delay_mass": 61265.92578999807,
+              "rainfall_mm": 7.2
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH14_ACC2.txt",
+          "sha256": "923d1c60b27632917f43fed9ac0a2b1e0c145908ba4f6a8f82d371bf97ba84d9",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                1
+              ],
+              "sector_names": [
+                "NE"
+              ],
+              "trigger_time": 41.4,
+              "duration": 192.7,
+              "announce_time": 41.4,
+              "nominal_duration": 192.7,
+              "multiplier": 2.04,
+              "severity_name": "moderate",
+              "severity_text": "3중 추돌",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "reveal_time": 41.4,
+              "label": "overlap",
+              "bound_set": [
+                66
+              ],
+              "n_covered": 1,
+              "n_touched": 1,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                72,
+                74,
+                77,
+                79,
+                80
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 7.680571399419819,
+              "delay_mass": 85154.07045958818,
+              "description": "3중 추돌",
+              "vehicles_involved": 3
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                0
+              ],
+              "sector_names": [
+                "N"
+              ],
+              "trigger_time": 53.2,
+              "duration": 142.5,
+              "announce_time": 832.7,
+              "nominal_duration": 142.5,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "reveal_time": 832.7,
+              "label": "overlap",
+              "bound_set": [
+                59
+              ],
+              "n_covered": 1,
+              "n_touched": 4,
+              "n_arrival_hit": 1,
+              "_node_set": [
+                40,
+                41,
+                42,
+                44,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                64,
+                68,
+                69
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 19.519999999999982,
+              "delay_mass": 570037.2209586711,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                2
+              ],
+              "sector_names": [
+                "E"
+              ],
+              "trigger_time": 106.1,
+              "duration": 109.9,
+              "announce_time": 730.5,
+              "nominal_duration": 109.9,
+              "multiplier": 5.88,
+              "severity_name": "major",
+              "severity_text": "5중 연쇄 추돌",
+              "nodes": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 730.5,
+              "label": "overlap",
+              "bound_set": [
+                78
+              ],
+              "n_covered": 1,
+              "n_touched": 4,
+              "n_arrival_hit": 3,
+              "_node_set": [
+                70,
+                71,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 32.23509022426424,
+              "delay_mass": 640785.0975016613,
+              "description": "5중 연쇄 추돌",
+              "vehicles_involved": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "CH15",
+      "seed": 42014,
+      "source_hash": "9a990a263645aba1ec3a1eab0088f88eea8f211a67fce078ebef23e663837c0b",
+      "reference_vehicles": 10,
+      "scenarios": {
+        "RAIN2": {
+          "file": "CH15_RAIN2.txt",
+          "sha256": "a9289874fe32726e2fd517b34c857fad5e95c270cc139c70cc6a85ca39b4c4d7",
+          "events": [
+            {
+              "type": "RAIN",
+              "sectors": [
+                1,
+                2
+              ],
+              "sector_names": [
+                "NE",
+                "E"
+              ],
+              "trigger_time": 6.9,
+              "duration": 235.3,
+              "announce_time": 6.9,
+              "nominal_duration": 235.3,
+              "multiplier": 1.25,
+              "severity_name": "light",
+              "severity_text": "약한 비",
+              "nodes": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "reveal_time": 0.0,
+              "label": "overlap",
+              "bound_set": [
+                66,
+                78,
+                81,
+                89
+              ],
+              "n_covered": 4,
+              "n_touched": 6,
+              "n_arrival_hit": 6,
+              "_node_set": [
+                61,
+                62,
+                63,
+                65,
+                66,
+                67,
+                70,
+                71,
+                72,
+                73,
+                74,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 14.51478580183607,
+              "delay_mass": 50760.668809865325,
+              "rainfall_mm": 0.6
+            }
+          ]
+        },
+        "ACC2": {
+          "file": "CH15_ACC2.txt",
+          "sha256": "1b7425b040cb875c7cfa8dcc955363b5c1fe437adad141bd020dc9250cf53c90",
+          "events": [
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                6
+              ],
+              "sector_names": [
+                "W"
+              ],
+              "trigger_time": 802.6,
+              "duration": 143.6,
+              "announce_time": 802.6,
+              "nominal_duration": 143.6,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "reveal_time": 802.6,
+              "label": "overlap",
+              "bound_set": [
+                24
+              ],
+              "n_covered": 1,
+              "n_touched": 3,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.3999999999999773,
+              "delay_mass": 24506.370315999247,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            },
+            {
+              "type": "ACCIDENT",
+              "sectors": [
+                6
+              ],
+              "sector_names": [
+                "W"
+              ],
+              "trigger_time": 835.3,
+              "duration": 148.5,
+              "announce_time": 274.0,
+              "nominal_duration": 148.5,
+              "multiplier": 1.2,
+              "severity_name": "minor",
+              "severity_text": "2중 추돌",
+              "nodes": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "reveal_time": 274.0,
+              "label": "overlap",
+              "bound_set": [
+                20
+              ],
+              "n_covered": 1,
+              "n_touched": 2,
+              "n_arrival_hit": 2,
+              "_node_set": [
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33,
+                34,
+                36,
+                37,
+                38,
+                39
+              ],
+              "n_late_on_ref": 0,
+              "dist_delta_ref": 1.3999999999999773,
+              "delay_mass": 24506.370315999247,
+              "description": "2중 추돌",
+              "vehicles_involved": 2
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "reference_policy": "Fresh LKH BASE routes; fail if unavailable; no fallback.",
+  "acceptance": "Existing stage-1 realized reference impact; accident wave 2-3 events.",
+  "scope": "Data only. No training or LLM calls."
+}

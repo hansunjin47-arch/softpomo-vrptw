@@ -10,7 +10,7 @@ result*/
 cache*/
 **/calls/
 server_export/
-data/
+# Input datasets are versioned; generated experiment outputs remain excluded.
 tmp/
 logs/
 *.log

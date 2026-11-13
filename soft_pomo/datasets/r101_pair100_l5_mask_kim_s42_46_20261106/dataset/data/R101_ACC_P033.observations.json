@@ -1,0 +1,25 @@
+{
+  "event_type": "ACCIDENT",
+  "affected_nodes": [
+    10,
+    20,
+    27,
+    30,
+    31,
+    32,
+    63,
+    66,
+    69,
+    70,
+    90
+  ],
+  "regions": [
+    "N"
+  ],
+  "start_min": 37.3741,
+  "end_min": 75.1921,
+  "revealed_at_min": 37.3741,
+  "synthetic": true,
+  "vehicles_involved": 2,
+  "news_text": "A collision involving 2 vehicles is reported in N. The announced disruption window is minute 37.3741 to 75.1921 after dispatch."
+}

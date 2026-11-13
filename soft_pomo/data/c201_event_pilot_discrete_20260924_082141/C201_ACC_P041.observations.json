@@ -1,0 +1,22 @@
+{
+  "event_type": "ACCIDENT",
+  "affected_nodes": [
+    31,
+    35,
+    43,
+    45,
+    47,
+    50,
+    51,
+    52
+  ],
+  "regions": [
+    "SW"
+  ],
+  "start_min": 1453.0615,
+  "end_min": 2105.5944,
+  "revealed_at_min": 1453.0615,
+  "synthetic": true,
+  "vehicles_involved": 2,
+  "news_text": "A collision involving 2 vehicles is reported in SW. The announced disruption window is minute 1453.0615 to 2105.5944 after dispatch."
+}

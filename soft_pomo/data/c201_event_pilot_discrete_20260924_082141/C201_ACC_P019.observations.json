@@ -1,0 +1,27 @@
+{
+  "event_type": "ACCIDENT",
+  "affected_nodes": [
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    21,
+    23,
+    25
+  ],
+  "regions": [
+    "NW"
+  ],
+  "start_min": 2495.1495,
+  "end_min": 2857.5711,
+  "revealed_at_min": 2495.1495,
+  "synthetic": true,
+  "vehicles_involved": 3,
+  "news_text": "A collision involving 3 vehicles is reported in NW. The announced disruption window is minute 2495.1495 to 2857.5711 after dispatch."
+}

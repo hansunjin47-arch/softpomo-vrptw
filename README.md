@@ -1,7 +1,7 @@
 # SoftPOMO Code-Only Snapshot
 
-This branch transfers source code from the research PC. It does not contain
-datasets, generated LLM caches, checkpoints, experiment outputs, API keys,
+This branch transfers source code and input datasets from the research PC. It does not contain
+generated LLM caches, checkpoints, experiment outputs, API keys,
 or the old repository's artifact history. Existing master is unchanged.
 
 ## Setup on another PC
@@ -39,7 +39,15 @@ Many dated research scripts intentionally refer to old `result/` or
 clone: generate the required instances, baseline/reference runs and caches,
 or parameterize those paths first. New Kim's RL reference requires a trained
 Pure RL model; code alone cannot recreate that checkpoint without training.
-Solomon input instances and external solvers must also be supplied separately.
+Input datasets are included in `data/` and `soft_pomo/data/`. Exact RC/R server
+experiment datasets, train/test splits and configs are under `soft_pomo/datasets/`.
+These inputs are intentionally separate from historical generated output paths;
+point new experiment launchers at the appropriate dataset and config.
+External solver executables must be installed separately.
+
+`input_data_manifest.json` records hashes of all transferred input files.
+Existing reference solutions stored with generated datasets are included as
+data-generation provenance, not as permission to expose Test solutions to LLMs.
 
 ## Reproducibility
 

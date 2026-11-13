@@ -1,0 +1,248 @@
+{
+  "train": [
+    {
+      "name": "RC101_RAIN_Y001",
+      "kind": "RAIN",
+      "sha256": "fef177b6458e1eba8f636ebf0f3fff7db53a8752b32eeacf60ce7f87aec05fb4",
+      "source_sha256": "31c7ac4009bb25229e5e12087dd4f36c86b6717b3813dacdc7aff40c391fb28e"
+    },
+    {
+      "name": "RC101_RAIN_Y002",
+      "kind": "RAIN",
+      "sha256": "ec88b3e174cae8b682c56d7ebf30af87a4a2cd3d1d2a306a6d37f8a33a1e9bc6",
+      "source_sha256": "59d4876a2675424ef83928317a0ec1b75dbbbecf46504a50a27cbc6124129210"
+    },
+    {
+      "name": "RC101_RAIN_Y003",
+      "kind": "RAIN",
+      "sha256": "b18cc6f3d0aa3d9cfb214c05d4cf35f6d6863629b06dc14440a7ca08b03b0ae8",
+      "source_sha256": "e7504be2290d9b9554b1cc542835d5c18a3ae4e21a695198c6e51afbf2b80b80"
+    },
+    {
+      "name": "RC101_RAIN_Y004",
+      "kind": "RAIN",
+      "sha256": "a171a44dc12a026bdd5140d47f6c7d68299b800ecfb97a6de54702d6ec9d5c86",
+      "source_sha256": "a9359acd7a14d8d4d0f9723a1d1f4b875f85abb27544abf0fad5a9821f797c0e"
+    },
+    {
+      "name": "RC101_RAIN_Y005",
+      "kind": "RAIN",
+      "sha256": "4f75b9cb9b53e8730e338873309705320805ffd0977f1b432bc0dd86e5baa9bb",
+      "source_sha256": "8a80591f4429be3984633f8b868148d5550bd5138a3e9018e46ab73540616879"
+    },
+    {
+      "name": "RC101_RAIN_Y006",
+      "kind": "RAIN",
+      "sha256": "59f56d9e9207be489e515fd0b9ea2377a56fc97a59911b51d06aaefef33be21e",
+      "source_sha256": "dc0da075b07455d0084db18217a3fd85179f80181ad45d4beda9973c0b56acab"
+    },
+    {
+      "name": "RC101_RAIN_Y007",
+      "kind": "RAIN",
+      "sha256": "41f2f90571fe3bbe15a1de436d97f9ee0fdfbf94d845146d791e9a33abfa82a7",
+      "source_sha256": "f0e0b1473c91ff0abbc7e3576a7ebc9be78e9131b948427c5f33016f2aa6d6f8"
+    },
+    {
+      "name": "RC101_RAIN_Y008",
+      "kind": "RAIN",
+      "sha256": "f3d301244eaed55191ad1bc3eccb5a9dee2594d1bc171ec426a0990b00a7bf54",
+      "source_sha256": "4c9f400a38115ded6c18ec2db2d944b08e3ccc9dd9bfffcfd7c25ca0f0a99eaf"
+    },
+    {
+      "name": "RC101_RAIN_Y009",
+      "kind": "RAIN",
+      "sha256": "20da7efbee2f2c07a92b70e2966d410995b8b43eefcc0e4c2196541abadf51fa",
+      "source_sha256": "e86d440241761afc01232babc6fa79128b3d9fcb4a0f7554de9968badcbaa655"
+    },
+    {
+      "name": "RC101_RAIN_Y010",
+      "kind": "RAIN",
+      "sha256": "2141b63472670b745cb245efb1c39430a5e99c5d356e3ff2d1c2ccaac147db9f",
+      "source_sha256": "b2b85b4fb3c3570f570f5bcc676b861116d00014ff8c71c6ab2c95aae6840261"
+    },
+    {
+      "name": "RC101_RAIN_Y011",
+      "kind": "RAIN",
+      "sha256": "b202fd81f6286dd92d610f3e572867803f5ce45ef0dd335651bf1263ca1856db",
+      "source_sha256": "bf78692bd0d8fa05c146ba2306ad07602084d66ecc7da5cf2de34ba5d3fbf864"
+    },
+    {
+      "name": "RC101_RAIN_Y012",
+      "kind": "RAIN",
+      "sha256": "e1e2ffb58e8fa17c1740cf50839c091daefd605202f141799e3907b9e224c4a0",
+      "source_sha256": "c00a7b3157b7b73743bdb7db5d5160547f4512722bc208235114ee5fa67cb1e5"
+    },
+    {
+      "name": "RC101_RAIN_Y013",
+      "kind": "RAIN",
+      "sha256": "aa448daf3cf1f4beb96a2498e47956690b27707092658cde14f1a5b6877c66c3",
+      "source_sha256": "e1afe87b527fb3c53e2fbd5cb823d54b9e4e77c47ea6fb24fffbaf9a368aed8d"
+    },
+    {
+      "name": "RC101_RAIN_Y014",
+      "kind": "RAIN",
+      "sha256": "a0f259eb23bdab527ab60b98e55d331215c8a11a113bf0eeed69420620cc3a3d",
+      "source_sha256": "437ccb3dac2d555a9504b47adb172c9242195e69d33485ba801f19f5abc28ff8"
+    },
+    {
+      "name": "RC101_RAIN_Y015",
+      "kind": "RAIN",
+      "sha256": "eaeb6342078e767ad2b2caa6a9cc3d53f5568243649a60098fe9e575d2b99f4b",
+      "source_sha256": "f5a650c0aa36e1e03e5c9760041e98734ed571d5748a1ab413641d6f165ba333"
+    },
+    {
+      "name": "RC101_RAIN_Y016",
+      "kind": "RAIN",
+      "sha256": "24e790756c46fe12f7fa7375cd3079b63aa2472af406f8fa4c41e36949724195",
+      "source_sha256": "16bb93b55b2564f8728ee6c468f0bc04c1a274245a9ffef8ff8bf69feac02ade"
+    },
+    {
+      "name": "RC101_RAIN_Y017",
+      "kind": "RAIN",
+      "sha256": "6575026500aa1e24be8730e1227fda202b96cf6615931b864beb3dac6f91c161",
+      "source_sha256": "96cb283097351f89c0520f8b6646b0ae56f8941273b9b6a1b3ab0fe7998c6d1f"
+    },
+    {
+      "name": "RC101_RAIN_Y018",
+      "kind": "RAIN",
+      "sha256": "768ebc5ae4768028762fc9960cba518a5ca8d7a0014cd370908795ec90c381a3",
+      "source_sha256": "05afedac360ac9b6645d95c254f0d55bec3f63add1280ef03a67eac2407e1c64"
+    },
+    {
+      "name": "RC101_RAIN_Y019",
+      "kind": "RAIN",
+      "sha256": "6003b2ba353299d305c2f90f5e2c406d14ccb66929b2ee690ce590486bd26529",
+      "source_sha256": "6e52c2b408d296b3f08357f7a15dcc734dab16bdfaf999ab180a3035544d4450"
+    },
+    {
+      "name": "RC101_RAIN_Y020",
+      "kind": "RAIN",
+      "sha256": "586d17c9dd03db41e004ff90b4e1b5f99b50ed3a8df67e92d30c83d0845a8d65",
+      "source_sha256": "638289cc2cf5c1315febf27bc23e933108dce59627bb5700af45770df2b7c980"
+    },
+    {
+      "name": "RC101_ACC_Y001",
+      "kind": "ACCIDENT",
+      "sha256": "40879e5080c542d3144aa0de9bd54d375dff0f0ccfc325af1a8dce1541d93908",
+      "source_sha256": "f9c5955c51db26c2d6f7ca013ac19f21f1d860084b369d7eeec126b152493aca"
+    },
+    {
+      "name": "RC101_ACC_Y002",
+      "kind": "ACCIDENT",
+      "sha256": "ffc733be0cf6a2536b2a2883e1419dc09ca0cc69dceb76feee2e409e526378f5",
+      "source_sha256": "4369511e8e446082036e114b8d430c003a9cd932d07793a850f94385afec09e0"
+    },
+    {
+      "name": "RC101_ACC_Y003",
+      "kind": "ACCIDENT",
+      "sha256": "8a2efae1c6802cf52cdac16cd27f21533188199a2d986be058c5580af646898a",
+      "source_sha256": "557c35d8e61664b56070f62afd11e4a1634b3dfa0930fafba110cf887c8ab6b0"
+    },
+    {
+      "name": "RC101_ACC_Y004",
+      "kind": "ACCIDENT",
+      "sha256": "9f3a4687fdf80bd86275de2f9bf1e2911a49f92b96812f96af1c2134eefed697",
+      "source_sha256": "a07d99ab00f2ea512d827d69ddd34a180570b3cb6573f607c3d8528a25c9ab00"
+    },
+    {
+      "name": "RC101_ACC_Y005",
+      "kind": "ACCIDENT",
+      "sha256": "f305de9c77c811e139307117e43e46aaaa64ffdc86c4f51eac2d9fc0f62862fa",
+      "source_sha256": "c66b9f762287c477ddd5b35923f3175d28b331a0861b3834427d2986f95262c2"
+    },
+    {
+      "name": "RC101_ACC_Y006",
+      "kind": "ACCIDENT",
+      "sha256": "3833d71592e8de641a376bd00f42fd15627afeafd50ac0996297b5e6b17aee76",
+      "source_sha256": "6f5dbc394688ffdfa3910d3fd8b505d0431552945d475ce46d5f4454b0526b5b"
+    },
+    {
+      "name": "RC101_ACC_Y007",
+      "kind": "ACCIDENT",
+      "sha256": "3daa29bdabcc20afaf80d73c04a4b517052ec1aa906cfdd526396436e954b94c",
+      "source_sha256": "85eb09105eae935a3e975ac9fb055fdc1d43d5c42dcb5a3029e4a8ee85dc3698"
+    },
+    {
+      "name": "RC101_ACC_Y008",
+      "kind": "ACCIDENT",
+      "sha256": "d1479197a80716f390622abb0955676db7040f583f4d586af24c5eb0d57d46de",
+      "source_sha256": "763cfb53042ffdeda57fa720a63e80a2a275fa7f94cf43faabeda8254205bfc2"
+    },
+    {
+      "name": "RC101_ACC_Y009",
+      "kind": "ACCIDENT",
+      "sha256": "46e874cd0eb3e5ec51958305d8f844bb25b079d0497db47194043fa264249c45",
+      "source_sha256": "66f47818a0158705bd2a88446f9d0f8c738167ad6cb53ad9fe655e8dbb197feb"
+    },
+    {
+      "name": "RC101_ACC_Y010",
+      "kind": "ACCIDENT",
+      "sha256": "6ada0aa46b0eea74586364c323c814c934634a329f267a963e54bd6873f6da4d",
+      "source_sha256": "b8af61e09396982fe6e3fafd4cec39b0e52dd20d17b045ce39f961391f75c39e"
+    },
+    {
+      "name": "RC101_ACC_Y011",
+      "kind": "ACCIDENT",
+      "sha256": "e298dcb66dc157b113a82efaa34d11f70758816a9be6446c356abd0928f95d44",
+      "source_sha256": "0e65ff11279baf9e3a17e489ada3cf79ba418749232d92485d107b3df64b6890"
+    },
+    {
+      "name": "RC101_ACC_Y012",
+      "kind": "ACCIDENT",
+      "sha256": "ee649a11bfc121e8e9943ecd7fb6d04ccae8c15f3dce5d517e16fa4591f0b5c5",
+      "source_sha256": "03971374b1368c8e3284d90708b0094b26d73728bed14588f17aaa854b1e4c6c"
+    },
+    {
+      "name": "RC101_ACC_Y013",
+      "kind": "ACCIDENT",
+      "sha256": "9f0e40f67e2d80aadd13e274287394c5067eaef49e37d9bdd2c765458e24399c",
+      "source_sha256": "8fe8ccd1510587564e1dab5338337a9128892cbf146d93a8281edc1d6edc8b28"
+    },
+    {
+      "name": "RC101_ACC_Y014",
+      "kind": "ACCIDENT",
+      "sha256": "a34d0228a72d84fcab7579c6ab5826d9a3a6a0f33dd4743d576ca09ca878b06c",
+      "source_sha256": "e155cf9777041634ef013172ac7076f0359d2d55986b42ec016f07df04fb0240"
+    },
+    {
+      "name": "RC101_ACC_Y015",
+      "kind": "ACCIDENT",
+      "sha256": "2379eea7f4bb25bdc146de9a619c22574c258dad095117872f717af6624fb0cc",
+      "source_sha256": "b44df2b937eb043e81ad1778a904a810a65d58f72b5404caf71ddfd9a7cbb780"
+    },
+    {
+      "name": "RC101_ACC_Y016",
+      "kind": "ACCIDENT",
+      "sha256": "ae908e68ef6007014b98a36c9fb4277322ff50f841f551e5916a99b7cf671dc4",
+      "source_sha256": "a1bdf37f86b9bced25f52db187961e71c0b6992081dc834dfaf8e42fe92f66d0"
+    },
+    {
+      "name": "RC101_ACC_Y017",
+      "kind": "ACCIDENT",
+      "sha256": "93d931600da511b57d089c43faaac8e3021b80b8259f4612249f371507d7563d",
+      "source_sha256": "c65df5cb507d92eeddc6838f77e8750fb30503152702d6c0552cf8d4cbc1c9f1"
+    },
+    {
+      "name": "RC101_ACC_Y018",
+      "kind": "ACCIDENT",
+      "sha256": "78695d055d943c65e76b65d5e3138ee6bb769d7c3f62ace3a923be04ee446a6c",
+      "source_sha256": "bc0213e87c80e98b80ec953e67f7cbc1a285fc05551e6424eeb1f945556da9f8"
+    },
+    {
+      "name": "RC101_ACC_Y019",
+      "kind": "ACCIDENT",
+      "sha256": "30ee7eae689ff1da3dec073557efc5db42ab7839a6946df63504e8048577a198",
+      "source_sha256": "d80ad0b1b4c7b0c35a6263d08a2aa0bc8334eb77d301165b31dfd812d646915c"
+    },
+    {
+      "name": "RC101_ACC_Y020",
+      "kind": "ACCIDENT",
+      "sha256": "1c2df70e7648cea7d077b43c1399ff2b8f9da0a6deb7db5b58d4450b1b346094",
+      "source_sha256": "7aade9e49e831eda9f988861dd31e71f6041adbe2a4f3cca89cec287ef8ce45f"
+    }
+  ],
+  "test": [],
+  "data": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\soft_pomo\\data\\rc101_extra_train40_discrete_20260929",
+  "source_split": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\soft_pomo\\data\\rc101_extra_train40_raw_20260929\\split.json",
+  "generator_manifest_hash": "afacf493d213256d0befd45d80aa282ec39b4651e5d229c2ab7c6a13e6883b4e"
+}

@@ -1,0 +1,32 @@
+{
+  "version": "synthetic_observations_discrete_v1",
+  "assumption": "Synthetic ordinal association, NOT an empirical traffic model or physical inverse.",
+  "rainfall_units": "mm/h; legacy field rainfall_mm stores intensity, not accumulated rainfall",
+  "rain_multiplier_edges": [
+    1.05,
+    1.4,
+    1.7,
+    2.0
+  ],
+  "rainfall_representatives": [
+    5,
+    10,
+    20
+  ],
+  "accident_multiplier_edges": [
+    1.1,
+    1.65,
+    2.1,
+    2.55,
+    3.0
+  ],
+  "vehicles_by_bin": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "access": "Mapping and simulator files are audit-only; do not include in RL/LLM inputs.",
+  "strength_alpha": 0.5,
+  "mapping_note": "Classify the reduced multiplier with the existing observable thresholds; extend the lowest bin for weaker events."
+}

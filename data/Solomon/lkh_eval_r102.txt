@@ -1,0 +1,20 @@
+
+  ------------------------------------------------------------------------------------------
+  LKH-3 Evaluation  [R102]  (time_limit=30s/solve)
+  ------------------------------------------------------------------------------------------
+  Scenario                    Plan    OnTime   Late  Unserved   Veh      Dist  LateMin
+  ------------------------------------------------------------------------------------------
+  r102 (base)               no-info   94/100      6         0    18    1466.2      2.5
+  ................................................................................
+  r102_rain_A               no-info   77/100     23         0    18    1772.5    742.7
+                             known    95/100      5         0    20    1712.3      1.7
+  r102_rain_B               no-info   94/100      6         0    18    1466.2      2.5
+                             known    91/100      9         0    21    1643.0      4.2
+  r102_acc_A                no-info   89/100     11         0    18    1597.5    538.7
+                             known    95/100      5         0    19    1514.4      2.3
+  r102_acc_B                no-info   94/100      6         0    18    1466.2      2.5
+                             known    95/100      5         0    18    1466.7      1.9
+  --------------------------------------------------------------------------------
+  [Note] r102_rain_A (known): LKH-3 needed an extended search budget (90s) to certify a zero time-window-violation solution (default 30s search found none).
+  [Note] r102_rain_B (known): LKH-3 needed an extended search budget (90s) to certify a zero time-window-violation solution (default 30s search found none).
+

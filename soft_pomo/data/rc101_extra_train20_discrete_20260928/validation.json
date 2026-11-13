@@ -1,0 +1,9 @@
+{
+  "count": 20,
+  "train": 20,
+  "test": 0,
+  "fixed_route_replay_identical": true,
+  "event_dynamics_unchanged": true,
+  "public_news_count": 20,
+  "original_data_untouched": true
+}

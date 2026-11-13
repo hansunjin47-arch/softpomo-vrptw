@@ -1,0 +1,614 @@
+{
+  "seed": 20260923,
+  "role": "exploratory pilot, not untouched final test",
+  "data": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\soft_pomo\\data\\c101_event_pilot_discrete_20260923_203633",
+  "generator_manifest_hash": "4d4619c988e4af8b5022e11deb5d79c9883fb5577661e911e46d1e114190c1e0",
+  "train": [
+    {
+      "name": "C101_RAIN_P018",
+      "kind": "RAIN",
+      "sha256": "4f1cab4636c12af4fec0cbaebcaeeaf94675f2d57c3cb80a100f0a0399d42394",
+      "source_sha256": "11c3afd8a5c047997118068ae270d428956c3aa01a0974d030a3ab4648872a9a"
+    },
+    {
+      "name": "C101_RAIN_P025",
+      "kind": "RAIN",
+      "sha256": "bc67c2d4159c1afe4b20d0adaf4d485bc8fb84fe00f1f419017ee7c943b01b6a",
+      "source_sha256": "f070bd7be478f944c97a36eb065d6fd437f46ab7f048676f3d988fe8a89bbc04"
+    },
+    {
+      "name": "C101_RAIN_P033",
+      "kind": "RAIN",
+      "sha256": "c6f1679e4e2573067491a6321e58bdb3fa22bfca408b80972eb846541ce57b25",
+      "source_sha256": "4b51f9300746e8ea8311aeba93a9626f197b633ff3cc74a9ab67f8fae7b9f977"
+    },
+    {
+      "name": "C101_RAIN_P017",
+      "kind": "RAIN",
+      "sha256": "9805aa3a21dc71637899a2eeabdc0d7974d319997211ac7e87f8dc5c61f06aa3",
+      "source_sha256": "cab5b2774fa337f274da6871b53215f3f5543377cb95cf0bd2b5de305abdad8a"
+    },
+    {
+      "name": "C101_RAIN_P047",
+      "kind": "RAIN",
+      "sha256": "2b9e0846d5be30aef7e9bfe4e5300d74ad0e556d3c285b66ed7c9b05336cd32f",
+      "source_sha256": "fd02fb1cb63fb95b880da4c918e98c6a732b598aed509a5328446b3a00376de8"
+    },
+    {
+      "name": "C101_RAIN_P034",
+      "kind": "RAIN",
+      "sha256": "7693351c5e48d6408c22af7ba151fbc42a56d02a084235b36edcac203b723012",
+      "source_sha256": "2abecde46efe04928420447f6dd7689079d20c6a40d559a5fe5cc6ff8d3028ea"
+    },
+    {
+      "name": "C101_RAIN_P027",
+      "kind": "RAIN",
+      "sha256": "afefc3976aac683daae913b238e5cbe486a7e750dbaf307868877eafb84a4b7a",
+      "source_sha256": "3e9478c483875386a7c1d988c3f8acb634b22aade466c228de1015fa025da5a2"
+    },
+    {
+      "name": "C101_RAIN_P001",
+      "kind": "RAIN",
+      "sha256": "5def919bd73a79b1b623b249a61a2f5d00c4d7cdaea6be64bbace8ec8d9cdbf7",
+      "source_sha256": "a6db13a8336727e86602a05e5b9a89bdcf28ab6772ae3643298d460c16e85150"
+    },
+    {
+      "name": "C101_RAIN_P015",
+      "kind": "RAIN",
+      "sha256": "8c979319593f98de30de230352db48716cb0c67e0dbde24c5d1e08a10c21b43a",
+      "source_sha256": "a59a84fb8707a4c90d8b7e41d51650aba3d0df441f9e8f3fd2b786ced41811e3"
+    },
+    {
+      "name": "C101_RAIN_P004",
+      "kind": "RAIN",
+      "sha256": "1d86b7ca0b3469f2b4f26de7e96e6bb1b9750218bb6793217ab5e349a4236e1f",
+      "source_sha256": "4b39cc61cb7f90ba22aa26afc1789fad93f994260071182f11ff0d76eb5e574f"
+    },
+    {
+      "name": "C101_ACC_P041",
+      "kind": "ACCIDENT",
+      "sha256": "c410417086059f8753eb253bc93f1eeda67dfafc5456281b5a4b888e742c123e",
+      "source_sha256": "efdd994f7852f8f08f7e57b73622e42c847764e545d9bd8598032193725358f7"
+    },
+    {
+      "name": "C101_ACC_P006",
+      "kind": "ACCIDENT",
+      "sha256": "30440b712ecb8365cee169f5ba38cc3aa0afebd08013ee05492cace1aa66a443",
+      "source_sha256": "43cea404fa28f65803c8b5450b69c813e27d1019855337b4d2b01ce959a21da4"
+    },
+    {
+      "name": "C101_ACC_P015",
+      "kind": "ACCIDENT",
+      "sha256": "d65118e4ccc8b4f1fcfa0809645665efd808f6a95ee65ffb62ab32e03f3e9261",
+      "source_sha256": "844348dc5155a2440eaa2783258c3ca11218f3caaa080dc654e41ffa73e642d1"
+    },
+    {
+      "name": "C101_ACC_P035",
+      "kind": "ACCIDENT",
+      "sha256": "a9356300c6cb6279b428aa6c623518b59083228c57af7a7e69806696b025ecd4",
+      "source_sha256": "75a8b52ada5ff270db347c36bd4bae495de1dfe81dffc5a8d0dcf619729f25ed"
+    },
+    {
+      "name": "C101_ACC_P022",
+      "kind": "ACCIDENT",
+      "sha256": "9be44e40ed58d120045dbabb30fb885d94257fefd73ed9cc02ae7ee23fda2e81",
+      "source_sha256": "dab750693703bc82cd4fc960ef934db7e41aa23890b7b3eebdc7e50499e1ee9c"
+    },
+    {
+      "name": "C101_ACC_P031",
+      "kind": "ACCIDENT",
+      "sha256": "662a2d76229ab1e8bbaeb0ab3ad114176c4086f20b181b96b353c08be158fb1d",
+      "source_sha256": "ed89e3fb6e5300aa1bb834b01ca8c698ec35136a44c07303be54e65e7b84daad"
+    },
+    {
+      "name": "C101_ACC_P013",
+      "kind": "ACCIDENT",
+      "sha256": "c44ee926e174b2d9afc0ed9154c31b5a5cbbe7d7c34af2a563d788561c0f022d",
+      "source_sha256": "7aea1fcd74c5068193470b0385a163aeb89ab7704562e02e212f2b84ae21a0f0"
+    },
+    {
+      "name": "C101_ACC_P009",
+      "kind": "ACCIDENT",
+      "sha256": "de0f21fdf845f5a1bd678035570de4b6fca38705b2d5ce533061406a74638d0a",
+      "source_sha256": "4e0133dc5fbe10938f3f24def61314ece006d34c8c0adb05026b7f7336c949be"
+    },
+    {
+      "name": "C101_ACC_P037",
+      "kind": "ACCIDENT",
+      "sha256": "18f2819a60f5592fc34b84b175e719678558ddffd3165882f9902201ad4603f1",
+      "source_sha256": "7b8fad607c34e00cdb31f831ad61fe881b04b0d918a76d605993bc8ddb6ee980"
+    },
+    {
+      "name": "C101_ACC_P047",
+      "kind": "ACCIDENT",
+      "sha256": "71bd2b4f465481a0ad19593e6c791f07bc11d17ecaae29daf302c7164260fd66",
+      "source_sha256": "16a29ed495e4c5a1e19f7b6d6df0e83d819f4ff22b9898e1fe578c12bf136fc9"
+    }
+  ],
+  "test": [
+    {
+      "name": "C101_RAIN_P037",
+      "kind": "RAIN",
+      "sha256": "1fab55f3b9c89ac10d7924b15fcf134906c3efbf550861bdaffeba4473c59768",
+      "source_sha256": "9ddcf3837bd3de2725d71db6082ca4eaa0371a264af1681b16b09450aa69f8eb"
+    },
+    {
+      "name": "C101_RAIN_P026",
+      "kind": "RAIN",
+      "sha256": "11fc51e91342e5d1f5b56cee83df70fd174bec866296ca4eb027878ce61f7562",
+      "source_sha256": "6b4683982d4a9af0a3d3b094e015929ab9ab9334d2fb001d74850001cb037e7a"
+    },
+    {
+      "name": "C101_RAIN_P014",
+      "kind": "RAIN",
+      "sha256": "7d860c4c8436c66f8b3e7b78120bcce97e4a45415da7cb133c2a17dfce013009",
+      "source_sha256": "376f127a5e66f9478cf067661cc9de096c47bb38ad371a6fb3053c34f472e5d5"
+    },
+    {
+      "name": "C101_RAIN_P020",
+      "kind": "RAIN",
+      "sha256": "611275fe580580f9eb10efaa251cd2e0a17b3c904bbf37087ce468bdd52ba468",
+      "source_sha256": "f81f31ee9d4e911267ddc0ec46e25fc6709ae5f7742a1ed6f492daa2e3216886"
+    },
+    {
+      "name": "C101_RAIN_P030",
+      "kind": "RAIN",
+      "sha256": "75db43d76ab85926ae08c777a683c467bfc5ff2602c2fdd16d5e395f2334c10e",
+      "source_sha256": "3b48db07bfa57784ad9954eec08a805a3bfc6d7e00960ce0b6d8479959c7ad2b"
+    },
+    {
+      "name": "C101_RAIN_P016",
+      "kind": "RAIN",
+      "sha256": "7d73a99033e6af6dbbe754e9c55e289b61d4604fde930fd667af78831999e2ae",
+      "source_sha256": "9ba4859647ac867cc6aaeeb267d1ec77a44803d349fbbfbc800e196d0fc18cd1"
+    },
+    {
+      "name": "C101_RAIN_P035",
+      "kind": "RAIN",
+      "sha256": "30baebeb44f0bc4c9357e63662f7c6782c4eefbc71a583491803d58bb566cefa",
+      "source_sha256": "5502c3dbceeeed943f40fc94d48ef2c83e5d914afcb8df06842c4cbf47025edb"
+    },
+    {
+      "name": "C101_RAIN_P038",
+      "kind": "RAIN",
+      "sha256": "df532a62f58ee077639844cc81221a643e377413660a8400fed1e33b9fbb73bf",
+      "source_sha256": "48ed3c7e8f3c84b8dfa7548b587158ee39e61d403a705f384d3a44196d5f3421"
+    },
+    {
+      "name": "C101_RAIN_P029",
+      "kind": "RAIN",
+      "sha256": "56822f894c98541c8e0e853f78b25ca5d9d8c7a87c0020922b45c29e939d3b8b",
+      "source_sha256": "9659fdb4c402fae1cc4371883e611114b5b1eb48c91e44d63b061d5b64b1e0e4"
+    },
+    {
+      "name": "C101_RAIN_P019",
+      "kind": "RAIN",
+      "sha256": "c67b95ccec95e03cfd19ecc0773ade379cd3e3c9df18e175bf0987102e76c2d6",
+      "source_sha256": "3393514f2e440c179634a8db1df8a62c3021b41f94a7c1c21c5c1c066b44a8b4"
+    },
+    {
+      "name": "C101_RAIN_P049",
+      "kind": "RAIN",
+      "sha256": "26d20bbc575e46a1b5de0e0cd2d493a8459a1a0753aed44b90b9a78f246180ec",
+      "source_sha256": "641b54ceb87310c06098bfa065b9f05c2a7260e16a8e085ae1075a7bd1c2befc"
+    },
+    {
+      "name": "C101_RAIN_P032",
+      "kind": "RAIN",
+      "sha256": "061ec9c2574832cfc45992072c4bbf0b3113c498d93570431432651ce78f5cad",
+      "source_sha256": "98a838e3eed4ebddc73b4ce60459e315bccdd803e79beddfcb9363c70d6f0929"
+    },
+    {
+      "name": "C101_RAIN_P036",
+      "kind": "RAIN",
+      "sha256": "4d2cae4aade39a95eb808447ba346d44ecdbf5f7201f4f8940e38ea6acc8721f",
+      "source_sha256": "1503b38ba1295f4fc918706a7a0b6453f89b2acf770430128d205bf3c5857ff6"
+    },
+    {
+      "name": "C101_RAIN_P008",
+      "kind": "RAIN",
+      "sha256": "a5ba60d785215287a2ef2485b27fe48eec43d34b9d1ffe5ab592ccea0e6d484b",
+      "source_sha256": "e36ed3ce3d3c98de63c6b28b7b89210bd27e3b0c5860de486635c40f705651bd"
+    },
+    {
+      "name": "C101_RAIN_P045",
+      "kind": "RAIN",
+      "sha256": "9324a88094f80345f4b2feaf063dff8722686e56f3f866d526500d3c76699ead",
+      "source_sha256": "292a9eedfdf206ac0cc57391eb1f54521538428d983138b7cbddd807bf088669"
+    },
+    {
+      "name": "C101_RAIN_P022",
+      "kind": "RAIN",
+      "sha256": "153e9ce538fd78e93530294d6fb2e5785035a5d55df106dc0129c58d11d6fefa",
+      "source_sha256": "342f82e9d54634ecaf5152084c1ddce5449fb4158a089210a6786de6acb5122b"
+    },
+    {
+      "name": "C101_RAIN_P039",
+      "kind": "RAIN",
+      "sha256": "18d40eb8fe5523f3e3d0a9595093e4c5c5db096b3f39d9916a6895f0e57d99b4",
+      "source_sha256": "c2e167257255c26c785f84ce4f1edfe238680bdc6e783c7042782a1280b13da1"
+    },
+    {
+      "name": "C101_RAIN_P007",
+      "kind": "RAIN",
+      "sha256": "2e4ddbea1aeb765450e2e2fe0eb72e1bb5bdc6d2c58074b408a952de02e6ec00",
+      "source_sha256": "e21ddb0b97b0e8ccf2631857096d76bba59a31d476a72ae1176d62edc01d6c61"
+    },
+    {
+      "name": "C101_RAIN_P046",
+      "kind": "RAIN",
+      "sha256": "7c88f8101d1c1e0627732b430b68368e35079cbb7f111455960a15677dc2f25f",
+      "source_sha256": "114bcd422161387423d95be991663013730d47f4af330cd9fa5042a05b71b725"
+    },
+    {
+      "name": "C101_RAIN_P006",
+      "kind": "RAIN",
+      "sha256": "4bddb650b9554b97a453969491ef0572d9d1c8e016279bb9857d10c354fd3ba7",
+      "source_sha256": "99d21b90da21c52ac945044a5c7553cd779f0d65ccede5540cbf7ded7110b897"
+    },
+    {
+      "name": "C101_RAIN_P003",
+      "kind": "RAIN",
+      "sha256": "04e9b276fc88aad2aa71924bfc3ec86966f1525dd92fc859f42817c21f70b518",
+      "source_sha256": "6ce313ed0e180235350468444f3e96a3aecd4678343af2a6b35d482a94f8820c"
+    },
+    {
+      "name": "C101_RAIN_P044",
+      "kind": "RAIN",
+      "sha256": "0a37930bcabb959bdc065193c21800d8d4b307043f6fec0e09c3c22c3aef35fc",
+      "source_sha256": "12ad1cc57358c23be7fb31380adfd53d1808d3e5addd5d67b2965f6886d78a43"
+    },
+    {
+      "name": "C101_RAIN_P024",
+      "kind": "RAIN",
+      "sha256": "dbaf4489d0873ed9deffce5e8a83754139bb073ec837d23f7b3a6a4b276abfbf",
+      "source_sha256": "0255cc92e1fb749030ef4328dd22a0a86c25bf467e65bc98a4ec657746997542"
+    },
+    {
+      "name": "C101_RAIN_P011",
+      "kind": "RAIN",
+      "sha256": "dccbef357f86dcf61b66c0b2e72bf109fa058ab4a43ffffeda0ce39bb33c5b56",
+      "source_sha256": "69a5bc22614cc70a73c3da4f2b267c52acf6bda44a8df2cdc19dd645bda1d13f"
+    },
+    {
+      "name": "C101_RAIN_P031",
+      "kind": "RAIN",
+      "sha256": "c9039a4b1627328bf43570d0ff8889887b8f3f42edad67eeaa3b28e594e5af57",
+      "source_sha256": "b0d16eb4202af8ca5d014a8987116c3dfe475ff7c923fe00d3464cfe1041468c"
+    },
+    {
+      "name": "C101_RAIN_P002",
+      "kind": "RAIN",
+      "sha256": "0833d8b9655fba025a07667c60f3bb5bf3ba3ff06a94b01af190d892509a713b",
+      "source_sha256": "77412ec0c64f4f3e7ed12e6617eb8578fcbb27a0af9ffe99c033dd20c6dc4717"
+    },
+    {
+      "name": "C101_RAIN_P043",
+      "kind": "RAIN",
+      "sha256": "007df0e3f30c37250c8333192128b14fa87a3381d46ff7087400012146db4066",
+      "source_sha256": "10c2fc237cb4e57509cd96b19a8f808b9b053ff056071c6ac8c8d6f6991d2836"
+    },
+    {
+      "name": "C101_RAIN_P050",
+      "kind": "RAIN",
+      "sha256": "e5396b339d5657ddc847d875e30596f86b0fb3b72f35d0d03f4d4472971565b2",
+      "source_sha256": "3e6bf7fbf7c6a07d393dddaa355b1119bffbc8109d93025b441819af52d14b84"
+    },
+    {
+      "name": "C101_RAIN_P013",
+      "kind": "RAIN",
+      "sha256": "3a6dd359467a16e43db31983ce9dfeb10dd384feacf8bbf80cccb4b9341635b0",
+      "source_sha256": "21e18323709a3556895a4c7ba73048f809fc2c84c0399d455459da64eb82d25c"
+    },
+    {
+      "name": "C101_RAIN_P028",
+      "kind": "RAIN",
+      "sha256": "2d7033f5045ab11dd5ee89ddc94272a24a839f66ca901c242ae1b68872661304",
+      "source_sha256": "a9eaf5adef0311c941878c4bb7c7598e13120c60920c073efa68e055b146c8a7"
+    },
+    {
+      "name": "C101_RAIN_P012",
+      "kind": "RAIN",
+      "sha256": "fd8e900565b09e13ffaf6b4ab53715c4a516d95810bcebd554b5d2b76c9167e6",
+      "source_sha256": "5db953b2e1a79077e17e6815b9aa5709fe90590874e9442d025a26806534965c"
+    },
+    {
+      "name": "C101_RAIN_P005",
+      "kind": "RAIN",
+      "sha256": "8081a5d7670866355556d009043d72aec8b0fb9b0b196fd882f59ce1e8d9e49a",
+      "source_sha256": "98c2394110acc2c84b925c5918bfb9c46d7305ad7efabfc89d07245c1a3b495c"
+    },
+    {
+      "name": "C101_RAIN_P023",
+      "kind": "RAIN",
+      "sha256": "0bfcf21e4bd8918689f552625330bcb3df842cac44fd75831462b5804e188b0a",
+      "source_sha256": "478a502b5bf342327b7c9713eb946089efa26d9b27303b65755191de6cfb5fd5"
+    },
+    {
+      "name": "C101_RAIN_P042",
+      "kind": "RAIN",
+      "sha256": "d3b7d215d56dc7ec1e200dc3715f10cc3bbbb43c857a692a7f8bc85fcca97332",
+      "source_sha256": "baba9694c4f5222f6238a0e4ddd9faa415a9267efe26bdf611ef2a3c53f472c9"
+    },
+    {
+      "name": "C101_RAIN_P041",
+      "kind": "RAIN",
+      "sha256": "2d098e4fb4159a46d258aab45c529b82171e724138438cf564f077cc56c65a0e",
+      "source_sha256": "7983885961140b6f459f96c6850dd07a989606888b03ccbac1f46c49449991c8"
+    },
+    {
+      "name": "C101_RAIN_P048",
+      "kind": "RAIN",
+      "sha256": "db86e329bf694eeae40e950543db32b72940c44ace45c4fd22db426925bd0dd2",
+      "source_sha256": "2483003501a83e55cc02cff6b3e6cfb64a10905baf47c2c65fdbe633dc16124c"
+    },
+    {
+      "name": "C101_RAIN_P010",
+      "kind": "RAIN",
+      "sha256": "e3eb907df38089329e4cf8b6338fda3da44b81e9a9df67eb5d9df91279f82d5b",
+      "source_sha256": "e84a4b0808f97affd2d578428fc500c2d1f6fe211577f55869447289df8bcf2d"
+    },
+    {
+      "name": "C101_RAIN_P009",
+      "kind": "RAIN",
+      "sha256": "2b4c51e901c1c21bf7c512f421c38eb6524aa12751800ed0f209c6a72a2e875c",
+      "source_sha256": "e9694b0213bf670d0034ee7fcf5de87c9c2746fb40bb5f055d748f07fb7c73cd"
+    },
+    {
+      "name": "C101_RAIN_P040",
+      "kind": "RAIN",
+      "sha256": "ae9e6088e43aa15181ad28c97d2cd520d4f3d271e7a03ba346ded0c826f35d34",
+      "source_sha256": "7438445fccab2514b3bf09334a0644704dbe9c01cb519684cccd96bf00218341"
+    },
+    {
+      "name": "C101_RAIN_P021",
+      "kind": "RAIN",
+      "sha256": "2cbf5a29b998456d493bb9a82e396858112b188332e5baf1a83983dfacbc4b05",
+      "source_sha256": "f6a65e74f3705be753b0a348683152974a18d3985d9822b0aed49a0886048df7"
+    },
+    {
+      "name": "C101_ACC_P003",
+      "kind": "ACCIDENT",
+      "sha256": "89f3fbc0586aa6e5d4262fe28db6c63ec7d8de1b994cbb38a24883ffb9982b17",
+      "source_sha256": "6d9b92bcb5384a7ea9dd26260475a648b055a89317691be71af06a148b33f817"
+    },
+    {
+      "name": "C101_ACC_P019",
+      "kind": "ACCIDENT",
+      "sha256": "ee0d6e61957523588efa785bd3f305eaf13505d6cdc415cabedac289691c34b5",
+      "source_sha256": "ae641e31447ced9b2a5b392fd118249336eefb571d80f6e21c20601208511d81"
+    },
+    {
+      "name": "C101_ACC_P029",
+      "kind": "ACCIDENT",
+      "sha256": "4a34f2764ec41cd50064e625c3b71de5fb542fb8414924c3e6b960804ccd5e25",
+      "source_sha256": "372d633da82b8b95bcdb436b108a525a801fd7b83a229731c478ea94755395e8"
+    },
+    {
+      "name": "C101_ACC_P046",
+      "kind": "ACCIDENT",
+      "sha256": "b9db50ebabedbc654eb649a745dff68a6136d585377628159ce953d17373d1d9",
+      "source_sha256": "703bdb7a90657dddde587343d9183b586ab82f91856e525819bfeeb47214a1c5"
+    },
+    {
+      "name": "C101_ACC_P016",
+      "kind": "ACCIDENT",
+      "sha256": "47857deeab509631acc7673cb9bb3958c46456b533fa4311bc6f0981b131ef0b",
+      "source_sha256": "96606679094b1b666678e8387b3f7c5f2793fd9816217292aad71615163fcd9f"
+    },
+    {
+      "name": "C101_ACC_P010",
+      "kind": "ACCIDENT",
+      "sha256": "958211f2fe5164917d0575547550d4a578d72326f6d7d4a07ca883fa9a7bf148",
+      "source_sha256": "def79aa6aedc9062133438c4d695e1da7692a8b4658aa4f008c931ec4cfa2562"
+    },
+    {
+      "name": "C101_ACC_P004",
+      "kind": "ACCIDENT",
+      "sha256": "6e438fe8109f74c40ed6584e0782d5dba2e34c1f23e5119fa604aeca7123bb9a",
+      "source_sha256": "69df589f8ac45619d4db819e30724c765917b57845e7899597e054fe7f2ee3c5"
+    },
+    {
+      "name": "C101_ACC_P002",
+      "kind": "ACCIDENT",
+      "sha256": "20f30b66642f2a3779278ea0857ce871556d09f349bd44c56c4bb4f5141bb581",
+      "source_sha256": "8614598cbbbe8f561e4d33b94a09c7cc212de919d14edb7f706cecb780d871af"
+    },
+    {
+      "name": "C101_ACC_P044",
+      "kind": "ACCIDENT",
+      "sha256": "6e143e9642adeb391d699e53c1ad580fd3840aaaa68f5060743509d01a9a0bbb",
+      "source_sha256": "58301798f0a06623c06158c0f0d41e346c5570e12853b71e0ba8055bae94c66c"
+    },
+    {
+      "name": "C101_ACC_P011",
+      "kind": "ACCIDENT",
+      "sha256": "3ab3f7e5d8acdbb0fcd5dbc1c55e433a53dc2f6e6af8f8d00ae5d873e5263b2f",
+      "source_sha256": "aaeb12eed7f30ae84d10aac11c72963e1ebb761c1b78dd92e0bb63d255b10e9c"
+    },
+    {
+      "name": "C101_ACC_P007",
+      "kind": "ACCIDENT",
+      "sha256": "bf85dc356cb1cc338d43e066b7e34680dc090238dc8e7c07b21291c21c37c74b",
+      "source_sha256": "ab44328cc8cbd55972916173b649a588c47786e74dd31cab5b065ccd0307de43"
+    },
+    {
+      "name": "C101_ACC_P005",
+      "kind": "ACCIDENT",
+      "sha256": "ede3ff779dd578989aec8fd6279507686b9d8c434be020f053d37250dc8ce66e",
+      "source_sha256": "ec63a11e5f0cbedd7994e44138268a64f5957c5cb6a0f48c37f3b3597cee83be"
+    },
+    {
+      "name": "C101_ACC_P032",
+      "kind": "ACCIDENT",
+      "sha256": "e8a913da4a7dc5c89e14f57c7b95852e67e7558b12fd3a58f7da4d4e760cdc9e",
+      "source_sha256": "59ae0057d579f3161f67fbab141abc86594e98c40ee3a949b978425a27d8551d"
+    },
+    {
+      "name": "C101_ACC_P034",
+      "kind": "ACCIDENT",
+      "sha256": "4cf2c8be889b6f230b8b5676900e92cc3916f3ee100edeecc3c013406f5a564a",
+      "source_sha256": "0ad3930db07706b7f5d399cd389c763871b3fa9ccc467de52cfb417c3d3ce07d"
+    },
+    {
+      "name": "C101_ACC_P048",
+      "kind": "ACCIDENT",
+      "sha256": "ecae202416b91fee8e66c774fe50cc3c4d8a73804b8f06c5dfa26bb741285189",
+      "source_sha256": "a1035eac55cc051efde65682959abb550e05fff9b1536772095e1bbfa7e6305c"
+    },
+    {
+      "name": "C101_ACC_P033",
+      "kind": "ACCIDENT",
+      "sha256": "a61fda402878a11f388b6fe4c41e4329e0dff647e1191c3f0ad4e05cbc714124",
+      "source_sha256": "7772b6db9e43a60635e3ff7d57430b541c0e769d4919378a191b393eadc3b7cb"
+    },
+    {
+      "name": "C101_ACC_P045",
+      "kind": "ACCIDENT",
+      "sha256": "cb58fe219666345c692f90db0f1c6b3b8e600294f726496a43c0f2f3602e46ea",
+      "source_sha256": "e63a248dd849b20bbafeb2c499a4a1296be451866172961605620d7a1eaa2559"
+    },
+    {
+      "name": "C101_ACC_P030",
+      "kind": "ACCIDENT",
+      "sha256": "fb186c0dc944a54912085dd743f48d8ee5b998d7cf0668fa1880bc357ba08c0a",
+      "source_sha256": "45a6eeba9c05ae638d463956d67126288a8d5153fa0636536db8846d5038411d"
+    },
+    {
+      "name": "C101_ACC_P008",
+      "kind": "ACCIDENT",
+      "sha256": "773b035bd60fd18662bee5d698407885553de21975ac820ce0d4ed32c2555450",
+      "source_sha256": "4a95e4ec3dd28a55fa517b87d4feb5d1bbe15e9c47ac8a30098bfea3eab1980f"
+    },
+    {
+      "name": "C101_ACC_P036",
+      "kind": "ACCIDENT",
+      "sha256": "15cbb3a8b7dee590c404e63cf6ea52994f1b1cddb6c3a02dbbc9c1f963a05c5a",
+      "source_sha256": "6c814fe22e75241a8cf39f9224bfcb6ba35c09b748d4052dad04f13d8982aa8b"
+    },
+    {
+      "name": "C101_ACC_P026",
+      "kind": "ACCIDENT",
+      "sha256": "7c021b90bd1ee977d7d92961ba2de8cdff7802bdeaa615840e03d3008f0e34fa",
+      "source_sha256": "6eaaab4efdaea6ca5759a45d165a4aef460b8e23ec04529616d9deb2b29d3cd2"
+    },
+    {
+      "name": "C101_ACC_P014",
+      "kind": "ACCIDENT",
+      "sha256": "40d58c3d945f8734f11f5e37d98d62d0fd3edd96c717517879da26b50ea0f5b9",
+      "source_sha256": "3cce6a0f3f76236d00bb704d7bd10f243a9c972245d574687e10ee963295e772"
+    },
+    {
+      "name": "C101_ACC_P020",
+      "kind": "ACCIDENT",
+      "sha256": "0fd6b5f5ab22617c8aa00f3799aa3434dfe0027604d0c75248d4e5a3918bd50b",
+      "source_sha256": "f4f0cb9567ee697aeaeebe3b0a4d27cbfc53ebc1a16ed557a0ecf6056099c9a4"
+    },
+    {
+      "name": "C101_ACC_P021",
+      "kind": "ACCIDENT",
+      "sha256": "aae6272fab6e0ac472ecc7539cd1fe5fc1d8899c765c55c9022d6a55b376293b",
+      "source_sha256": "feca9a07bc244129afff8383a74157861db16c132a31c07ff2fbcb395c3610f3"
+    },
+    {
+      "name": "C101_ACC_P024",
+      "kind": "ACCIDENT",
+      "sha256": "051a3c8503645467a3d61ceca8ae8348aac0ab26fe3166a796927bf7c44bd534",
+      "source_sha256": "d26dc7e456e2ac2cf0d4f6317ab6cb26b241d58293586c57139d1058cc683b13"
+    },
+    {
+      "name": "C101_ACC_P025",
+      "kind": "ACCIDENT",
+      "sha256": "ce6df45e204950fbde596a5753d39ce58d74c2a95ba7e9c249e32efa8ea9c8d2",
+      "source_sha256": "b50ae17224d672dd35fe1a9ff2d2698b8d1d0da806bc7b934377b5861987aac9"
+    },
+    {
+      "name": "C101_ACC_P018",
+      "kind": "ACCIDENT",
+      "sha256": "4ea682443225348e114c02696487a1c9986bb6aca5931c148b90e77d123e7674",
+      "source_sha256": "567fa1c597257cd9479ade691397732bc8fa576ac4e7c5688638fcadbc078ab1"
+    },
+    {
+      "name": "C101_ACC_P027",
+      "kind": "ACCIDENT",
+      "sha256": "981e6221db9b931f3c07f4165caa7196b72cdff1d9a52ce1d1b010ba6d311e96",
+      "source_sha256": "6d45e86496cbaacf177756b0c1d99bb385d5fcfd34200fbf86b6acd63383add1"
+    },
+    {
+      "name": "C101_ACC_P001",
+      "kind": "ACCIDENT",
+      "sha256": "d20b48a88fb69cc92ccee90766843353239fe780cd6fb7d75bd1570bfc24be01",
+      "source_sha256": "3fae0537caa33813b64b43d52045b8ec8329b665cb7844c20287422e409022fc"
+    },
+    {
+      "name": "C101_ACC_P050",
+      "kind": "ACCIDENT",
+      "sha256": "b9ac8f90da103518b6ee1f49c82cbdf55680b5c3aa223f83a7a5fdb55e222d45",
+      "source_sha256": "5f00258accc16c824a698e24206ec42c30a1bcd04eafd499e0377af2ceb78a2c"
+    },
+    {
+      "name": "C101_ACC_P049",
+      "kind": "ACCIDENT",
+      "sha256": "0d9fcc1f85f8fc40557f935e4321c51fcfcbc67e6a43b6b129c84054d3c1a133",
+      "source_sha256": "7c47d06904439941cf6891b5e98c0f3d883a3d3ac0fcfce95ee9cc8da9132e00"
+    },
+    {
+      "name": "C101_ACC_P042",
+      "kind": "ACCIDENT",
+      "sha256": "6027c9832768a12fc743882fade852ac5f08da1584fb9812b4237ddbdc1183a9",
+      "source_sha256": "88d977c039b9a119953348c495506b34ef79c8f866c13314ad3b12c037c5e759"
+    },
+    {
+      "name": "C101_ACC_P023",
+      "kind": "ACCIDENT",
+      "sha256": "64f8da5d2a38ee942575da2d3646fc99472ddc4a06142e6be603063820ddb20c",
+      "source_sha256": "d0a9ee19aeabf12bca61f9644d4f7ea8185a0685f0919d8829fd6a5ce1d33588"
+    },
+    {
+      "name": "C101_ACC_P039",
+      "kind": "ACCIDENT",
+      "sha256": "273bbadb1d8cb216421118a7948ffe578e2c85aa11b6bd657a58714ff3928e76",
+      "source_sha256": "99b2bd403811dbb0b68d8fa8a4fa048e7e08fb9f6d78e08412aaaf85189394bb"
+    },
+    {
+      "name": "C101_ACC_P043",
+      "kind": "ACCIDENT",
+      "sha256": "8e454f656e8309c3f04765af7f473314f5238cb2c9a6c14ae71dee60ad605cf7",
+      "source_sha256": "bc92925d07fd116f3c862b2551c64cd14b88e971e4bc6bc0a18337fa3693e49f"
+    },
+    {
+      "name": "C101_ACC_P017",
+      "kind": "ACCIDENT",
+      "sha256": "26194cd0891c51e2a2eb878e1f92966b97cc2851ff329552025ca7a6740e084f",
+      "source_sha256": "064de2c7866ae29968a9b37895c1f0ab8f3134b96bfefa1cc62d7f9576791a4f"
+    },
+    {
+      "name": "C101_ACC_P040",
+      "kind": "ACCIDENT",
+      "sha256": "6b97bd4a69aff74b681b4bb5f48bf9eb9388f9e2f56bc30ee1ab4ce879b07071",
+      "source_sha256": "d47b0d5180b67d80d6719df0fd7a1b769d7a423301e7376920302613d0fe0464"
+    },
+    {
+      "name": "C101_ACC_P012",
+      "kind": "ACCIDENT",
+      "sha256": "b2b50121b3f0b82165d8729c485dddbf7bdbf8295a3c2e18b68f30d57655f8b8",
+      "source_sha256": "e1a469edc8487ef72d6d2d9e156679948471fba8b1cf5abfda5bdfd83b2ad8fe"
+    },
+    {
+      "name": "C101_ACC_P038",
+      "kind": "ACCIDENT",
+      "sha256": "cfbc854350bc879ebce7512125aa284d20a57f37b5d41b3e9d5c9e0a4a7b257e",
+      "source_sha256": "6c53b796e9f9020c2ee66f305b84a2d32cb004da50bb2eba409994633001b8c8"
+    },
+    {
+      "name": "C101_ACC_P028",
+      "kind": "ACCIDENT",
+      "sha256": "26114167f318c70b51d96dd310bb5707a54bd5601fdcd2302b4423903c05fa64",
+      "source_sha256": "cf0fd4a280eeafbf5b9f2d93a5c82abab9328d8089ad76e4eb7a438878c80d47"
+    }
+  ],
+  "policy": "Stratified random split before solver evaluation; no impact-based selection",
+  "base_in_history": false,
+  "code_hash": "cd3f976d81632da4cb95f2a42d7fe16b2fb366808c28d5d338a79d5d4a42ba41",
+  "source_split": "C:\\Users\\hansu\\PycharmProjects\\PythonProject\\soft_pomo\\analysis\\c101_pilot_history_20_80_20260923_203633\\split.json"
+}

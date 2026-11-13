@@ -1,0 +1,17 @@
+{
+  "train": 40,
+  "test": 80,
+  "added": 20,
+  "original_instances_and_observations_byte_identical": true,
+  "original_test_split_unchanged": true,
+  "no_duplicate_events": true,
+  "added_validation": {
+    "count": 20,
+    "train": 20,
+    "test": 0,
+    "fixed_route_replay_identical": true,
+    "event_dynamics_unchanged": true,
+    "public_news_count": 20,
+    "original_data_untouched": true
+  }
+}
