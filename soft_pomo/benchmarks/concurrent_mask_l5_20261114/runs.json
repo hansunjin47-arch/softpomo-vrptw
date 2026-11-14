@@ -973,7 +973,8 @@
       "travel_time": 880.0824203491211,
       "total_late": 2.788430404663086,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -1949,7 +1950,8 @@
       "travel_time": 872.5328903198242,
       "total_late": 4.586700057983398,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -2925,7 +2927,8 @@
       "travel_time": 878.7561988830566,
       "total_late": 99.08924713134766,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -3901,7 +3904,8 @@
       "travel_time": 878.4974372863769,
       "total_late": 2.3614437103271486,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -4877,7 +4881,8 @@
       "travel_time": 1143.2352645874023,
       "total_late": 22.276884651184083,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -5853,7 +5858,8 @@
       "travel_time": 946.6528099060058,
       "total_late": 2.970343017578125,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -6829,7 +6835,8 @@
       "travel_time": 871.255030822754,
       "total_late": 5.396480941772461,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -7805,7 +7812,8 @@
       "travel_time": 1248.990135192871,
       "total_late": 27.393916511535643,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -8781,7 +8789,8 @@
       "travel_time": 1031.8970031738281,
       "total_late": 0.7588043212890625,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -9757,7 +9766,8 @@
       "travel_time": 1187.4133316040038,
       "total_late": 1.3589004516601562,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "r101",
@@ -10733,7 +10743,8 @@
       "travel_time": 1713.0143188476563,
       "total_late": 10.514609813690186,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -11709,7 +11720,8 @@
       "travel_time": 1744.5409408569335,
       "total_late": 8.210198974609375,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -12685,7 +12697,8 @@
       "travel_time": 1720.2941467285157,
       "total_late": 11.627793550491333,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -13661,7 +13674,8 @@
       "travel_time": 1740.3517791748047,
       "total_late": 7.514210891723633,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -14637,7 +14651,8 @@
       "travel_time": 1706.785707092285,
       "total_late": 6.924750328063965,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -15613,7 +15628,8 @@
       "travel_time": 1662.8438247680665,
       "total_late": 45.14210534095764,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -16589,7 +16605,8 @@
       "travel_time": 1672.4894927978517,
       "total_late": 23.266367435455322,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -17565,7 +17582,8 @@
       "travel_time": 1795.274998474121,
       "total_late": 1121.7238096237184,
       "unserved": 0.0375
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -18541,7 +18559,8 @@
       "travel_time": 1677.090982055664,
       "total_late": 22.891884994506835,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -19517,7 +19536,8 @@
       "travel_time": 1648.788508605957,
       "total_late": 38.9857684135437,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "rc101",
@@ -20493,7 +20513,8 @@
       "travel_time": 1903.172914123535,
       "total_late": 23.751445484161376,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -21469,7 +21490,8 @@
       "travel_time": 1792.2735504150392,
       "total_late": 43.14973473548889,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -22445,7 +22467,8 @@
       "travel_time": 1832.187596130371,
       "total_late": 21.77458257675171,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -23421,7 +23444,8 @@
       "travel_time": 1794.354196166992,
       "total_late": 45.906475925445555,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -24397,7 +24421,8 @@
       "travel_time": 1853.98468170166,
       "total_late": 44.943389129638675,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -25373,7 +25398,8 @@
       "travel_time": 1756.0398880004882,
       "total_late": 48.23768615722656,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -26349,7 +26375,8 @@
       "travel_time": 1795.4819686889648,
       "total_late": 35.069552993774415,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -27325,7 +27352,8 @@
       "travel_time": 1775.4158752441406,
       "total_late": 41.40498447418213,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -28301,7 +28329,8 @@
       "travel_time": 1766.1663635253906,
       "total_late": 37.055545043945315,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -29277,7 +29306,8 @@
       "travel_time": 1796.906135559082,
       "total_late": 29.517259979248045,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -30195,7 +30225,8 @@
       "travel_time": 1840.5945831298827,
       "total_late": 27.015321826934816,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "r101",
@@ -31121,7 +31152,8 @@
       "travel_time": 1743.2547470092773,
       "total_late": 6.762625503540039,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -32047,7 +32079,8 @@
       "travel_time": 1726.1530975341798,
       "total_late": 7.6986652374267575,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -32973,7 +33006,8 @@
       "travel_time": 1735.97442779541,
       "total_late": 242.45470123291017,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -33899,7 +33933,8 @@
       "travel_time": 1685.1962432861328,
       "total_late": 9.388486909866334,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -34825,7 +34860,8 @@
       "travel_time": 1738.405795288086,
       "total_late": 4.727412986755371,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "rc101",
@@ -35745,7 +35781,8 @@
       "travel_time": 1819.135531616211,
       "total_late": 23.03816623687744,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -36665,7 +36702,8 @@
       "travel_time": 1846.7148391723633,
       "total_late": 17.175141525268554,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -37585,7 +37623,8 @@
       "travel_time": 1822.7975326538085,
       "total_late": 49.73955698013306,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -38505,7 +38544,8 @@
       "travel_time": 1822.3730300903321,
       "total_late": 15.214280223846435,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -39423,7 +39463,8 @@
       "travel_time": 1846.5148162841797,
       "total_late": 21.448417758941652,
       "unserved": 0.0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -40085,7 +40126,8 @@
       "travel_time": 1772.5954006017023,
       "total_late": 16.803305520136217,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "rc101",
@@ -40747,7 +40789,8 @@
       "travel_time": 1772.5954006017023,
       "total_late": 16.803305520136217,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 1.0
   },
   {
     "case": "r101",
@@ -41409,7 +41452,8 @@
       "travel_time": 1731.2961906930939,
       "total_late": 2.6427413072619728,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "r101",
@@ -42071,7 +42115,8 @@
       "travel_time": 1731.2961906930939,
       "total_late": 2.6427413072619728,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 0.5
   },
   {
     "case": "c101",
@@ -42083,657 +42128,658 @@
     "split": "test",
     "count": 80,
     "reward_denominator": 828.94,
-    "source": "analysis/c101_pilot_history_20_80_20260923_203633/results.json",
-    "source_sha256": "16311c7596f59cc4b09778c4602b3a5f0ca7d78f4196b63512c4357e2319400d",
+    "source": "analysis/c101_history_strength200_20261013_141106/results.json",
+    "source_sha256": "d8a593d17d4055dfc4ea549208c82db04ac8c1c9d7b5565cdb7459d69014d332",
     "results": [
       {
         "name": "C101_RAIN_P037",
-        "reward": -2.3670218456935292,
-        "vehicles": 10,
-        "travel_time": 962.119088769194,
+        "reward": -2.540235065898829,
+        "vehicles": 11,
+        "travel_time": 1005.7024555261756,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P026",
-        "reward": -2.2472374904785246,
-        "vehicles": 10,
-        "travel_time": 862.8250453572684,
+        "reward": -2.4218176654957295,
+        "vehicles": 11,
+        "travel_time": 907.5415356360302,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P014",
-        "reward": -2.2549963115019707,
-        "vehicles": 10,
-        "travel_time": 869.2566424564438,
+        "reward": -2.437335307542622,
+        "vehicles": 11,
+        "travel_time": 920.4047298343812,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P020",
-        "reward": -2.252174830741015,
-        "vehicles": 10,
-        "travel_time": 866.9178041944575,
+        "reward": -2.4316923460207116,
+        "vehicles": 11,
+        "travel_time": 915.7270533104087,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P030",
-        "reward": -2.283882242481922,
-        "vehicles": 10,
-        "travel_time": 893.2013460829644,
+        "reward": -2.4918414232819703,
+        "vehicles": 11,
+        "travel_time": 965.5870294153567,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P016",
-        "reward": -2.2563708647474194,
-        "vehicles": 10,
-        "travel_time": 870.396064623726,
+        "reward": -2.440084414033519,
+        "vehicles": 11,
+        "travel_time": 922.6835741689454,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P035",
-        "reward": -2.239588582874736,
-        "vehicles": 10,
-        "travel_time": 856.4845598881836,
+        "reward": -2.409460478628504,
+        "vehicles": 11,
+        "travel_time": 897.2981691543122,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P038",
-        "reward": -2.2640871296857203,
-        "vehicles": 10,
-        "travel_time": 876.7923852816813,
+        "reward": -2.455516943910121,
+        "vehicles": 11,
+        "travel_time": 935.4762154848557,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P029",
-        "reward": -2.284453641990098,
-        "vehicles": 10,
-        "travel_time": 893.6750019912721,
+        "reward": -2.4962499685188764,
+        "vehicles": 11,
+        "travel_time": 969.2414489040374,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P019",
-        "reward": -2.2403382603319795,
-        "vehicles": 10,
-        "travel_time": 857.1059975195913,
+        "reward": -2.4080192052026397,
+        "vehicles": 11,
+        "travel_time": 896.1034399606763,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P049",
-        "reward": -2.31930198739091,
-        "vehicles": 10,
-        "travel_time": 922.5621894278212,
+        "reward": -2.4860462220587167,
+        "vehicles": 11,
+        "travel_time": 960.783155313353,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P032",
-        "reward": -2.2793361325072707,
-        "vehicles": 10,
-        "travel_time": 889.4328936805771,
+        "reward": -2.486014949553221,
+        "vehicles": 11,
+        "travel_time": 960.7572322826475,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P036",
-        "reward": -2.2610494944766137,
-        "vehicles": 10,
-        "travel_time": 874.2743679514441,
+        "reward": -2.447603057910562,
+        "vehicles": 11,
+        "travel_time": 928.9160788243818,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P008",
-        "reward": -2.2609090694500424,
-        "vehicles": 10,
-        "travel_time": 874.1579640299183,
+        "reward": -2.449160823438765,
+        "vehicles": 11,
+        "travel_time": 930.20737298133,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P045",
-        "reward": -2.250984728595826,
-        "vehicles": 10,
-        "travel_time": 865.9312809222241,
+        "reward": -2.429312141730332,
+        "vehicles": 11,
+        "travel_time": 913.7540067659415,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P022",
-        "reward": -2.2673228871829614,
-        "vehicles": 10,
-        "travel_time": 879.4746341014442,
+        "reward": -2.4785664708526123,
+        "vehicles": 11,
+        "travel_time": 954.5828903485642,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P039",
-        "reward": -2.2424064016324214,
-        "vehicles": 10,
-        "travel_time": 858.8203625691795,
+        "reward": -2.412155487803523,
+        "vehicles": 11,
+        "travel_time": 899.5321700598527,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P007",
-        "reward": -2.2465145092816403,
-        "vehicles": 10,
-        "travel_time": 862.2257373239229,
+        "reward": -2.421610347635944,
+        "vehicles": 11,
+        "travel_time": 907.3696815693391,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P046",
-        "reward": -2.2389541672189135,
-        "vehicles": 10,
-        "travel_time": 855.9586673744463,
+        "reward": -2.4052510189765073,
+        "vehicles": 11,
+        "travel_time": 893.8087796703862,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P006",
-        "reward": -2.241744532432853,
-        "vehicles": 10,
-        "travel_time": 858.2717127148894,
+        "reward": -2.410831749404387,
+        "vehicles": 11,
+        "travel_time": 898.4348703512726,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P003",
-        "reward": -2.275405719878341,
-        "vehicles": 10,
-        "travel_time": 886.174817435952,
+        "reward": -2.4469295232942265,
+        "vehicles": 11,
+        "travel_time": 928.3577590395164,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P044",
-        "reward": -2.243722202479395,
-        "vehicles": 10,
-        "travel_time": 859.9110825232697,
+        "reward": -2.41478708949747,
+        "vehicles": 11,
+        "travel_time": 901.7136099680329,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P024",
-        "reward": -2.3619547181470995,
-        "vehicles": 10,
-        "travel_time": 957.9187440608566,
+        "reward": -2.64192176844716,
+        "vehicles": 11,
+        "travel_time": 1089.994630736589,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P011",
-        "reward": -2.2568495811835616,
-        "vehicles": 10,
-        "travel_time": 870.7928918263017,
-        "total_late": 0.0,
+        "reward": -2.4529791727462387,
+        "vehicles": 11,
+        "travel_time": 923.4772285740966,
+        "total_late": 1.9790653764341641,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P031",
-        "reward": -2.25150282893617,
-        "vehicles": 10,
-        "travel_time": 866.3607550183488,
+        "reward": -2.43034834241102,
+        "vehicles": 11,
+        "travel_time": 914.6129549581909,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P002",
-        "reward": -2.3385263317301535,
-        "vehicles": 10,
-        "travel_time": 938.4980174243935,
+        "reward": -2.537530673877835,
+        "vehicles": 11,
+        "travel_time": 1003.4606768042927,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P043",
-        "reward": -2.412764577556003,
-        "vehicles": 10,
-        "travel_time": 1000.0370689192733,
+        "reward": -2.6593896107169757,
+        "vehicles": 11,
+        "travel_time": 1104.47442390773,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P050",
-        "reward": -2.2625294226625043,
-        "vehicles": 10,
-        "travel_time": 875.5011396218565,
+        "reward": -2.452401529863689,
+        "vehicles": 11,
+        "travel_time": 932.8937241652064,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P013",
-        "reward": -2.241292273879701,
-        "vehicles": 10,
-        "travel_time": 857.8968175098399,
+        "reward": -2.431415395958333,
+        "vehicles": 11,
+        "travel_time": 915.4974783257009,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P028",
-        "reward": -2.2482732933818506,
-        "vehicles": 10,
-        "travel_time": 863.6836638159514,
+        "reward": -2.4114670456372993,
+        "vehicles": 11,
+        "travel_time": 898.9614928105832,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P012",
-        "reward": -2.2383113743950496,
-        "vehicles": 10,
-        "travel_time": 855.4258306910324,
+        "reward": -2.403965433328779,
+        "vehicles": 11,
+        "travel_time": 892.7431063035584,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P005",
-        "reward": -2.3043750511975265,
-        "vehicles": 10,
-        "travel_time": 910.1886549396779,
+        "reward": -2.5282473516975625,
+        "vehicles": 11,
+        "travel_time": 995.7653597161775,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P023",
-        "reward": -2.2421506869976837,
-        "vehicles": 10,
-        "travel_time": 858.6083904798602,
+        "reward": -2.4192067107355633,
+        "vehicles": 11,
+        "travel_time": 905.3772107971382,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P042",
-        "reward": -2.2809643870465663,
-        "vehicles": 10,
-        "travel_time": 890.7826189983806,
+        "reward": -2.485639530869827,
+        "vehicles": 11,
+        "travel_time": 960.4460327192345,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P041",
-        "reward": -2.254754736437968,
-        "vehicles": 10,
-        "travel_time": 869.0563912228895,
+        "reward": -2.436852157414617,
+        "vehicles": 11,
+        "travel_time": 920.0042273672724,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P048",
-        "reward": -2.2423984083002106,
-        "vehicles": 10,
-        "travel_time": 858.813736576377,
+        "reward": -2.412139501139102,
+        "vehicles": 11,
+        "travel_time": 899.5189180742474,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P010",
-        "reward": -2.269997686791023,
-        "vehicles": 10,
-        "travel_time": 881.691882488551,
+        "reward": -2.496206851839149,
+        "vehicles": 11,
+        "travel_time": 969.2057077635441,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P009",
-        "reward": -2.374421275609015,
-        "vehicles": 10,
-        "travel_time": 968.2527722033368,
+        "reward": -2.666950426152099,
+        "vehicles": 11,
+        "travel_time": 1110.741886254521,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P040",
-        "reward": -2.2728670113142497,
-        "vehicles": 10,
-        "travel_time": 884.0703803588344,
-        "total_late": 0.0,
+        "reward": -2.6058692920553814,
+        "vehicles": 11,
+        "travel_time": 950.032205639162,
+        "total_late": 22.015417063445227,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P021",
-        "reward": -2.268607720946173,
-        "vehicles": 10,
-        "travel_time": 880.5396842011205,
+        "reward": -2.460846188293162,
+        "vehicles": 11,
+        "travel_time": 939.8938393237341,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P003",
-        "reward": -2.237562172850441,
-        "vehicles": 10,
-        "travel_time": 854.804787562645,
+        "reward": -2.402467030239563,
+        "vehicles": 11,
+        "travel_time": 891.5010200467835,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P019",
-        "reward": -2.2515376814594052,
-        "vehicles": 10,
-        "travel_time": 866.3896456689596,
+        "reward": -2.430418047457491,
+        "vehicles": 11,
+        "travel_time": 914.6707362594127,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P029",
-        "reward": -2.2443404432774763,
-        "vehicles": 10,
-        "travel_time": 860.4235670504312,
+        "reward": -2.416023571093633,
+        "vehicles": 11,
+        "travel_time": 902.738579022356,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P046",
-        "reward": -2.238364874065628,
-        "vehicles": 10,
-        "travel_time": 855.4701787079621,
+        "reward": -2.404072432669937,
+        "vehicles": 11,
+        "travel_time": 892.8318023374177,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P016",
-        "reward": -2.267349038735474,
-        "vehicles": 10,
-        "travel_time": 879.496312169384,
+        "reward": -2.4620407620096287,
+        "vehicles": 11,
+        "travel_time": 940.8840692602615,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P010",
-        "reward": -2.2609329023188867,
-        "vehicles": 10,
-        "travel_time": 874.1777200482178,
+        "reward": -2.4492084891764527,
+        "vehicles": 11,
+        "travel_time": 930.246885017929,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P004",
-        "reward": -2.240871906650955,
-        "vehicles": 10,
-        "travel_time": 857.548358299243,
+        "reward": -2.409086497840591,
+        "vehicles": 11,
+        "travel_time": 896.9881615199795,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P002",
-        "reward": -2.244291293330108,
-        "vehicles": 10,
-        "travel_time": 860.3828246930599,
+        "reward": -2.4159252711988968,
+        "vehicles": 11,
+        "travel_time": 902.6570943076134,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P044",
-        "reward": -2.244772267320804,
-        "vehicles": 10,
-        "travel_time": 860.7815232729072,
+        "reward": -2.416887219180288,
+        "vehicles": 11,
+        "travel_time": 903.4544914673081,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P011",
-        "reward": -2.2645261020691487,
-        "vehicles": 10,
-        "travel_time": 877.1562670492003,
+        "reward": -2.4107603438045886,
+        "vehicles": 11,
+        "travel_time": 898.3756793933759,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P007",
-        "reward": -2.3024255911888747,
-        "vehicles": 10,
-        "travel_time": 908.5726695601059,
+        "reward": -2.5321938669164297,
+        "vehicles": 11,
+        "travel_time": 999.0367840417051,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P005",
-        "reward": -2.365386103533102,
-        "vehicles": 10,
-        "travel_time": 960.7631566627298,
+        "reward": -2.406483603980991,
+        "vehicles": 11,
+        "travel_time": 894.8305186840029,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P032",
-        "reward": -2.236019526097646,
-        "vehicles": 10,
-        "travel_time": 853.5260259633827,
+        "reward": -2.399381736733972,
+        "vehicles": 11,
+        "travel_time": 888.943496848259,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P034",
-        "reward": -2.2337682414721325,
-        "vehicles": 10,
-        "travel_time": 851.6598460859097,
+        "reward": -2.396999524254315,
+        "vehicles": 11,
+        "travel_time": 886.9687856353721,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P048",
-        "reward": -2.2362811718060778,
-        "vehicles": 10,
-        "travel_time": 853.7429145569305,
+        "reward": -2.3964958843069675,
+        "vehicles": 11,
+        "travel_time": 886.5512983374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P033",
-        "reward": -2.239587362342115,
-        "vehicles": 10,
-        "travel_time": 856.483548139873,
+        "reward": -2.4065174092229107,
+        "vehicles": 11,
+        "travel_time": 894.8585412012396,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P045",
-        "reward": -2.2442694271381165,
-        "vehicles": 10,
-        "travel_time": 860.3646989318704,
+        "reward": -2.4158815388149133,
+        "vehicles": 11,
+        "travel_time": 902.6208427852345,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P030",
-        "reward": -2.2588605023240795,
-        "vehicles": 10,
-        "travel_time": 872.4598247965226,
-        "total_late": 0.0,
+        "reward": -2.506033608711884,
+        "vehicles": 11,
+        "travel_time": 926.8110945145387,
+        "total_late": 10.108081018218172,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P008",
-        "reward": -2.237201565108768,
-        "vehicles": 10,
-        "travel_time": 854.5058653812623,
+        "reward": -2.4017458147562163,
+        "vehicles": 11,
+        "travel_time": 890.9031756840182,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P036",
-        "reward": -2.2343913096468566,
-        "vehicles": 10,
-        "travel_time": 852.1763322186652,
+        "reward": -2.3961253038323926,
+        "vehicles": 11,
+        "travel_time": 886.2441093588238,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P026",
-        "reward": -2.3117377260175767,
-        "vehicles": 10,
-        "travel_time": 916.29187060501,
+        "reward": -2.573483888142214,
+        "vehicles": 11,
+        "travel_time": 1033.2637342366068,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P014",
-        "reward": -2.2459000072824744,
-        "vehicles": 10,
-        "travel_time": 861.7163520367345,
-        "total_late": 0.0,
+        "reward": -2.4257713568965054,
+        "vehicles": 11,
+        "travel_time": 905.3241489949628,
+        "total_late": 1.0989519181652554,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P020",
-        "reward": -2.2352811900836755,
-        "vehicles": 10,
-        "travel_time": 852.9139897079621,
+        "reward": -2.3979050647060314,
+        "vehicles": 11,
+        "travel_time": 887.7194243374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P021",
-        "reward": -2.2452990232545953,
-        "vehicles": 10,
-        "travel_time": 861.2181723366642,
+        "reward": -2.4179407310478704,
+        "vehicles": 11,
+        "travel_time": 904.3277895948219,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P024",
-        "reward": -2.250158489815682,
-        "vehicles": 10,
-        "travel_time": 865.2463785478116,
+        "reward": -2.427659664170044,
+        "vehicles": 11,
+        "travel_time": 912.3842020171165,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P025",
-        "reward": -2.2496912007917986,
-        "vehicles": 10,
-        "travel_time": 864.8590239843539,
+        "reward": -2.4124447017846276,
+        "vehicles": 11,
+        "travel_time": 899.7719110973492,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P018",
-        "reward": -2.312109767566076,
-        "vehicles": 10,
-        "travel_time": 916.600270726223,
+        "reward": -2.3922491885268142,
+        "vehicles": 11,
+        "travel_time": 883.0310423374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P027",
-        "reward": -2.2630195291748705,
-        "vehicles": 10,
-        "travel_time": 875.9074085142173,
+        "reward": -2.4487113637123414,
+        "vehicles": 11,
+        "travel_time": 929.8347978357085,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P001",
-        "reward": -2.243960732523069,
-        "vehicles": 10,
-        "travel_time": 860.1088096176729,
+        "reward": -2.4152641495848184,
+        "vehicles": 11,
+        "travel_time": 902.1090641568394,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P050",
-        "reward": -2.265524257908258,
-        "vehicles": 10,
-        "travel_time": 877.9836783504716,
-        "total_late": 0.0,
+        "reward": -2.688424665210933,
+        "vehicles": 11,
+        "travel_time": 937.8588016224365,
+        "total_late": 38.13678807150279,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P049",
-        "reward": -2.242233290356313,
-        "vehicles": 10,
-        "travel_time": 858.6768637079621,
+        "reward": -2.411809265251306,
+        "vehicles": 11,
+        "travel_time": 899.2451723374177,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P042",
-        "reward": -2.233981524245376,
-        "vehicles": 10,
-        "travel_time": 851.836644707962,
+        "reward": -2.3953057330294323,
+        "vehicles": 11,
+        "travel_time": 885.5647343374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P023",
-        "reward": -2.239448267314838,
-        "vehicles": 10,
-        "travel_time": 856.368246707962,
+        "reward": -2.4062392191683566,
+        "vehicles": 11,
+        "travel_time": 894.6279383374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P039",
-        "reward": -2.239130549775483,
-        "vehicles": 10,
-        "travel_time": 856.1048779308892,
+        "reward": -2.4056037840896467,
+        "vehicles": 11,
+        "travel_time": 894.1012007832718,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P043",
-        "reward": -2.2661545493148254,
-        "vehicles": 10,
-        "travel_time": 878.5061521090316,
-        "total_late": 0.0,
+        "reward": -2.507854327114292,
+        "vehicles": 11,
+        "travel_time": 938.9037491395569,
+        "total_late": 7.991403355712919,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P017",
-        "reward": -2.241653247591876,
-        "vehicles": 10,
-        "travel_time": 858.1960430588098,
+        "reward": -2.4106491797224323,
+        "vehicles": 11,
+        "travel_time": 898.2835310391131,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P040",
-        "reward": -2.2934046147044356,
-        "vehicles": 10,
-        "travel_time": 901.0948213130952,
+        "reward": -2.504838840802518,
+        "vehicles": 11,
+        "travel_time": 976.3611086948396,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P012",
-        "reward": -2.238306662738713,
-        "vehicles": 10,
-        "travel_time": 855.4219250106287,
+        "reward": -2.4039560100161057,
+        "vehicles": 11,
+        "travel_time": 892.7352949427509,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P038",
-        "reward": -2.244167092828705,
-        "vehicles": 10,
-        "travel_time": 860.2798699294272,
+        "reward": -2.415676870196091,
+        "vehicles": 11,
+        "travel_time": 902.4511847803478,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P028",
-        "reward": -2.239081337259587,
-        "vehicles": 10,
-        "travel_time": 856.064083707962,
+        "reward": -2.405505359057854,
+        "vehicles": 11,
+        "travel_time": 894.0196123374176,
         "total_late": 0.0,
         "unserved": 0
       }
     ],
     "mean": {
-      "reward": -2.2640415867856367,
-      "vehicles": 10,
-      "travel_time": 876.7546329500858,
-      "total_late": 0.0,
+      "reward": -2.4511992500288233,
+      "vehicles": 11,
+      "travel_time": 926.8139996436756,
+      "total_late": 1.0166213350434816,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 2.0
   },
   {
     "case": "c101",
@@ -42745,656 +42791,657 @@
     "split": "test",
     "count": 80,
     "reward_denominator": 828.94,
-    "source": "analysis/c101_pilot_history_20_80_20260923_203633/results.json",
-    "source_sha256": "16311c7596f59cc4b09778c4602b3a5f0ca7d78f4196b63512c4357e2319400d",
+    "source": "analysis/c101_history_strength200_20261013_141106/results.json",
+    "source_sha256": "d8a593d17d4055dfc4ea549208c82db04ac8c1c9d7b5565cdb7459d69014d332",
     "results": [
       {
         "name": "C101_RAIN_P037",
-        "reward": -3.573381775242109,
-        "vehicles": 10,
-        "travel_time": 962.119088769194,
+        "reward": -3.8672309884022673,
+        "vehicles": 11,
+        "travel_time": 1005.7024555261756,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P026",
-        "reward": -3.4535974200271045,
-        "vehicles": 10,
-        "travel_time": 862.8250453572684,
+        "reward": -3.7488135879991673,
+        "vehicles": 11,
+        "travel_time": 907.5415356360302,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P014",
-        "reward": -3.461356241050551,
-        "vehicles": 10,
-        "travel_time": 869.2566424564438,
+        "reward": -3.76433123004606,
+        "vehicles": 11,
+        "travel_time": 920.4047298343812,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P020",
-        "reward": -3.4585347602895955,
-        "vehicles": 10,
-        "travel_time": 866.9178041944575,
+        "reward": -3.75868826852415,
+        "vehicles": 11,
+        "travel_time": 915.7270533104087,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P030",
-        "reward": -3.4902421720305017,
-        "vehicles": 10,
-        "travel_time": 893.2013460829644,
+        "reward": -3.818837345785408,
+        "vehicles": 11,
+        "travel_time": 965.5870294153567,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P016",
-        "reward": -3.4627307942959997,
-        "vehicles": 10,
-        "travel_time": 870.396064623726,
+        "reward": -3.7670803365369574,
+        "vehicles": 11,
+        "travel_time": 922.6835741689454,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P035",
-        "reward": -3.4459485124233162,
-        "vehicles": 10,
-        "travel_time": 856.4845598881836,
+        "reward": -3.736456401131942,
+        "vehicles": 11,
+        "travel_time": 897.2981691543122,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P038",
-        "reward": -3.4704470592343,
-        "vehicles": 10,
-        "travel_time": 876.7923852816813,
+        "reward": -3.782512866413559,
+        "vehicles": 11,
+        "travel_time": 935.4762154848557,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P029",
-        "reward": -3.490813571538678,
-        "vehicles": 10,
-        "travel_time": 893.6750019912721,
+        "reward": -3.8232458910223146,
+        "vehicles": 11,
+        "travel_time": 969.2414489040374,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P019",
-        "reward": -3.4466981898805598,
-        "vehicles": 10,
-        "travel_time": 857.1059975195913,
+        "reward": -3.7350151277060775,
+        "vehicles": 11,
+        "travel_time": 896.1034399606763,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P049",
-        "reward": -3.52566191693949,
-        "vehicles": 10,
-        "travel_time": 922.5621894278212,
+        "reward": -3.813042144562155,
+        "vehicles": 11,
+        "travel_time": 960.783155313353,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P032",
-        "reward": -3.4856960620558506,
-        "vehicles": 10,
-        "travel_time": 889.4328936805771,
+        "reward": -3.813010872056659,
+        "vehicles": 11,
+        "travel_time": 960.7572322826475,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P036",
-        "reward": -3.4674094240251936,
-        "vehicles": 10,
-        "travel_time": 874.2743679514441,
+        "reward": -3.7745989804140003,
+        "vehicles": 11,
+        "travel_time": 928.9160788243818,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P008",
-        "reward": -3.4672689989986223,
-        "vehicles": 10,
-        "travel_time": 874.1579640299183,
+        "reward": -3.776156745942203,
+        "vehicles": 11,
+        "travel_time": 930.20737298133,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P045",
-        "reward": -3.457344658144406,
-        "vehicles": 10,
-        "travel_time": 865.9312809222241,
+        "reward": -3.75630806423377,
+        "vehicles": 11,
+        "travel_time": 913.7540067659415,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P022",
-        "reward": -3.4736828167315417,
-        "vehicles": 10,
-        "travel_time": 879.4746341014442,
+        "reward": -3.80556239335605,
+        "vehicles": 11,
+        "travel_time": 954.5828903485642,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P039",
-        "reward": -3.4487663311810013,
-        "vehicles": 10,
-        "travel_time": 858.8203625691795,
+        "reward": -3.739151410306961,
+        "vehicles": 11,
+        "travel_time": 899.5321700598527,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P007",
-        "reward": -3.4528744388302197,
-        "vehicles": 10,
-        "travel_time": 862.2257373239229,
+        "reward": -3.7486062701393816,
+        "vehicles": 11,
+        "travel_time": 907.3696815693391,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P046",
-        "reward": -3.4453140967674933,
-        "vehicles": 10,
-        "travel_time": 855.9586673744463,
+        "reward": -3.7322469414799455,
+        "vehicles": 11,
+        "travel_time": 893.8087796703862,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P006",
-        "reward": -3.4481044619814334,
-        "vehicles": 10,
-        "travel_time": 858.2717127148894,
+        "reward": -3.7378276719078247,
+        "vehicles": 11,
+        "travel_time": 898.4348703512726,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P003",
-        "reward": -3.4817656494269205,
-        "vehicles": 10,
-        "travel_time": 886.174817435952,
+        "reward": -3.7739254457976643,
+        "vehicles": 11,
+        "travel_time": 928.3577590395164,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P044",
-        "reward": -3.450082132027975,
-        "vehicles": 10,
-        "travel_time": 859.9110825232697,
+        "reward": -3.741783012000908,
+        "vehicles": 11,
+        "travel_time": 901.7136099680329,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P024",
-        "reward": -3.5683146476956793,
-        "vehicles": 10,
-        "travel_time": 957.9187440608566,
+        "reward": -3.968917690950598,
+        "vehicles": 11,
+        "travel_time": 1089.994630736589,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P011",
-        "reward": -3.4632095107321414,
-        "vehicles": 10,
-        "travel_time": 870.7928918263017,
-        "total_late": 0.0,
+        "reward": -3.7799750952496765,
+        "vehicles": 11,
+        "travel_time": 923.4772285740966,
+        "total_late": 1.9790653764341641,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P031",
-        "reward": -3.4578627584847497,
-        "vehicles": 10,
-        "travel_time": 866.3607550183488,
+        "reward": -3.757344264914458,
+        "vehicles": 11,
+        "travel_time": 914.6129549581909,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P002",
-        "reward": -3.5448862612787337,
-        "vehicles": 10,
-        "travel_time": 938.4980174243935,
+        "reward": -3.864526596381273,
+        "vehicles": 11,
+        "travel_time": 1003.4606768042927,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P043",
-        "reward": -3.619124507104583,
-        "vehicles": 10,
-        "travel_time": 1000.0370689192733,
+        "reward": -3.986385533220414,
+        "vehicles": 11,
+        "travel_time": 1104.47442390773,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P050",
-        "reward": -3.4688893522110846,
-        "vehicles": 10,
-        "travel_time": 875.5011396218565,
+        "reward": -3.779397452367127,
+        "vehicles": 11,
+        "travel_time": 932.8937241652064,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P013",
-        "reward": -3.4476522034282815,
-        "vehicles": 10,
-        "travel_time": 857.8968175098399,
+        "reward": -3.758411318461771,
+        "vehicles": 11,
+        "travel_time": 915.4974783257009,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P028",
-        "reward": -3.4546332229304304,
-        "vehicles": 10,
-        "travel_time": 863.6836638159514,
+        "reward": -3.738462968140737,
+        "vehicles": 11,
+        "travel_time": 898.9614928105832,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P012",
-        "reward": -3.4446713039436294,
-        "vehicles": 10,
-        "travel_time": 855.4258306910324,
+        "reward": -3.730961355832217,
+        "vehicles": 11,
+        "travel_time": 892.7431063035584,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P005",
-        "reward": -3.5107349807461063,
-        "vehicles": 10,
-        "travel_time": 910.1886549396779,
+        "reward": -3.8552432742010003,
+        "vehicles": 11,
+        "travel_time": 995.7653597161775,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P023",
-        "reward": -3.448510616546264,
-        "vehicles": 10,
-        "travel_time": 858.6083904798602,
+        "reward": -3.7462026332390015,
+        "vehicles": 11,
+        "travel_time": 905.3772107971382,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P042",
-        "reward": -3.487324316595146,
-        "vehicles": 10,
-        "travel_time": 890.7826189983806,
+        "reward": -3.812635453373265,
+        "vehicles": 11,
+        "travel_time": 960.4460327192345,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P041",
-        "reward": -3.4611146659865484,
-        "vehicles": 10,
-        "travel_time": 869.0563912228895,
+        "reward": -3.7638480799180547,
+        "vehicles": 11,
+        "travel_time": 920.0042273672724,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P048",
-        "reward": -3.448758337848791,
-        "vehicles": 10,
-        "travel_time": 858.813736576377,
+        "reward": -3.73913542364254,
+        "vehicles": 11,
+        "travel_time": 899.5189180742474,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P010",
-        "reward": -3.4763576163396035,
-        "vehicles": 10,
-        "travel_time": 881.691882488551,
+        "reward": -3.8232027743425867,
+        "vehicles": 11,
+        "travel_time": 969.2057077635441,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P009",
-        "reward": -3.580781205157595,
-        "vehicles": 10,
-        "travel_time": 968.2527722033368,
+        "reward": -3.993946348655537,
+        "vehicles": 11,
+        "travel_time": 1110.741886254521,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P040",
-        "reward": -3.47922694086283,
-        "vehicles": 10,
-        "travel_time": 884.0703803588344,
-        "total_late": 0.0,
+        "reward": -3.9328652145588197,
+        "vehicles": 11,
+        "travel_time": 950.032205639162,
+        "total_late": 22.015417063445227,
         "unserved": 0
       },
       {
         "name": "C101_RAIN_P021",
-        "reward": -3.4749676504947526,
-        "vehicles": 10,
-        "travel_time": 880.5396842011205,
+        "reward": -3.7878421107966003,
+        "vehicles": 11,
+        "travel_time": 939.8938393237341,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P003",
-        "reward": -3.4439221023990214,
-        "vehicles": 10,
-        "travel_time": 854.804787562645,
+        "reward": -3.729462952743001,
+        "vehicles": 11,
+        "travel_time": 891.5010200467835,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P019",
-        "reward": -3.457897611007985,
-        "vehicles": 10,
-        "travel_time": 866.3896456689596,
+        "reward": -3.7574139699609286,
+        "vehicles": 11,
+        "travel_time": 914.6707362594127,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P029",
-        "reward": -3.450700372826056,
-        "vehicles": 10,
-        "travel_time": 860.4235670504312,
+        "reward": -3.743019493597071,
+        "vehicles": 11,
+        "travel_time": 902.738579022356,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P046",
-        "reward": -3.4447248036142084,
-        "vehicles": 10,
-        "travel_time": 855.4701787079621,
+        "reward": -3.731068355173375,
+        "vehicles": 11,
+        "travel_time": 892.8318023374177,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P016",
-        "reward": -3.473708968284054,
-        "vehicles": 10,
-        "travel_time": 879.496312169384,
+        "reward": -3.7890366845130665,
+        "vehicles": 11,
+        "travel_time": 940.8840692602615,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P010",
-        "reward": -3.4672928318674665,
-        "vehicles": 10,
-        "travel_time": 874.1777200482178,
+        "reward": -3.776204411679891,
+        "vehicles": 11,
+        "travel_time": 930.246885017929,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P004",
-        "reward": -3.4472318361995353,
-        "vehicles": 10,
-        "travel_time": 857.548358299243,
+        "reward": -3.7360824203440286,
+        "vehicles": 11,
+        "travel_time": 896.9881615199795,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P002",
-        "reward": -3.450651222878688,
-        "vehicles": 10,
-        "travel_time": 860.3828246930599,
+        "reward": -3.7429211937023346,
+        "vehicles": 11,
+        "travel_time": 902.6570943076134,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P044",
-        "reward": -3.4511321968693838,
-        "vehicles": 10,
-        "travel_time": 860.7815232729072,
+        "reward": -3.743883141683726,
+        "vehicles": 11,
+        "travel_time": 903.4544914673081,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P011",
-        "reward": -3.470886031617729,
-        "vehicles": 10,
-        "travel_time": 877.1562670492003,
+        "reward": -3.737756266308027,
+        "vehicles": 11,
+        "travel_time": 898.3756793933759,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P007",
-        "reward": -3.508785520737455,
-        "vehicles": 10,
-        "travel_time": 908.5726695601059,
+        "reward": -3.8591897894198675,
+        "vehicles": 11,
+        "travel_time": 999.0367840417051,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P005",
-        "reward": -3.571746033081682,
-        "vehicles": 10,
-        "travel_time": 960.7631566627298,
+        "reward": -3.7334795264844294,
+        "vehicles": 11,
+        "travel_time": 894.8305186840029,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P032",
-        "reward": -3.442379455646226,
-        "vehicles": 10,
-        "travel_time": 853.5260259633827,
+        "reward": -3.7263776592374103,
+        "vehicles": 11,
+        "travel_time": 888.943496848259,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P034",
-        "reward": -3.4401281710207123,
-        "vehicles": 10,
-        "travel_time": 851.6598460859097,
+        "reward": -3.723995446757753,
+        "vehicles": 11,
+        "travel_time": 886.9687856353721,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P048",
-        "reward": -3.442641101354658,
-        "vehicles": 10,
-        "travel_time": 853.7429145569305,
+        "reward": -3.7234918068104053,
+        "vehicles": 11,
+        "travel_time": 886.5512983374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P033",
-        "reward": -3.4459472918906955,
-        "vehicles": 10,
-        "travel_time": 856.483548139873,
+        "reward": -3.733513331726349,
+        "vehicles": 11,
+        "travel_time": 894.8585412012396,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P045",
-        "reward": -3.4506293566866963,
-        "vehicles": 10,
-        "travel_time": 860.3646989318704,
+        "reward": -3.7428774613183515,
+        "vehicles": 11,
+        "travel_time": 902.6208427852345,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P030",
-        "reward": -3.46522043187266,
-        "vehicles": 10,
-        "travel_time": 872.4598247965226,
-        "total_late": 0.0,
+        "reward": -3.833029531215322,
+        "vehicles": 11,
+        "travel_time": 926.8110945145387,
+        "total_late": 10.108081018218172,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P008",
-        "reward": -3.443561494657348,
-        "vehicles": 10,
-        "travel_time": 854.5058653812623,
+        "reward": -3.7287417372596545,
+        "vehicles": 11,
+        "travel_time": 890.9031756840182,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P036",
-        "reward": -3.4407512391954365,
-        "vehicles": 10,
-        "travel_time": 852.1763322186652,
+        "reward": -3.7231212263358313,
+        "vehicles": 11,
+        "travel_time": 886.2441093588238,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P026",
-        "reward": -3.5180976555661565,
-        "vehicles": 10,
-        "travel_time": 916.29187060501,
+        "reward": -3.900479810645652,
+        "vehicles": 11,
+        "travel_time": 1033.2637342366068,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P014",
-        "reward": -3.4522599368310543,
-        "vehicles": 10,
-        "travel_time": 861.7163520367345,
-        "total_late": 0.0,
+        "reward": -3.752767279399943,
+        "vehicles": 11,
+        "travel_time": 905.3241489949628,
+        "total_late": 1.0989519181652554,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P020",
-        "reward": -3.441641119632256,
-        "vehicles": 10,
-        "travel_time": 852.9139897079621,
+        "reward": -3.7249009872094696,
+        "vehicles": 11,
+        "travel_time": 887.7194243374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P021",
-        "reward": -3.451658952803175,
-        "vehicles": 10,
-        "travel_time": 861.2181723366642,
+        "reward": -3.7449366535513082,
+        "vehicles": 11,
+        "travel_time": 904.3277895948219,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P024",
-        "reward": -3.456518419364262,
-        "vehicles": 10,
-        "travel_time": 865.2463785478116,
+        "reward": -3.754655586673482,
+        "vehicles": 11,
+        "travel_time": 912.3842020171165,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P025",
-        "reward": -3.456051130340379,
-        "vehicles": 10,
-        "travel_time": 864.8590239843539,
+        "reward": -3.739440624288066,
+        "vehicles": 11,
+        "travel_time": 899.7719110973492,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P018",
-        "reward": -3.5184696971146563,
-        "vehicles": 10,
-        "travel_time": 916.600270726223,
+        "reward": -3.7192451110302525,
+        "vehicles": 11,
+        "travel_time": 883.0310423374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P027",
-        "reward": -3.4693794587234508,
-        "vehicles": 10,
-        "travel_time": 875.9074085142173,
+        "reward": -3.7757072862157797,
+        "vehicles": 11,
+        "travel_time": 929.8347978357085,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P001",
-        "reward": -3.4503206620716487,
-        "vehicles": 10,
-        "travel_time": 860.1088096176729,
+        "reward": -3.742260072088256,
+        "vehicles": 11,
+        "travel_time": 902.1090641568394,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P050",
-        "reward": -3.4718841874568382,
-        "vehicles": 10,
-        "travel_time": 877.9836783504716,
-        "total_late": 0.0,
+        "reward": -4.015420587714371,
+        "vehicles": 11,
+        "travel_time": 937.8588016224365,
+        "total_late": 38.13678807150279,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P049",
-        "reward": -3.448593219904893,
-        "vehicles": 10,
-        "travel_time": 858.6768637079621,
+        "reward": -3.7388051877547444,
+        "vehicles": 11,
+        "travel_time": 899.2451723374177,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P042",
-        "reward": -3.440341453793956,
-        "vehicles": 10,
-        "travel_time": 851.836644707962,
+        "reward": -3.72230165553287,
+        "vehicles": 11,
+        "travel_time": 885.5647343374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P023",
-        "reward": -3.445808196863418,
-        "vehicles": 10,
-        "travel_time": 856.368246707962,
+        "reward": -3.7332351416717944,
+        "vehicles": 11,
+        "travel_time": 894.6279383374176,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P039",
-        "reward": -3.4454904793240635,
-        "vehicles": 10,
-        "travel_time": 856.1048779308892,
+        "reward": -3.732599706593085,
+        "vehicles": 11,
+        "travel_time": 894.1012007832718,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P043",
-        "reward": -3.4725144788634053,
-        "vehicles": 10,
-        "travel_time": 878.5061521090316,
-        "total_late": 0.0,
+        "reward": -3.8348502496177304,
+        "vehicles": 11,
+        "travel_time": 938.9037491395569,
+        "total_late": 7.991403355712919,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P017",
-        "reward": -3.448013177140456,
-        "vehicles": 10,
-        "travel_time": 858.1960430588098,
+        "reward": -3.73764510222587,
+        "vehicles": 11,
+        "travel_time": 898.2835310391131,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P040",
-        "reward": -3.499764544253016,
-        "vehicles": 10,
-        "travel_time": 901.0948213130952,
+        "reward": -3.831834763305956,
+        "vehicles": 11,
+        "travel_time": 976.3611086948396,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P012",
-        "reward": -3.444666592287293,
-        "vehicles": 10,
-        "travel_time": 855.4219250106287,
+        "reward": -3.730951932519544,
+        "vehicles": 11,
+        "travel_time": 892.7352949427509,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P038",
-        "reward": -3.4505270223772855,
-        "vehicles": 10,
-        "travel_time": 860.2798699294272,
+        "reward": -3.742672792699529,
+        "vehicles": 11,
+        "travel_time": 902.4511847803478,
         "total_late": 0.0,
         "unserved": 0
       },
       {
         "name": "C101_ACC_P028",
-        "reward": -3.4454412668081664,
-        "vehicles": 10,
-        "travel_time": 856.064083707962,
+        "reward": -3.732501281561292,
+        "vehicles": 11,
+        "travel_time": 894.0196123374176,
         "total_late": 0.0,
         "unserved": 0
       }
     ],
     "mean": {
-      "reward": -3.4704015163342166,
-      "vehicles": 10,
-      "travel_time": 876.7546329500858,
-      "total_late": 0.0,
+      "reward": -3.7781951725322616,
+      "vehicles": 11,
+      "travel_time": 926.8139996436756,
+      "total_late": 1.0166213350434816,
       "unserved": 0
-    }
+    },
+    "event_strength_alpha": 2.0
   }
 ]

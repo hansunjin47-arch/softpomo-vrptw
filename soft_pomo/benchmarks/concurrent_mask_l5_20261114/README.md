@@ -18,6 +18,6 @@ This is a curated **Test80** archive for the current cross-PC experiments, not a
 
 Compare only identical case, weight, lambda, mask, Test80 names and decode protocol. Report includes actual seeds; RC legacy Kim n=4 and NEW-head n=1 are not five-seed comparisons. CI uses sample SD (ddof=1), 1.96*SD/sqrt(n), over seed-level Test80 means. This is a normal-approximation CI, not a Student-t CI. Reward is negative (higher is better); positive cost = -reward. All printed metrics use two decimals.
 
-LKH sources: RC/C pilot-history Test80; R strength050 history Test80. Instance-name equality with Pure RL is checked on export. C/R portable examples can have different source routing/weights: reference-example provenance does not redefine the target evaluation setting.
+LKH sources: RC pilot-history Test80 (alpha1); C strength200 Test80 (alpha2); R strength050 history Test80 (alpha0.5). Correction: the initial export mistakenly used C alpha1 LKH results; this version uses C alpha2 matching the target dataset. Instance-name equality with Pure RL is checked on export. C/R portable examples can have different source routing/weights: reference-example provenance does not redefine the target evaluation setting.
 
 To compare new-PC results, calculate the mean over exactly these 80 instance names for each seed first; then aggregate seeds. Do not compare training-log averages with these Test results. Regenerate guidance causally at ACC disclosure when required; do not reuse another policy's state-dependent ACC response.
