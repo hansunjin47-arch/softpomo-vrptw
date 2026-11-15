@@ -37,7 +37,7 @@ class PortableChecks(unittest.TestCase):
                 self.assertEqual(p.read(a.artifact/'complete.json')['train_count'],20)
                 with patch.object(p.trainer,'run') as train:p.train(a)
                 self.assertEqual(train.call_args.args[0].seed,42)
-                self.assertIs(p.trainer.FleetPolicy,p.StartHeadGuidedPolicy)
+                self.assertIs(p.trainer.FleetPolicy,p.ConfidenceHeadGuidedPolicy)
                 self.assertEqual(train.call_args.args[0].resume_from,None)
                 self.assertEqual(train.call_args.args[0].config,a.out/'config.json')
                 # Restarting cache generation reuses validated files, no calls.

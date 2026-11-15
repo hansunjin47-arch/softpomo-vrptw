@@ -1,3 +1,17 @@
+## Correction: NEW bias target (2026-11-15)
+
+`--method newhead` now adds +5 to each group's highest-confidence customer, NOT `group[0]`. Ties use group order. Masked customers stay masked, with no promotion to another group member. After dispatch closes, legacy Kim routing applies.
+
+Earlier group[0]-bias runs are a different, obsolete treatment. Restart training from epoch 0; do not resume their checkpoints. Existing confidence caches may be reused. Default outputs now use `result/max_confidence_head/` to avoid mixing runs. Pulling code does not change an already-running Python process.
+
+Example after stopping the old trainer and pulling branch `code-sync-20261113`:
+
+```powershell
+python -m experiments.concurrent_fleet_pair_kim.portable train --case c101 --method newhead --seed 42
+```
+
+Repeat seeds 42 through 46, substituting `r101` for R. Keep the existing artifact argument if a custom cache directory was used. Historical benchmark NEW-head results remain group[0]-bias results, not corrected max-confidence results.
+
 # SoftPOMO Code-Only Snapshot
 
 This branch transfers source code from the research PC. It does not contain

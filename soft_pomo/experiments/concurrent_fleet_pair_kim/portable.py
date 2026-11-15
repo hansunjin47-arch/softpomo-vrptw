@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 from experiments.concurrent_fleet_pair_kim import portable_trainer as trainer
 from experiments.concurrent_fleet_pair_kim.run import GuidedEnv, GuidedPolicy
-from experiments.concurrent_fleet_pair_kim.start_head_guidance import StartHeadGuidedPolicy
+from experiments.concurrent_fleet_pair_kim.confidence_head_guidance import ConfidenceHeadGuidedPolicy
 from experiments.concurrent_fleet_pair.policy import FleetPolicy
 from experiments.concurrent_fleet_pair.env import TensorFleetEnv
 from experiments.concurrent_fleet_pair.io import write
@@ -124,7 +124,7 @@ def prepare(args):
 
 def train(args):
     source,split,groups,cfg=inputs(args)
-    out=(args.out or ROOT/f'result/new_head/{args.case}_{args.method}_v{args.vehicle_cost}_s{args.seed}').resolve()
+    out=(args.out or ROOT/f'result/max_confidence_head/{args.case}_{args.method}_v{args.vehicle_cost}_s{args.seed}').resolve()
     art=artifact(args);caches={}
     if args.method!='pure':
         assert read(art/'complete.json')['train_count']==20
@@ -141,8 +141,8 @@ def train(args):
             if c['post_disclosure'] is not None:
                 t=c['revealed_at_min'];self.update_event_confidence(parse_response(c['post_disclosure'],groups),revealed_at_min=t,effective_time_min=t)
     trainer.TensorFleetEnv=TensorFleetEnv if args.method=='pure' else CachedEnv
-    trainer.FleetPolicy={'pure':FleetPolicy,'kim':GuidedPolicy,'newhead':StartHeadGuidedPolicy}[args.method]
-    StartHeadGuidedPolicy.new_head_beta=args.head_beta;trainer.load=load
+    trainer.FleetPolicy={'pure':FleetPolicy,'kim':GuidedPolicy,'newhead':ConfidenceHeadGuidedPolicy}[args.method]
+    ConfidenceHeadGuidedPolicy.new_head_beta=args.head_beta;trainer.load=load
     provenance=dict(case=args.case,method=args.method,seed=args.seed,vehicle_cost=args.vehicle_cost,head_beta=args.head_beta,
         inputs=read(source/'manifest.json'),cache_sha256={n:hashlib.sha256(json.dumps(c,sort_keys=True).encode()).hexdigest() for n,c in caches.items()},
         source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'experiments').rglob('*.py')})
