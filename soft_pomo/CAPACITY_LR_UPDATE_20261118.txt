@@ -1,0 +1,35 @@
+C/R/RC common experiment update (2026-11-18)
+
+New opt-in flags on experiments.concurrent_fleet_pair_kim.portable train:
+  --dispatch-capacity-mask --lr-decay
+
+Capacity mask: existing-vehicle actions close initial dispatch, so all are
+blocked until k >= ceil(sum(normalized customer demands) - 1e-5).
+For current inputs: C101=10, R101=8, RC101=9. More vehicles remain allowed.
+This necessary capacity bound does not guarantee feasible customer assignment.
+Existing return mask and advantage std normalization stay enabled.
+
+LR: initial optimizer LR through epoch500; linear decay to 10% at1000.
+Uses restored epoch on resume, so the schedule does not restart after interruption.
+Apply both flags equally to pure and newhead. Vehicle weight100, late5,
+seeds42-46, fresh1000 epochs. Newhead retains NEW beta5/routing beta5.
+
+From soft_pomo directory, examples (adjust python and artifact paths):
+python -m experiments.concurrent_fleet_pair_kim.portable train --case c101 --method pure --vehicle-cost 100 --seed 42 --dispatch-capacity-mask --lr-decay --out result/c101_pure_cap_decay_s42
+python -m experiments.concurrent_fleet_pair_kim.portable train --case c101 --method newhead --vehicle-cost 100 --seed 42 --dispatch-capacity-mask --lr-decay --artifact cache/new_head/c101_v100 --out result/c101_newhead_cap_decay_s42
+
+For R substitute r101. Repeat seeds42-46 sequentially on one GPU.
+These commands train only. Existing valid confidence cache is reused unchanged;
+the new mask is a runtime constraint, not a new LLM response. No new API call
+is made by train. Keep outputs distinct from previous experiments.
+Do not resume an old-condition run with these flags: start fresh.
+
+Evaluation MUST read environment from the new run's saved protocol/config,
+including require_dispatch_capacity=true. Retain causal event disclosure.
+For ACC, changed fleet state requires an exactly matching cached request or a
+fresh response; do not reuse old trajectory-dependent responses blindly.
+This update does not launch evaluations or authorize new API calls.
+
+Existing runs without these flags retain old behavior. Locally modified PC2
+launchers/evaluators must pass the flags and preserve the saved environment.
+Do not overwrite local changes with git reset --hard; merge them normally.

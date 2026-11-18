@@ -140,10 +140,13 @@ def train(args):
             super().__init__(inst,count,params,device,groups=groups,scores=parse_response(c['initial'],groups),beta=5.)
             if c['post_disclosure'] is not None:
                 t=c['revealed_at_min'];self.update_event_confidence(parse_response(c['post_disclosure'],groups),revealed_at_min=t,effective_time_min=t)
+    cfg['environment']['require_dispatch_capacity']=getattr(args,'dispatch_capacity_mask',False)
+    cfg['trainer']['lr_decay_after500']=getattr(args,'lr_decay',False)
     trainer.TensorFleetEnv=TensorFleetEnv if args.method=='pure' else CachedEnv
     trainer.FleetPolicy={'pure':FleetPolicy,'kim':GuidedPolicy,'newhead':ConfidenceHeadGuidedPolicy}[args.method]
     ConfidenceHeadGuidedPolicy.new_head_beta=args.head_beta;trainer.load=load
     provenance=dict(case=args.case,method=args.method,seed=args.seed,vehicle_cost=args.vehicle_cost,head_beta=args.head_beta,
+        dispatch_capacity_mask=cfg['environment']['require_dispatch_capacity'],lr_decay=cfg['trainer']['lr_decay_after500'],
         inputs=read(source/'manifest.json'),cache_sha256={n:hashlib.sha256(json.dumps(c,sort_keys=True).encode()).hexdigest() for n,c in caches.items()},
         source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'experiments').rglob('*.py')})
     if args.resume:assert read(out/'experiment.json')==provenance,'Resume mismatch'
@@ -166,6 +169,8 @@ def main():
     p.add_argument('--method',choices=['pure','kim','newhead'],default='newhead')
     p.add_argument('--seed',type=int,default=42)
     p.add_argument('--head-beta',type=float,default=5.)
+    p.add_argument('--dispatch-capacity-mask',action='store_true',help='Prevent closing dispatch below ceil(total demand/capacity)')
+    p.add_argument('--lr-decay',action='store_true',help='Keep initial LR through500, linearly decay to10% at1000')
     p.add_argument('--resume',action='store_true')
     p.add_argument('--smoke-updates',type=int,default=0)
     args=p.parse_args()

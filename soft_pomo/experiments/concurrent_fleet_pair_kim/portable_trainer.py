@@ -197,7 +197,12 @@ def run(args):
             def progress(step,backward=False):
                 status('backward' if backward else 'sampling',decision_step=step,batch_size=batch,name=name)
             model.new_customer_epsilon=exploration_epsilon(args.new_customer_epsilon,state['epoch'],args.epsilon_zero_epoch,args.epsilon_final)
+            if tp.get('lr_decay_after500',False):
+                factor=1. if state['epoch']<=500 else max(.1,1.-.9*(state['epoch']-500)/500.)
+                for pg in opt.param_groups:
+                    pg['lr']=config['optimizer']['optimizer']['lr']*factor
             summary,detail=train_batch(model,opt,scaler,inst,public,ep,batch,ep['pomo_size'],amp,progress,tp.get('max_steps',600))
+            summary['learning_rate']=opt.param_groups[0]['lr']
             summary['new_customer_epsilon']=model.new_customer_epsilon
             state['update']+=1; state['episodes']+=batch; state['trajectories']+=batch*ep['pomo_size']
             state['epoch_reward_sum']+=summary['best_rollout_reward']*batch

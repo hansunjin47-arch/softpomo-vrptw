@@ -1,3 +1,4 @@
+import math
 import torch
 from experiments.concurrent_fleet_v8.env import TensorFleetEnv as ReferenceEnv
 
@@ -9,6 +10,12 @@ class TensorFleetEnv(ReferenceEnv):
         self.pending = torch.full_like(self.status, -1)
         self.dispatch_end_time = torch.full_like(self.time, -1)
         self.prebook_count = torch.zeros_like(self.k)
+        # Demands and each vehicle's capacity are normalized to capacity=1.
+        # Tolerance matches the environment's existing capacity comparisons.
+        self.minimum_dispatch_vehicles = max(0, math.ceil(float(self.demand[1:].double().sum()) - 1e-5))
+        if self.params.get('require_dispatch_capacity', False):
+            if self.minimum_dispatch_vehicles > self.v or bool((self.demand[1:] > 1. + 1e-5).any()):
+                raise ValueError('Instance cannot satisfy dispatch capacity with the available fleet')
 
     @property
     def done(self):
@@ -46,6 +53,11 @@ class TensorFleetEnv(ReferenceEnv):
             old[:, :, 0] &= ~protect
         new = free[:, 1:] & (self.demand[None, 1:] <= 1. + 1e-5)
         new &= (active_dispatch & (self.time == 0) & (self.k < self.v))[:, None]
+        if self.params.get('require_dispatch_capacity', False):
+            # Any existing-vehicle action ends dispatch. Block ALL of them,
+            # not merely depot actions, until the demand lower bound is met.
+            must_dispatch = active_dispatch & (self.k < self.minimum_dispatch_vehicles)
+            old &= ~must_dispatch[:, None, None]
         frame = dict(node=nodes, load=loads, time=self.time / self.horizon,
                      vehicles=vehicles, prebook=is_pending,
                      mask=torch.cat([new, old.flatten(1)], 1))
