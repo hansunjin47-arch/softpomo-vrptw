@@ -3,6 +3,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 from pathlib import Path
 import shutil
 
@@ -24,7 +25,7 @@ LATE = 10
 VEHICLE_COST = 300.
 
 
-def enrich(request, base, example, *, offline=False):
+def enrich(request, base, example, *, offline=False, new_head_beta=None):
     request = copy.deepcopy(request)
     context = json.loads(request['messages'][1]['content'])
     context['rl_reference_example'] = example
@@ -40,6 +41,34 @@ def enrich(request, base, example, *, offline=False):
                         'After dispatch closes, the environment designates one ready vehicle '
                         'and RL selects only its next destination; RL cannot choose a different '
                         'vehicle at that decision.')
+    if new_head_beta is not None:
+        new_head_beta = float(new_head_beta)
+        if not math.isfinite(new_head_beta) or new_head_beta < 0:
+            raise ValueError('new_head_beta must be finite and nonnegative')
+        old = ('Other-group customers remain selectable with zero bias. Depot, NEW and STOP have no\n'
+               'direct bias. No depot score or depot-relative negative-score rule is used.')
+        if old not in text:
+            raise ValueError('Unrecognized guidance description; cannot safely describe NEW bias')
+        text = text.replace(old, (
+            'Other-group customers remain selectable with zero routing bias. Depot has no direct bias.\n'
+            'During initial dispatch only, each group nominates its highest-confidence customer\n'
+            'from the currently disclosed confidence table (ties follow supplied group order).\n'
+            f'The NEW(customer) action for that nominee receives a constant +{new_head_beta:g} bias,\n'
+            'not new_head_beta times its confidence. Thus your highest score in each group also\n'
+            'influences which customer starts a new vehicle. Consider first-visit suitability as\n'
+            'well as subsequent within-group preferences; this is not a forced first visit or\n'
+            'a requirement to dispatch one vehicle per group. Existing-vehicle actions receive\n'
+            'no confidence bias while dispatch is open. Masked nominees remain unavailable;\n'
+            'the next-highest customer is not automatically promoted when a nominee is assigned.\n'
+            'The NEW bias disappears when dispatch closes. Subsequent choices then use only\n'
+            'beta times confidence for the vehicle first customer\'s anchor group, as above.\n'
+            'Neither bias overrides feasibility masks or existing commitments. No depot score\n'
+            'or depot-relative negative-score rule is used.'))
+        context['guidance_application'] = dict(
+            version='max_confidence_new_head_v1', new_head_beta=new_head_beta,
+            routing_beta=context.get('beta', 5.),
+            head_selection='group maximum; ties follow group order; no promotion after masking',
+            new_bias_phase='initial_dispatch_only', routing_bias_phase='after_dispatch_only')
     text += ('\nThe rl_reference_example is a separate fixed case, not this target. Its complete '
              'route and measured performance come from one non-optimal Pure RL greedy rollout. '
              'It is neither a correct answer nor a confidence label. Do not copy its event, '

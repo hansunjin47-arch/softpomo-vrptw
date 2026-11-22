@@ -1,0 +1,14 @@
+{
+  "disjoint_from_train20_test80": true,
+  "rl_replay_matches": true,
+  "historical_matrix_uses_train_only": true,
+  "API_calls": 0,
+  "GPU_calls": 0,
+  "hashes": {
+    "experiment_inputs\\new_head\\rc101\\reference.json": "1cbaa0e3d885097a9990563ec11a536b0d94f4e5518e98a85c6e53e0a4087874",
+    "analysis\\rc101_pilot_history_20_80_20260923_104517\\routes.json": "009a45580f7380341a87f6527c698db0e1ac07b16467fce71f5bcd977ed99ee7",
+    "analysis\\rc101_pilot_history_20_80_20260923_104517\\solver.json": "8acfc8e735b68b7d8bd2458ada44a81c3150ee122bfcc521b4fee23f5eba8331",
+    "analysis\\rc101_pilot_history_20_80_20260923_104517\\history_matrix.json": "4b149c9f0ebd1daab592bfcf5b26883ec3de9ffcc7a083a01f8d3e2501240250",
+    "vrptw_env.py": "bdb743877d77305124df25eef7e421d8b3472a50099a8ac5ff6adc4a7e0856e2"
+  }
+}

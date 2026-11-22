@@ -8,6 +8,41 @@ from experiments.concurrent_fleet_v9_guided.prompts import COMMON
 
 
 class CacheTests(unittest.TestCase):
+    def setUp(self):
+        # Use versioned inputs instead of the author's untracked result folders.
+        from experiments.concurrent_fleet_v3 import run as data
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        root=Path(self.tmp.name);source=m.ROOT/'experiment_inputs/new_head/rc101'
+        old=root/'old';pure=root/'pure'
+        for name in ('groups.json','request_template.json'):
+            m.write(old/name,m.read(source/name))
+        m.write(old/'split.json',m.read(source/'dataset/split.json'))
+        cfg=m.read(source/'config.json')
+        cfg['environment']['late_penalty']=10
+        cfg['environment']['vehicle_penalty']=300*100/1696.95
+        m.write(pure/'protocol.json',{'configs':{'10':cfg}})
+        for obj,key,value in [(m,'OLD',old),(m,'PURE',pure),(data,'SOURCE',source/'dataset'),(m.adapter.train,'SOURCE',source/'dataset')]:
+            patcher=patch.object(obj,key,value);patcher.start();self.addCleanup(patcher.stop)
+
+    def test_new_head_prompt_is_explicit_and_legacy_remains_available(self):
+        request={'messages':[dict(role='system',content=COMMON),dict(role='user',content='{"beta":5}') ]}
+        for offline in (False,True):
+            for base in (None,{'confidence':[]}):
+                for beta in (5.,10.):
+                    enriched=m.enrich(request,base,{},offline=offline,new_head_beta=beta)
+                    text=enriched['messages'][0]['content']
+                    self.assertNotIn('Depot, NEW and STOP have no',text)
+                    self.assertIn(f'constant +{beta:g} bias',text)
+                    self.assertIn('not automatically promoted',text)
+                    self.assertIn('NEW bias disappears when dispatch closes',text)
+                    context=json.loads(enriched['messages'][1]['content'])
+                    self.assertEqual(context['guidance_application']['new_head_beta'],beta)
+                    self.assertEqual(context['guidance_application']['routing_beta'],5.)
+        legacy=m.enrich(request,None,{})
+        self.assertIn('Depot, NEW and STOP have no',legacy['messages'][0]['content'])
+        self.assertNotIn('guidance_application',json.loads(legacy['messages'][1]['content']))
+        self.assertEqual(request['messages'][0]['content'],COMMON)
+
     def test_pair_selection_description_for_all_prompt_stages(self):
         request = {'messages': [dict(role='system', content=COMMON),
                                 dict(role='user', content='{"public_events": []}')]}
