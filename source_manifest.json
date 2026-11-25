@@ -775,7 +775,17 @@
     "soft_pomo/vrptw_env.py": "bdb743877d77305124df25eef7e421d8b3472a50099a8ac5ff6adc4a7e0856e2",
     "soft_pomo/VRPTWLLMModule.py": "fbd49e0c96386609c37f3f5ada679717094c2bc05180663ec128c16350aa698f",
     "soft_pomo/VRPTWOntology.py": "fb8cc9c5ddf0f6980e5adeea0e648db095e37e48970bfff163cb2efb6841ab0d",
-    "soft_pomo/wait_and_run_fewshot.ps1": "d6c4231e554a69533652f4f8c28d9a30236dbc29557d960765e83c0403615215"
+    "soft_pomo/wait_and_run_fewshot.ps1": "d6c4231e554a69533652f4f8c28d9a30236dbc29557d960765e83c0403615215",
+    "soft_pomo/experiments/concurrent_fleet_pair/fleet_context.py": "f4ba346143271640a2e7993c42205f4654a6cf7c77f6b6fa4ab6d05bc16198bb",
+    "soft_pomo/experiments/concurrent_fleet_pair/customer_graph.py": "7b08e634ebebdcc054eee4c707989150dee20b3cab04617e486f1a0c4a45f3f0",
+    "soft_pomo/experiments/concurrent_fleet_pair_kim/fleet_context.py": "973ac0a2f3ba05d7b5b2365e856cd9607066c8d856d5801a1899de1eff2a31df",
+    "soft_pomo/analysis/train_fleet_context_portable.py": "a3e959a5ebea0bed0e92454cf4bbea68b00622f0f675dad819e43e42594d8deb",
+    "soft_pomo/analysis/fleet_context_trainer.py": "b8bc49118c11e4eefa7bb0618bfe71a7cf56e78955aae92984275f0a6353cb71",
+    "soft_pomo/analysis/test_fleet_context_20261124.py": "a7fc2847188f0cfd7f2179f55d66932096ead1e17f90b3e50c0a535b698b57e8",
+    "soft_pomo/analysis/test_customer_graph_20261125.py": "6f0475267cd3c434993db7c9df322b15a5a928bf89151e5b83b2735e922f007a",
+    "soft_pomo/experiment_inputs/fleet_context/config_l5.json": "eb228fa167eac238aa359c58c8c181f2b372559fcb9e70b27360abb984f5444f",
+    "soft_pomo/experiment_inputs/fleet_context/config_l10.json": "ed10c3cc1fd4eb44e058b0add9e7dfd8aba56fb1fbbf6ec54f46475822261ec0",
+    "soft_pomo/FLEET_CONTEXT_TRANSFER.md": "f4584fd91682b9fe3313fa4d133cf5e60de9330dcba2fb85dc9222700fb5be20"
   },
   "import_roots": [
     "R_lkh",
