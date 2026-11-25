@@ -779,12 +779,12 @@
     "soft_pomo/experiments/concurrent_fleet_pair/fleet_context.py": "f4ba346143271640a2e7993c42205f4654a6cf7c77f6b6fa4ab6d05bc16198bb",
     "soft_pomo/experiments/concurrent_fleet_pair/customer_graph.py": "7b08e634ebebdcc054eee4c707989150dee20b3cab04617e486f1a0c4a45f3f0",
     "soft_pomo/experiments/concurrent_fleet_pair_kim/fleet_context.py": "973ac0a2f3ba05d7b5b2365e856cd9607066c8d856d5801a1899de1eff2a31df",
-    "soft_pomo/analysis/train_fleet_context_portable.py": "a3e959a5ebea0bed0e92454cf4bbea68b00622f0f675dad819e43e42594d8deb",
-    "soft_pomo/analysis/fleet_context_trainer.py": "b8bc49118c11e4eefa7bb0618bfe71a7cf56e78955aae92984275f0a6353cb71",
-    "soft_pomo/analysis/test_fleet_context_20261124.py": "a7fc2847188f0cfd7f2179f55d66932096ead1e17f90b3e50c0a535b698b57e8",
-    "soft_pomo/analysis/test_customer_graph_20261125.py": "6f0475267cd3c434993db7c9df322b15a5a928bf89151e5b83b2735e922f007a",
-    "soft_pomo/experiment_inputs/fleet_context/config_l5.json": "eb228fa167eac238aa359c58c8c181f2b372559fcb9e70b27360abb984f5444f",
-    "soft_pomo/experiment_inputs/fleet_context/config_l10.json": "ed10c3cc1fd4eb44e058b0add9e7dfd8aba56fb1fbbf6ec54f46475822261ec0",
+    "soft_pomo/analysis/train_fleet_context_portable.py": "14962367b83ad493f8f44aee81014a65b1831607d0433c0ed72181c74c02b933",
+    "soft_pomo/analysis/fleet_context_trainer.py": "c7dad5f2d339ea939ec311db4a1a2613a38d026185b31e5655c60fcb12b9d480",
+    "soft_pomo/analysis/test_fleet_context_20261124.py": "b4a04b72009f0f6e66ee205b884f5d0df00bb4ce3e42f48a3cf933ab87ae09b4",
+    "soft_pomo/analysis/test_customer_graph_20261125.py": "eb1a9c92466d83e824ead04ba5d88f1a2ed4199676e6d220193e25ae39d3482e",
+    "soft_pomo/experiment_inputs/fleet_context/config_l5.json": "9ec7d190f224b024b78fcf177e67c636da796579f9d8aad369e17f394596ddc0",
+    "soft_pomo/experiment_inputs/fleet_context/config_l10.json": "28e826a488c735ba2b888a63d6c27f205777481d362804d1ddf4b2ce47fdeca6",
     "soft_pomo/FLEET_CONTEXT_TRANSFER.md": "f4584fd91682b9fe3313fa4d133cf5e60de9330dcba2fb85dc9222700fb5be20"
   },
   "import_roots": [
