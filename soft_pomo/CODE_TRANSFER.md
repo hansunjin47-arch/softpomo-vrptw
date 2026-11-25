@@ -1,3 +1,5 @@
+> Current navigation: [CONCURRENT_ROUTING.md](CONCURRENT_ROUTING.md). Historical notes below are retained; use the current map to select the treatment.
+
 ## Correction: NEW bias target (2026-11-15)
 
 `--method newhead` now adds +5 to each group's highest-confidence customer, NOT `group[0]`. Ties use group order. Masked customers stay masked, with no promotion to another group member. After dispatch closes, legacy Kim routing applies.
@@ -14,8 +16,8 @@ Repeat seeds 42 through 46, substituting `r101` for R. Keep the existing artifac
 
 # SoftPOMO Code-Only Snapshot
 
-This branch transfers source code from the research PC. It does not contain
-datasets, generated LLM caches, checkpoints, experiment outputs, API keys,
+This branch transfers source code from the research PC. Input datasets and some historical result archives were added later. This update does not add
+generated LLM caches, checkpoints, API keys,
 or the old repository's artifact history. Existing master is unchanged.
 
 ## Setup on another PC
@@ -81,7 +83,7 @@ seed42/epoch500 example; its source routing mode and source objective are explic
 identified in every cache request. It is qualitative context, not a concurrent
 target result. C does NOT require downloading a checkpoint or retraining Pure RL.
 
-The treatment adds +5 only to NEW(group[0]) while dispatch is open. It does not
+The treatment adds +5 only to NEW(highest-confidence customer in each group) while dispatch is open. It does not
 boost other NEW customers or existing pairs during dispatch. After dispatch,
 ordinary Kim anchor-group confidence (beta5) applies. It does not force one
 vehicle per group. Default training is fresh 1000 epochs, vehicle cost100,

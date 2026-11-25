@@ -22,7 +22,16 @@ class ConfidenceGuidance:
             self.membership[nodes] = k
         self.vehicle_group = torch.full((env.count, env.v), -1, dtype=torch.long, device=env.device)
         self.initial = self._tensor(scores)
+        # Dispatch occurs only at t=0. Its fixed group heads need selecting
+        # once when confidence is loaded, not on every policy decision.
+        self.new_head_slots = self._select_new_head_slots(self.initial).expand(env.count, -1)
         self.updates = []
+
+    def _select_new_head_slots(self, scores):
+        """NEW action slots; ties retain the supplied group's original order."""
+        return torch.stack([
+            torch.tensor(nodes, device=scores.device)[scores[k, nodes].argmax()] - 1
+            for k, nodes in enumerate(self.groups)])
 
     def _tensor(self, scores):
         env = self.env
@@ -72,7 +81,16 @@ class ConfidenceGuidance:
         target[ids] = True
         effective = torch.full_like(env.time, torch.inf)
         effective[ids] = times
-        self.updates.append((effective, target, self._tensor(scores)))
+        tensor = self._tensor(scores)
+        self.updates.append((effective, target, tensor))
+        # Preserve explicit pre-dispatch t=0 updates, including partial batches.
+        # Later accident updates affect routing confidence only, never NEW heads.
+        dispatch_open = getattr(env, 'dispatch_open', None)
+        if dispatch_open is not None:
+            at_start = target & (effective == 0) & (env.time == 0) & dispatch_open
+            if bool(at_start.any()):
+                self.new_head_slots = torch.where(at_start[:, None],
+                    self._select_new_head_slots(tensor)[None, :], self.new_head_slots)
 
     def action_bias(self):
         env = self.env

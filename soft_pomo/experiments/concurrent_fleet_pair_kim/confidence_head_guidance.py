@@ -7,7 +7,7 @@ from experiments.concurrent_fleet_pair_kim.run import GuidedPolicy
 
 class ConfidenceHeadGuidedPolicy(GuidedPolicy):
     # Independent of env.guidance.beta, which controls subsequent routing.
-    # Heads are each group's highest currently disclosed confidence customer.
+    # Heads are fixed from each group's confidence available at t=0.
     new_head_beta = 5.0
 
     def probabilities(self, frame, starts, encodings, env):
@@ -22,23 +22,19 @@ class ConfidenceHeadGuidedPolicy(GuidedPolicy):
             base = super().probabilities(frame, starts, encodings, env)
         finally:
             self.new_customer_epsilon = epsilon
-        if beta:
-            def select(scores):
-                return torch.stack([
-                    torch.tensor(g, device=base.device)[scores[k, g].argmax()] - 1
-                    for k, g in enumerate(env.guidance.groups)])
-            heads = select(env.guidance.initial).expand(base.shape[0], -1)
-            for effective, target, scores in env.guidance.updates:
-                eligible = target & (env.time >= effective)
-                heads = torch.where(eligible[:, None], select(scores)[None, :], heads)
+        if beta and not getattr(env, '_new_head_bias_finished', False):
             active = env.dispatch_open & ~env.done
-            bias = torch.zeros_like(base)
-            bias.scatter_(1, heads, active[:, None].to(base.dtype).expand_as(heads) * beta)
-            bias = bias.masked_fill(base == 0, 0.)
-            # Shift only active rows for numerical stability. Masked zeros
-            # stay zero, including heads already assigned to another vehicle.
-            weighted = base * (bias-bias.max(1, keepdim=True).values).exp()
-            adjusted = weighted / weighted.sum(1, keepdim=True)
-            base = torch.where(active[:, None], adjusted, base)
+            if bool(active.any()):
+                heads = env.guidance.new_head_slots
+                bias = torch.zeros_like(base)
+                bias.scatter_(1, heads, active[:, None].to(base.dtype).expand_as(heads) * beta)
+                bias = bias.masked_fill(base == 0, 0.)
+                # Already assigned heads stay masked; never promote runner-up.
+                weighted = base * (bias-bias.max(1, keepdim=True).values).exp()
+                adjusted = weighted / weighted.sum(1, keepdim=True)
+                base = torch.where(active[:, None], adjusted, base)
+            else:
+                # Dispatch cannot reopen. Avoid subsequent NEW-bias work/syncs.
+                env._new_head_bias_finished = True
         return mix_new_customers(base, frame['mask'], env.n,
                                  epsilon if self.training else 0.)
