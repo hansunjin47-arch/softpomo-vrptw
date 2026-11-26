@@ -10,9 +10,14 @@ from experiments.concurrent_fleet_pair.io import write
 ROOT=Path(__file__).resolve().parents[1]
 BUNDLE=ROOT/'server_export/rc_pure_fleetctx_v100_l5_10_s46_20261124'
 
-def setup(late):
+def setup(late, *, portable=False):
     art=ROOT/('cache/rc_rl_lkh_l5_20261122' if late==5 else 'cache/rc_g5_l10_promptfix_20261122')
     source=BUNDLE/'dataset'; config=BUNDLE/f'config_l{late}.json'
+    if portable:
+        assert late == 5
+        art = ROOT / 'experiment_inputs/fleet_context/b_guided_l5'
+        source = ROOT / 'experiment_inputs/new_head/rc101/dataset'
+        config = ROOT / 'experiment_inputs/fleet_context/config_l5.json'
     cfg=read(config);split=read(source/'split.json');groups=read(art/'groups.json')
     assert split==read(art/'split.json')
     assert len(split['train'])==20 and len(split['test'])==80

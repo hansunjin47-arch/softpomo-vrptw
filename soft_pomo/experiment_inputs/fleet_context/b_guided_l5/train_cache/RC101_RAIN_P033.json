@@ -1,0 +1,508 @@
+{
+  "initial": {
+    "confidence": [
+      {
+        "cluster": 1,
+        "customer": 78,
+        "score": 0.22
+      },
+      {
+        "cluster": 1,
+        "customer": 12,
+        "score": 0.52
+      },
+      {
+        "cluster": 1,
+        "customer": 53,
+        "score": 0.34
+      },
+      {
+        "cluster": 2,
+        "customer": 5,
+        "score": 0.97
+      },
+      {
+        "cluster": 2,
+        "customer": 3,
+        "score": 0.44
+      },
+      {
+        "cluster": 2,
+        "customer": 8,
+        "score": 0.42
+      },
+      {
+        "cluster": 2,
+        "customer": 1,
+        "score": 0.56
+      },
+      {
+        "cluster": 2,
+        "customer": 45,
+        "score": 0.89
+      },
+      {
+        "cluster": 2,
+        "customer": 46,
+        "score": 0.16
+      },
+      {
+        "cluster": 2,
+        "customer": 4,
+        "score": 0.22
+      },
+      {
+        "cluster": 2,
+        "customer": 7,
+        "score": 0.7
+      },
+      {
+        "cluster": 2,
+        "customer": 2,
+        "score": 0.92
+      },
+      {
+        "cluster": 3,
+        "customer": 86,
+        "score": 0.18
+      },
+      {
+        "cluster": 3,
+        "customer": 57,
+        "score": 0.28
+      },
+      {
+        "cluster": 3,
+        "customer": 52,
+        "score": 0.76
+      },
+      {
+        "cluster": 3,
+        "customer": 99,
+        "score": 0.46
+      },
+      {
+        "cluster": 3,
+        "customer": 82,
+        "score": 0.84
+      },
+      {
+        "cluster": 3,
+        "customer": 65,
+        "score": 0.96
+      },
+      {
+        "cluster": 3,
+        "customer": 66,
+        "score": 0.08
+      },
+      {
+        "cluster": 4,
+        "customer": 16,
+        "score": 0.4
+      },
+      {
+        "cluster": 4,
+        "customer": 17,
+        "score": 0.06
+      },
+      {
+        "cluster": 4,
+        "customer": 15,
+        "score": 0.6
+      },
+      {
+        "cluster": 4,
+        "customer": 47,
+        "score": 0.7
+      },
+      {
+        "cluster": 4,
+        "customer": 13,
+        "score": 0.05
+      },
+      {
+        "cluster": 4,
+        "customer": 14,
+        "score": 0.7
+      },
+      {
+        "cluster": 4,
+        "customer": 11,
+        "score": 0.58
+      },
+      {
+        "cluster": 4,
+        "customer": 9,
+        "score": 0.22
+      },
+      {
+        "cluster": 4,
+        "customer": 10,
+        "score": 0.08
+      },
+      {
+        "cluster": 5,
+        "customer": 42,
+        "score": 0.88
+      },
+      {
+        "cluster": 5,
+        "customer": 41,
+        "score": 0.18
+      },
+      {
+        "cluster": 5,
+        "customer": 61,
+        "score": 0.78
+      },
+      {
+        "cluster": 6,
+        "customer": 75,
+        "score": 0.5
+      },
+      {
+        "cluster": 6,
+        "customer": 97,
+        "score": 0.05
+      },
+      {
+        "cluster": 6,
+        "customer": 58,
+        "score": 0.08
+      },
+      {
+        "cluster": 6,
+        "customer": 59,
+        "score": 0.86
+      },
+      {
+        "cluster": 6,
+        "customer": 87,
+        "score": 0.12
+      },
+      {
+        "cluster": 6,
+        "customer": 74,
+        "score": 0.1
+      },
+      {
+        "cluster": 7,
+        "customer": 26,
+        "score": 0.16
+      },
+      {
+        "cluster": 7,
+        "customer": 27,
+        "score": 0.48
+      },
+      {
+        "cluster": 7,
+        "customer": 28,
+        "score": 0.62
+      },
+      {
+        "cluster": 7,
+        "customer": 29,
+        "score": 0.42
+      },
+      {
+        "cluster": 8,
+        "customer": 48,
+        "score": 0.08
+      },
+      {
+        "cluster": 8,
+        "customer": 49,
+        "score": 0.42
+      },
+      {
+        "cluster": 8,
+        "customer": 24,
+        "score": 0.05
+      },
+      {
+        "cluster": 8,
+        "customer": 22,
+        "score": 0.3
+      },
+      {
+        "cluster": 8,
+        "customer": 20,
+        "score": 0.12
+      },
+      {
+        "cluster": 8,
+        "customer": 64,
+        "score": 0.58
+      },
+      {
+        "cluster": 8,
+        "customer": 83,
+        "score": 0.88
+      },
+      {
+        "cluster": 9,
+        "customer": 79,
+        "score": 0.38
+      },
+      {
+        "cluster": 9,
+        "customer": 73,
+        "score": 0.56
+      },
+      {
+        "cluster": 9,
+        "customer": 6,
+        "score": 0.54
+      },
+      {
+        "cluster": 9,
+        "customer": 60,
+        "score": 0.06
+      },
+      {
+        "cluster": 10,
+        "customer": 72,
+        "score": 0.94
+      },
+      {
+        "cluster": 10,
+        "customer": 71,
+        "score": 0.56
+      },
+      {
+        "cluster": 10,
+        "customer": 93,
+        "score": 0.04
+      },
+      {
+        "cluster": 10,
+        "customer": 54,
+        "score": 0.12
+      },
+      {
+        "cluster": 10,
+        "customer": 96,
+        "score": 0.08
+      },
+      {
+        "cluster": 10,
+        "customer": 81,
+        "score": 0.42
+      },
+      {
+        "cluster": 11,
+        "customer": 70,
+        "score": 0.04
+      },
+      {
+        "cluster": 11,
+        "customer": 100,
+        "score": 0.03
+      },
+      {
+        "cluster": 11,
+        "customer": 88,
+        "score": 0.6
+      },
+      {
+        "cluster": 11,
+        "customer": 55,
+        "score": 0.12
+      },
+      {
+        "cluster": 11,
+        "customer": 98,
+        "score": 0.72
+      },
+      {
+        "cluster": 11,
+        "customer": 68,
+        "score": 0.1
+      },
+      {
+        "cluster": 11,
+        "customer": 69,
+        "score": 0.82
+      },
+      {
+        "cluster": 11,
+        "customer": 90,
+        "score": 0.34
+      },
+      {
+        "cluster": 12,
+        "customer": 62,
+        "score": 0.68
+      },
+      {
+        "cluster": 12,
+        "customer": 67,
+        "score": 0.4
+      },
+      {
+        "cluster": 12,
+        "customer": 84,
+        "score": 0.24
+      },
+      {
+        "cluster": 12,
+        "customer": 94,
+        "score": 0.18
+      },
+      {
+        "cluster": 12,
+        "customer": 95,
+        "score": 0.74
+      },
+      {
+        "cluster": 12,
+        "customer": 56,
+        "score": 0.1
+      },
+      {
+        "cluster": 12,
+        "customer": 92,
+        "score": 0.94
+      },
+      {
+        "cluster": 12,
+        "customer": 91,
+        "score": 0.05
+      },
+      {
+        "cluster": 12,
+        "customer": 80,
+        "score": 0.03
+      },
+      {
+        "cluster": 13,
+        "customer": 30,
+        "score": 0.26
+      },
+      {
+        "cluster": 13,
+        "customer": 32,
+        "score": 0.1
+      },
+      {
+        "cluster": 13,
+        "customer": 33,
+        "score": 0.68
+      },
+      {
+        "cluster": 13,
+        "customer": 31,
+        "score": 0.7
+      },
+      {
+        "cluster": 13,
+        "customer": 34,
+        "score": 0.2
+      },
+      {
+        "cluster": 13,
+        "customer": 50,
+        "score": 0.1
+      },
+      {
+        "cluster": 14,
+        "customer": 35,
+        "score": 0.08
+      },
+      {
+        "cluster": 14,
+        "customer": 36,
+        "score": 0.58
+      },
+      {
+        "cluster": 14,
+        "customer": 40,
+        "score": 0.34
+      },
+      {
+        "cluster": 14,
+        "customer": 37,
+        "score": 0.12
+      },
+      {
+        "cluster": 14,
+        "customer": 43,
+        "score": 0.08
+      },
+      {
+        "cluster": 14,
+        "customer": 38,
+        "score": 0.44
+      },
+      {
+        "cluster": 14,
+        "customer": 39,
+        "score": 0.8
+      },
+      {
+        "cluster": 14,
+        "customer": 44,
+        "score": 0.5
+      },
+      {
+        "cluster": 15,
+        "customer": 89,
+        "score": 0.05
+      },
+      {
+        "cluster": 15,
+        "customer": 76,
+        "score": 0.56
+      },
+      {
+        "cluster": 15,
+        "customer": 63,
+        "score": 0.56
+      },
+      {
+        "cluster": 15,
+        "customer": 85,
+        "score": 0.42
+      },
+      {
+        "cluster": 15,
+        "customer": 51,
+        "score": 0.34
+      },
+      {
+        "cluster": 16,
+        "customer": 77,
+        "score": 0.05
+      },
+      {
+        "cluster": 16,
+        "customer": 25,
+        "score": 0.08
+      },
+      {
+        "cluster": 16,
+        "customer": 23,
+        "score": 0.76
+      },
+      {
+        "cluster": 16,
+        "customer": 18,
+        "score": 0.28
+      },
+      {
+        "cluster": 16,
+        "customer": 21,
+        "score": 0.62
+      },
+      {
+        "cluster": 16,
+        "customer": 19,
+        "score": 0.5
+      }
+    ]
+  },
+  "post_disclosure": null,
+  "revealed_at_min": 0.0
+}
